@@ -45,6 +45,7 @@
     <Compile Include="ContentModelType.cs" />
     <Compile Include="DocumentStream.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityErrorEventArgs.cs" />
     <Compile Include="EntityGenerationState.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="EntityErrorCode.cs" />

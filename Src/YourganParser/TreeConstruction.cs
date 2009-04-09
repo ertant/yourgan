@@ -1764,7 +1764,7 @@ namespace Yourgan.Parser
                                 state.CloseImpliedTags();
 
                                 //Now, if the current node is not an element with the same tag name as the token, then this is a parse error.
-                                if (state.IsCurrentOneOfTag(entity.Data))
+                                if (!state.IsCurrentOneOfTag(entity.Data))
                                     state.SetError(EntityErrorCode.UnexpectedEndTag, entity);
                                 else
                                 {
