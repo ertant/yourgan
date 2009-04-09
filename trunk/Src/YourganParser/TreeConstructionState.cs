@@ -513,13 +513,16 @@ namespace Yourgan.Parser
 
         public void SetError(EntityErrorCode code, Entity entity)
         {
-#if(DEBUG)
-            System.Diagnostics.Debug.WriteLine("Parse error : " + code.ToString() + " Entity : " + entity);
-#endif
             if (EntityError != null)
             {
                 EntityError(this, new EntityErrorEventArgs(code, entity));
             }
+#if(DEBUG)
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Parse error : " + code.ToString() + " Entity : " + entity);
+            }
+#endif
         }
 
         public event EventHandler<EntityErrorEventArgs> EntityError;

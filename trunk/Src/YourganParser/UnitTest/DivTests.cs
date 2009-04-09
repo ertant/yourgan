@@ -14,13 +14,17 @@ namespace Yourgan.Parser.UnitTest
             string html = "<table><div align=\"left\">some text</div></table>";
 
             int unexpectedTagCount = 0;
+            int totalErrors = 0;
 
             System.Xml.XmlDocument doc = LoadDocument(html, delegate(object sender, EntityErrorEventArgs args)
                                                             {
+                                                                totalErrors++;
+
                                                                 if (args.Code == EntityErrorCode.UnexpectedTag)
                                                                     unexpectedTagCount++;
                                                             });
 
+            Assert.AreEqual(3, totalErrors);
             Assert.AreEqual(3, unexpectedTagCount);
 
             Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
