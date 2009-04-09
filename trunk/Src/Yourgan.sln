@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Parser", "YourganParser\Yourgan.Parser.csproj", "{2AB8BD63-31B1-432B-9115-B15DB4610108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.HtmlClient", "Yourgan.HtmlClient\Yourgan.HtmlClient.csproj", "{AC0787A8-144C-4450-9A87-08DEC6511EC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0787A8-144C-4450-9A87-08DEC6511EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0787A8-144C-4450-9A87-08DEC6511EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0787A8-144C-4450-9A87-08DEC6511EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0787A8-144C-4450-9A87-08DEC6511EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
