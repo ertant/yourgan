@@ -11,12 +11,22 @@ namespace Yourgan.Parser.UnitTest
     {
         protected System.Xml.XmlDocument LoadDocument(string html)
         {
+            return LoadDocument(html, null);
+        }
+
+        protected System.Xml.XmlDocument LoadDocument(string html, EventHandler<EntityErrorEventArgs> errorHandler)
+        {
             byte[] bytes = Encoding.UTF8.GetBytes(html);
 
             System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
 
             using (DocumentStream stream = new DocumentStream(doc))
             {
+                if (errorHandler != null)
+                {
+                    stream.EntityError += errorHandler;
+                }
+
                 using (Stream input = new MemoryStream(bytes))
                 {
                     int size = 512;

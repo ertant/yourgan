@@ -21,6 +21,18 @@ namespace Yourgan.Parser
             base.Close();
         }
 
+        public event EventHandler<EntityErrorEventArgs> EntityError
+        {
+            add
+            {
+                this.tagTokenization.EntityGeneration.HTMLTokenization.EntityError += value;
+            }
+            remove
+            {
+                this.tagTokenization.EntityGeneration.HTMLTokenization.EntityError -= value;
+            }
+        }
+
         System.Xml.XmlDocument document;
 
         public System.Xml.XmlDocument Document

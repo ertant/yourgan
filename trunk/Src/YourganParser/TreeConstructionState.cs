@@ -196,17 +196,18 @@ namespace Yourgan.Parser
 
         public bool IsInTableScopeStack(params string[] tagNames)
         {
-            foreach (XmlElement node in this.nodes)
+            foreach (string tagName in tagNames)
             {
-                if (Entity.IsTag(node.LocalName, "html") ||
-                    Entity.IsTag(node.LocalName, "table"))
-                    return false;
-
-                foreach (string tagName in tagNames)
+                foreach (XmlElement node in this.nodes)
                 {
                     if (Entity.IsTag(node.LocalName, tagName))
                     {
                         return true;
+                    }
+                    else if (Entity.IsTag(node.LocalName, "html") ||
+                        Entity.IsTag(node.LocalName, "table"))
+                    {
+                        return false;
                     }
                 }
             }
@@ -515,6 +516,12 @@ namespace Yourgan.Parser
 #if(DEBUG)
             System.Diagnostics.Debug.WriteLine("Parse error : " + code.ToString() + " Entity : " + entity);
 #endif
+            if (EntityError != null)
+            {
+                EntityError(this, new EntityErrorEventArgs(code, entity));
+            }
         }
+
+        public event EventHandler<EntityErrorEventArgs> EntityError;
     }
 }
