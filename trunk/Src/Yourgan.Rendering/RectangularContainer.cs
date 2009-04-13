@@ -23,9 +23,9 @@ namespace Yourgan.Rendering
 {
     public class RectangularContainer : GraphicContainer, IRectangular
     {
-        private int x;
+        private float x;
 
-        public int X
+        public float X
         {
             get
             {
@@ -37,9 +37,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        private int y;
+        private float y;
 
-        public int Y
+        public float Y
         {
             get
             {
@@ -51,9 +51,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        private int width;
+        private float width;
 
-        public int Width
+        public float Width
         {
             get
             {
@@ -65,9 +65,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        private int height;
+        private float height;
 
-        public int Height
+        public float Height
         {
             get
             {

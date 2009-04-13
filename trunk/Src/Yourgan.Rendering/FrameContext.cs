@@ -44,10 +44,10 @@ namespace Yourgan.Rendering
 
         private void NodeHandler(object sender, System.Xml.XmlNodeChangedEventArgs args)
         {
-            if (args.Node.NodeType == XmlNodeType.Element)
-            {
-                XmlElement element = args.Node as XmlElement;
+            XmlElement element = args.Node as XmlElement;
 
+            if (element != null)
+            {
                 GraphicObject graphicElement = null;
                 GraphicObject parent = null;
 
