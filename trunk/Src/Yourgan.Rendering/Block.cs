@@ -18,14 +18,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Yourgan.Rendering
 {
-    public class Block : RectangularContainer
+    [DebuggerDisplay("{Model.Element.Name}")]
+    public class Block : RectangularContainer, ILayoutPerformer
     {
-        public Block(ModelNode model)
+        public Block(ModelNode model, GraphicContainer parent)
         {
             this.model = model;
+            this.parent = parent;
+        }
+
+        private GraphicContainer parent;
+
+        public GraphicContainer Parent
+        {
+            get
+            {
+                return parent;
+            }
         }
 
         private ModelNode model;
@@ -35,6 +48,21 @@ namespace Yourgan.Rendering
             get
             {
                 return model;
+            }
+        }
+
+        public void DoLayout(FrameContext context)
+        {
+            PerformFlowLayout(context);
+        }
+
+        private void PerformFlowLayout(FrameContext context)
+        {
+            this.Childs.Clear();
+
+            foreach (System.Xml.XmlElement childNode in this.Model.Childs)
+            {
+                GraphicObject child = context.Create(this, childNode);
             }
         }
     }

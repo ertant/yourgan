@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Yourgan.Rendering
 {
@@ -35,6 +36,20 @@ namespace Yourgan.Rendering
             get
             {
                 return element;
+            }
+        }
+
+        public IEnumerable<XmlElement> Childs
+        {
+            get
+            {
+                foreach (XmlNode childNode in this.Element.ChildNodes)
+                {
+                    if (childNode.NodeType == XmlNodeType.Element)
+                    {
+                        yield return childNode as XmlElement;
+                    }
+                }
             }
         }
     }
