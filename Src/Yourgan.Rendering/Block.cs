@@ -51,12 +51,12 @@ namespace Yourgan.Rendering
             }
         }
 
-        public void DoLayout(FrameContext context)
+        public void DoLayout(Frame context)
         {
             PerformFlowLayout(context);
         }
 
-        private void PerformFlowLayout(FrameContext context)
+        private void PerformFlowLayout(Frame context)
         {
             this.Childs.Clear();
 

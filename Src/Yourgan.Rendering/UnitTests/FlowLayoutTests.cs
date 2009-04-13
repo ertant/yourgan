@@ -15,7 +15,7 @@ namespace Yourgan.Rendering.UnitTests
         {
             string html = @"<html><body><div>test</div></body></html>";
 
-            FrameContext context = new FrameContext();
+            Frame context = new Frame();
 
             using (DocumentStream stream = new DocumentStream(context.Document))
             {

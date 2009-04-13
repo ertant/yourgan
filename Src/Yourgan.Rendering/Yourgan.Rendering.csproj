@@ -46,7 +46,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
     <Compile Include="Font.cs" />
-    <Compile Include="FrameContext.cs" />
+    <Compile Include="Frame.cs" />
     <Compile Include="GraphicContainer.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -24,6 +24,6 @@ namespace Yourgan.Rendering
 {
     public interface ILayoutPerformer
     {
-        void DoLayout(FrameContext context);
+        void DoLayout(Frame context);
     }
 }

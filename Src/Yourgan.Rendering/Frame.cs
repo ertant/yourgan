@@ -22,9 +22,9 @@ using System.Xml;
 
 namespace Yourgan.Rendering
 {
-    public class FrameContext
+    public class Frame
     {
-        public FrameContext()
+        public Frame()
         {
             this.document = new System.Xml.XmlDocument();
             this.document.NodeChanged += NodeHandler;
@@ -75,9 +75,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        private System.Xml.XmlDocument document;
+        private XmlDocument document;
 
-        public System.Xml.XmlDocument Document
+        public XmlDocument Document
         {
             get
             {
