@@ -69,7 +69,9 @@ namespace Yourgan.Rendering
                 ILayoutPerformer layout = graphicElement as ILayoutPerformer;
 
                 if (layout != null)
+                {
                     layout.DoLayout(this);
+                }
             }
         }
 
