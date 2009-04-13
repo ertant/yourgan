@@ -23,25 +23,25 @@ namespace Yourgan.Rendering
 {
     public interface IRectangular
     {
-        int X
+        float X
         {
             get; 
             set;
         }
 
-        int Y
+        float Y
         {
             get;
             set;
         }
 
-        int Width
+        float Width
         {
             get; 
             set;
         }
 
-        int Height
+        float Height
         {
             get;
             set;
