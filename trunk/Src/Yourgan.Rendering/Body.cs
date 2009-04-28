@@ -44,17 +44,5 @@ namespace Yourgan.Rendering
                 return this.Bounds.Width;
             }
         }
-
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
-        {
-            base.OnChildrenAdded(objects);
-            this.Layout.PerformLayout();
-        }
-
-        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
-        {
-            base.OnChildrenRemoved(objects);
-            this.Layout.PerformLayout();
-        }
     }
 }
