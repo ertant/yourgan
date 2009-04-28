@@ -44,7 +44,7 @@ namespace Yourgan.Rendering
 
         protected override void CorePaint(DrawingContext drawingContext)
         {
-            foreach (GraphicObject child in this.Childs)
+            foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
             {
                 child.Paint(drawingContext);
             }
@@ -64,12 +64,12 @@ namespace Yourgan.Rendering
 
         protected internal virtual void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
         {
-            
+
         }
 
         protected internal virtual void OnChildrenAdded(IEnumerable<GraphicObject> objects)
         {
-            
+
         }
 
         #endregion

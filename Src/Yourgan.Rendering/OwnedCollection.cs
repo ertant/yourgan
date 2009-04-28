@@ -155,5 +155,13 @@ namespace Yourgan.Rendering
         {
             return ((List<T>)base.Items).ToArray();
         }
+
+        public T[] ToArrayThreadSafe()
+        {
+            lock (this)
+            {
+                return ToArray();
+            }
+        }
     }
 }
