@@ -24,14 +24,14 @@ namespace Yourgan.Rendering
 {
     public class ModelNode
     {
-        public ModelNode(System.Xml.XmlElement element)
+        public ModelNode(System.Xml.XmlNode element)
         {
             this.element = element;
         }
 
-        private System.Xml.XmlElement element;
+        private System.Xml.XmlNode element;
 
-        public System.Xml.XmlElement Element
+        public System.Xml.XmlNode Element
         {
             get
             {
@@ -39,16 +39,13 @@ namespace Yourgan.Rendering
             }
         }
 
-        public IEnumerable<XmlElement> Childs
+        public IEnumerable<XmlNode> Childs
         {
             get
             {
                 foreach (XmlNode childNode in this.Element.ChildNodes)
                 {
-                    if (childNode.NodeType == XmlNodeType.Element)
-                    {
-                        yield return childNode as XmlElement;
-                    }
+                    yield return childNode;
                 }
             }
         }

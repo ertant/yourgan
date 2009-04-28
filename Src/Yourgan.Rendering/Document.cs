@@ -47,34 +47,29 @@ namespace Yourgan.Rendering
 
         private void NodeHandler(object sender, System.Xml.XmlNodeChangedEventArgs args)
         {
-            XmlElement element = args.Node as XmlElement;
+            GraphicObject graphicElement = null;
+            GraphicObject parent = null;
 
-            if (element != null)
+            if ((args.NewParent != null) && (args.NewParent != xmlDocument))
             {
-                GraphicObject graphicElement = null;
-                GraphicObject parent = null;
+                this.Objects.TryGetValue(args.NewParent, out parent);
+            }
 
-                if ((args.NewParent != null) && (args.NewParent != xmlDocument))
-                {
-                    this.Objects.TryGetValue(args.NewParent, out parent);
-                }
+            if (!this.Objects.TryGetValue(args.Node, out graphicElement))
+            {
+                graphicElement = this.Create(args.Node);
+            }
 
-                if (!this.Objects.TryGetValue(element, out graphicElement))
-                {
-                    graphicElement = this.Create(element);
-                }
+            if (parent == null)
+            {
+                parent = this;
+            }
 
-                if ( parent == null )
-                {
-                    parent = this;
-                }
+            GraphicContainer container = parent as GraphicContainer;
 
-                GraphicContainer container = parent as GraphicContainer;
-
-                if (container != null )
-                {
-                    container.Childs.Add(graphicElement);
-                }
+            if (container != null)
+            {
+                container.Childs.Add(graphicElement);
             }
         }
 
@@ -88,7 +83,7 @@ namespace Yourgan.Rendering
             }
         }
 
-        public GraphicObject Create(System.Xml.XmlElement element)
+        public GraphicObject Create(System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
             GraphicObject obj;

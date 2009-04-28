@@ -69,9 +69,21 @@ namespace Yourgan.Rendering
             }
         }
 
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        {
+            base.OnChildrenAdded(objects);
+            this.Layout.PerformLayout();
+        }
+
+        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
+        {
+            base.OnChildrenRemoved(objects);
+            this.Layout.PerformLayout();
+        }
+
         public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
         {
-            RectangleF bounds = RectangleF.Empty;
+            SizeF size = SizeF.Empty;
 
             if (this.Childs.Count == 0)
             {
@@ -80,10 +92,10 @@ namespace Yourgan.Rendering
 
             foreach (GraphicObject child in this.Childs)
             {
-                bounds.Intersect(child.Bounds);
+                size += child.GetPreferredSize(SizeF.Empty);
             }
 
-            return bounds.Size;
+            return size;
         }
 
         protected override void CorePaint(DrawingContext drawingContext)
