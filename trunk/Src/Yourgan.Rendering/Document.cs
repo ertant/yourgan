@@ -35,6 +35,8 @@ namespace Yourgan.Rendering
             this.xmlDocument.NodeRemoved += NodeHandler;
         }
 
+        public event Action Change;
+
         private Html documentElement;
 
         public Html DocumentElement
@@ -70,6 +72,11 @@ namespace Yourgan.Rendering
             if (container != null)
             {
                 container.Childs.Add(graphicElement);
+            }
+
+            if ( Change != null )
+            {
+                Change();
             }
         }
 

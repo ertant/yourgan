@@ -25,5 +25,14 @@ namespace Yourgan.Rendering
     public interface ILayout
     {
         void PerformLayout();
+
+        void PerformLayoutIfRequired();
+
+        void Invalidate();
+
+        bool IsLayoutRequired
+        {
+            get;
+        }
     }
 }

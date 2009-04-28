@@ -34,9 +34,8 @@ namespace Yourgan.Rendering
 
         protected override void OnBoundsChanged()
         {
-            this.Layout.PerformLayout();
-
             base.OnBoundsChanged();
+            this.Layout.Invalidate();
         }
 
         private GraphicContainer parent;
@@ -72,13 +71,13 @@ namespace Yourgan.Rendering
         protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
         {
             base.OnChildrenAdded(objects);
-            this.Layout.PerformLayout();
+            this.Layout.Invalidate();
         }
 
         protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
         {
             base.OnChildrenRemoved(objects);
-            this.Layout.PerformLayout();
+            this.Layout.Invalidate();
         }
 
         public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
@@ -90,7 +89,7 @@ namespace Yourgan.Rendering
                 return new SizeF(50, 50);
             }
 
-            foreach (GraphicObject child in this.Childs)
+            foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
             {
                 size += child.GetPreferredSize(SizeF.Empty);
             }
@@ -100,6 +99,8 @@ namespace Yourgan.Rendering
 
         protected override void CorePaint(DrawingContext drawingContext)
         {
+            this.Layout.PerformLayoutIfRequired();
+
             if (this.Childs.Count == 0)
             {
                 drawingContext.Graphics.DrawRectangle(Pens.Black, this.Bounds.X, this.Bounds.Y, this.Bounds.Width, this.Bounds.Height);

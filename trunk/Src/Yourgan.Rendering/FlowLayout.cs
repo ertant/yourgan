@@ -40,11 +40,26 @@ namespace Yourgan.Rendering
             }
         }
 
+        private bool isLayoutRequired;
+
+        public bool IsLayoutRequired
+        {
+            get
+            {
+                return isLayoutRequired;
+            }
+        }
+
+        public void Invalidate()
+        {
+            isLayoutRequired = true;
+        }
+
         public void PerformLayout()
         {
             RectangleF rectangle = owner.Bounds;
 
-            foreach (GraphicObject child in owner.Childs)
+            foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
             {
                 SizeF childSize = child.GetPreferredSize(SizeF.Empty);
 
@@ -59,6 +74,16 @@ namespace Yourgan.Rendering
                 {
                     rectangle.X += childSize.Width;
                 }
+            }
+
+            isLayoutRequired = false;
+        }
+
+        public void PerformLayoutIfRequired()
+        {
+            if (isLayoutRequired)
+            {
+                this.PerformLayout();
             }
         }
     }
