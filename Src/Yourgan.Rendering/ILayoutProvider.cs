@@ -17,34 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public interface IRectangular
+    public interface ILayoutProvider
     {
-        float X
-        {
-            get; 
-            set;
-        }
-
-        float Y
+        ILayout Layout
         {
             get;
-            set;
-        }
-
-        float Width
-        {
-            get; 
-            set;
-        }
-
-        float Height
-        {
-            get;
-            set;
         }
     }
 }

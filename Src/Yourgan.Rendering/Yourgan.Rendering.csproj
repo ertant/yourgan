@@ -40,13 +40,17 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
+    <Compile Include="Body.cs" />
+    <Compile Include="DrawingContext.cs" />
+    <Compile Include="FlowLayout.cs" />
     <Compile Include="Font.cs" />
-    <Compile Include="Frame.cs" />
+    <Compile Include="Document.cs" />
     <Compile Include="GraphicContainer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -56,18 +60,13 @@
     <Compile Include="GraphicObjectCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IGraphicContainer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ILayoutPerformer.cs" />
-    <Compile Include="IRectangular.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IRenderingContext.cs" />
+    <Compile Include="Html.cs" />
+    <Compile Include="IChildManager.cs" />
+    <Compile Include="ILayout.cs" />
+    <Compile Include="ILayoutProvider.cs" />
     <Compile Include="ModelNode.cs" />
+    <Compile Include="OwnedCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RectangularContainer.cs" />
-    <Compile Include="RectangularObject.cs" />
     <Compile Include="UnitTests\FlowLayoutTests.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>

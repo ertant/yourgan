@@ -17,12 +17,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public interface IGraphicContainer
+    public interface IChildManager
     {
+        void AddChildren(IEnumerable<GraphicObject> childs);
+
+        void RemoveChildren(IEnumerable<GraphicObject> childs);
+
         GraphicObjectCollection Childs
         {
             get;

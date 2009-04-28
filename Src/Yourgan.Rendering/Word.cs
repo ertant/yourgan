@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public class Word : RectangularObject
+    public class Word : GraphicObject
     {
         public Word(ModelNode model, string text, Font font)
         {

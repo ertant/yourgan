@@ -17,66 +17,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public class RectangularContainer : GraphicContainer, IRectangular
+    public class Body : Block
     {
-        private float x;
+        public Body(ModelNode model)
+            : base(model)
+        {
+        }
 
-        public float X
+        public float ClientHeight
         {
             get
             {
-                return x;
-            }
-            set
-            {
-                x = value;
+                return this.Bounds.Height;
             }
         }
 
-        private float y;
-
-        public float Y
+        public float ClientWidth
         {
             get
             {
-                return y;
-            }
-            set
-            {
-                y = value;
+                return this.Bounds.Width;
             }
         }
 
-        private float width;
-
-        public float Width
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
         {
-            get
-            {
-                return width;
-            }
-            set
-            {
-                width = value;
-            }
+            base.OnChildrenAdded(objects);
+            this.Layout.PerformLayout();
         }
 
-        private float height;
-
-        public float Height
+        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
         {
-            get
-            {
-                return height;
-            }
-            set
-            {
-                height = value;
-            }
+            base.OnChildrenRemoved(objects);
+            this.Layout.PerformLayout();
         }
     }
 }

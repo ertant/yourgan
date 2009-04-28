@@ -19,11 +19,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public interface ILayoutPerformer
+    public class DrawingContext
     {
-        void DoLayout(Frame context);
+        public DrawingContext(Graphics graphics)
+        {
+            this.graphics = graphics;
+        }
+
+        private Graphics graphics;
+
+        public Graphics Graphics
+        {
+            get
+            {
+                return graphics;
+            }
+        }
     }
 }

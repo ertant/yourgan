@@ -18,19 +18,114 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
     public class GraphicObject
     {
-        protected virtual void CorePaint(IRenderingContext context)
+        public GraphicObject()
         {
-
         }
 
-        public void Paint(IRenderingContext context)
+        private RectangleF bounds;
+
+        public RectangleF Bounds
         {
-            CorePaint(context);
+            get
+            {
+                return bounds;
+            }
+            set
+            {
+                bounds = value;
+                OnBoundsChanged();
+            }
+        }
+
+        protected virtual void OnBoundsChanged()
+        {
+        }
+
+        public float X
+        {
+            get
+            {
+                return this.Bounds.X;
+            }
+        }
+
+        public float Y
+        {
+            get
+            {
+                return this.Bounds.Y;
+            }
+        }
+
+        public float Width
+        {
+            get
+            {
+                return this.Bounds.Width;
+            }
+        }
+
+        public float Height
+        {
+            get
+            {
+                return this.Bounds.Height;
+            }
+        }
+
+        public virtual bool HasPreferredWidth
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public virtual bool HasPreferredHeight
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        private Document ownerDocument;
+
+        public Document OwnerDocument
+        {
+            get
+            {
+                return ownerDocument;
+            }
+            set
+            {
+                ownerDocument = value;
+            }
+        }
+
+        public void Move(PointF position)
+        {
+            this.Bounds.Offset(position);
+        }
+
+        public virtual SizeF GetPreferredSize(SizeF proposedSize)
+        {
+            return proposedSize;
+        }
+
+        protected virtual void CorePaint(DrawingContext drawingContext)
+        {
+        }
+
+        public void Paint(DrawingContext drawingContext)
+        {
+            CorePaint(drawingContext);
         }
     }
 }
