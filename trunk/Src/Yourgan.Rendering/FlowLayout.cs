@@ -17,65 +17,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class RectangularObject : GraphicObject
+    public class FlowLayout : ILayout
     {
-        private int x;
+        public FlowLayout(GraphicContainer owner)
+        {
+            this.owner = owner;
+        }
 
-        public int X
+        private GraphicContainer owner;
+
+        public GraphicContainer Owner
         {
             get
             {
-                return x;
-            }
-            set
-            {
-                x = value;
+                return owner;
             }
         }
 
-        private int y;
-
-        public int Y
+        public void PerformLayout()
         {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-            }
-        }
+            RectangleF rectangle = owner.Bounds;
 
-        private int width;
+            foreach (GraphicObject child in owner.Childs)
+            {
+                SizeF childSize = child.GetPreferredSize(SizeF.Empty);
 
-        public int Width
-        {
-            get
-            {
-                return width;
-            }
-            set
-            {
-                width = value;
-            }
-        }
+                child.Bounds = new RectangleF(rectangle.Location, childSize);
 
-        private int height;
-
-        public int Height
-        {
-            get
-            {
-                return height;
-            }
-            set
-            {
-                height = value;
+                if (rectangle.X + childSize.Width > rectangle.Width)
+                {
+                    rectangle.X = 0;
+                    rectangle.Y += childSize.Height;
+                }
+                else
+                {
+                    rectangle.X += childSize.Width;
+                }
             }
         }
     }

@@ -19,16 +19,24 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
     [DebuggerDisplay("{Model.Element.Name}")]
-    public class Block : RectangularContainer, ILayoutPerformer
+    public class Block : GraphicContainer, ILayoutProvider
     {
-        public Block(ModelNode model, GraphicContainer parent)
+        public Block(ModelNode model)
         {
             this.model = model;
-            this.parent = parent;
+            this.layout = new FlowLayout(this);
+        }
+
+        protected override void OnBoundsChanged()
+        {
+            this.Layout.PerformLayout();
+
+            base.OnBoundsChanged();
         }
 
         private GraphicContainer parent;
@@ -51,19 +59,41 @@ namespace Yourgan.Rendering
             }
         }
 
-        public void DoLayout(Frame context)
+        private ILayout layout;
+
+        public ILayout Layout
         {
-            PerformFlowLayout(context);
+            get
+            {
+                return layout;
+            }
         }
 
-        private void PerformFlowLayout(Frame context)
+        public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
         {
-            this.Childs.Clear();
+            RectangleF bounds = RectangleF.Empty;
 
-            foreach (System.Xml.XmlElement childNode in this.Model.Childs)
+            if (this.Childs.Count == 0)
             {
-                GraphicObject child = context.Create(this, childNode);
+                return new SizeF(50, 50);
             }
+
+            foreach (GraphicObject child in this.Childs)
+            {
+                bounds.Intersect(child.Bounds);
+            }
+
+            return bounds.Size;
+        }
+
+        protected override void CorePaint(DrawingContext drawingContext)
+        {
+            if (this.Childs.Count == 0)
+            {
+                drawingContext.Graphics.DrawRectangle(Pens.Black, this.Bounds.X, this.Bounds.Y, this.Bounds.Width, this.Bounds.Height);
+            }
+            else
+                base.CorePaint(drawingContext);
         }
     }
 }

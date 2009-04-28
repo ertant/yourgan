@@ -21,8 +21,12 @@ using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public class GraphicContainer : GraphicObject, IGraphicContainer
+    public class GraphicContainer : GraphicObject, IChildManager
     {
+        public GraphicContainer()
+        {
+        }
+
         private GraphicObjectCollection childs;
 
         public GraphicObjectCollection Childs
@@ -31,11 +35,43 @@ namespace Yourgan.Rendering
             {
                 if (childs == null)
                 {
-                    childs = new GraphicObjectCollection();
+                    childs = new GraphicObjectCollection(this);
                 }
 
                 return childs;
             }
         }
+
+        protected override void CorePaint(DrawingContext drawingContext)
+        {
+            foreach (GraphicObject child in this.Childs)
+            {
+                child.Paint(drawingContext);
+            }
+        }
+
+        #region IChildManager
+
+        public void AddChildren(IEnumerable<GraphicObject> objects)
+        {
+            this.Childs.AddRange(objects);
+        }
+
+        public void RemoveChildren(IEnumerable<GraphicObject> objects)
+        {
+            this.Childs.RemoveRange(objects);
+        }
+
+        protected internal virtual void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
+        {
+            
+        }
+
+        protected internal virtual void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        {
+            
+        }
+
+        #endregion
     }
 }
