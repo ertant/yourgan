@@ -62,21 +62,24 @@ namespace Yourgan.Rendering
                 graphicElement = this.Create(args.Node);
             }
 
-            if (parent == null)
+            if (graphicElement != null)
             {
-                parent = this;
-            }
+                if (parent == null)
+                {
+                    parent = this;
+                }
 
-            GraphicContainer container = parent as GraphicContainer;
+                GraphicContainer container = parent as GraphicContainer;
 
-            if (container != null)
-            {
-                container.Childs.Add(graphicElement);
-            }
+                if (container != null)
+                {
+                    container.Childs.Add(graphicElement);
+                }
 
-            if ( Change != null )
-            {
-                Change();
+                if (Change != null)
+                {
+                    Change();
+                }
             }
         }
 
@@ -93,24 +96,41 @@ namespace Yourgan.Rendering
         public GraphicObject Create(System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
-            GraphicObject obj;
 
-            switch (element.LocalName)
+            GraphicObject obj = null;
+
+            switch (element.NodeType)
             {
-                case "html":
-                    obj = new Html(node);
-                    break;
-                case "body":
-                    obj = new Body(node);
-                    break;
-                default:
-                    obj = new Block(node);
-                    break;
+                case XmlNodeType.Element:
+                    {
+                        switch (element.LocalName)
+                        {
+                            case "html":
+                                obj = new Html(node);
+                                break;
+                            case "body":
+                                obj = new Body(node);
+                                break;
+                            default:
+                                obj = new Block(node);
+                                break;
+                        }
+
+                        break;
+                    }
+                case XmlNodeType.Text:
+                    {
+                        obj = new Word(node, element.Value, null);
+                        break;
+                    }
             }
 
-            obj.OwnerDocument = this;
+            if (obj != null)
+            {
+                obj.OwnerDocument = this;
 
-            this.Objects[element] = obj;
+                this.Objects[element] = obj;
+            }
 
             return obj;
         }

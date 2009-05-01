@@ -104,6 +104,7 @@ namespace Yourgan.Parser
         public void ClearToken()
         {
             token.Clear();
+            isOpen = false;
         }
 
         public char[] Buffer;
