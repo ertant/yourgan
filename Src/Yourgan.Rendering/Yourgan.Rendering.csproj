@@ -51,6 +51,7 @@
     <Compile Include="FlowLayout.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="Document.cs" />
+    <Compile Include="FontCache.cs" />
     <Compile Include="GraphicContainer.cs">
       <SubType>Code</SubType>
     </Compile>

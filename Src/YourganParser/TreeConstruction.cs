@@ -111,6 +111,18 @@ namespace Yourgan.Parser
             }
         }
 
+        private static void _BeforeHtmlAnythingElse(Entity entity, TreeConstructionState state)
+        {
+            // Create an html element. Append it to the Document object. Put this element in the stack of open elements.
+            state.CreatePushElement("html", StdNamespaces.HTML);
+
+            // Switch the insertion mode to "before head"
+            state.Switch(BeforeHead);
+
+            // reprocess the current token.
+            state.Repeat();
+        }
+
         private static void _BeforeHtml(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
@@ -132,7 +144,6 @@ namespace Yourgan.Parser
                         // Ignore the token.
                         break;
                     }
-                case EntityType.CloseElement:
                 case EntityType.OpenElement:
                     {
                         // TODO : cache algorithm filan yaziyor burda ama anlamadim sonra bakarim.
@@ -141,19 +152,19 @@ namespace Yourgan.Parser
                         {
                             // Create an element for the token in the HTML namespace. Append it to the Document  object. Put this element in the stack of open elements.
                             state.CreatePushElement(entity, StdNamespaces.HTML);
+
+                            // Switch the insertion mode to "before head"
+                            state.Switch(BeforeHead);
                         }
                         else
                         {
-                            // Create an html element. Append it to the Document object. Put this element in the stack of open elements.
-                            state.CreatePushElement("html", StdNamespaces.HTML);
-
-                            // reprocess the current token.
-                            state.Repeat();
+                            _BeforeHtmlAnythingElse(entity, state);
                         }
-
-                        // Switch the insertion mode to "before head"
-                        state.Switch(BeforeHead);
-
+                        break;
+                    }
+                default:
+                    {
+                        _BeforeHtmlAnythingElse(entity, state);
                         break;
                     }
             }

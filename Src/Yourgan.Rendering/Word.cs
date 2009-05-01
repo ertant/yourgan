@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
@@ -58,6 +59,18 @@ namespace Yourgan.Rendering
             {
                 return font;
             }
+        }
+
+        public override SizeF GetPreferredSize(SizeF proposedSize)
+        {
+            StringFormat format = new StringFormat();
+
+            return FontCache.MeasureString(this.text, this.font, SizeF.Empty, format);
+        }
+
+        protected override void CorePaint(DrawingContext drawingContext)
+        {
+            drawingContext.Graphics.DrawString(this.text, SystemFonts.DefaultFont, SystemBrushes.WindowText, this.Bounds);
         }
     }
 }

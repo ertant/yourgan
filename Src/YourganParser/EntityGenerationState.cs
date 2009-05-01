@@ -55,6 +55,9 @@ namespace Yourgan.Parser
                 //System.Diagnostics.Debug.WriteLineIf(e.Type != EntityType.WhiteSpace, e);
 #endif
                 htmlTokenization.Emit(e);
+
+                // Reset token
+                e.Data = null;
             }
         }
 
