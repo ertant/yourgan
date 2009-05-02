@@ -522,7 +522,9 @@ namespace Yourgan.Parser
 
                 if (handler == null)
                     throw new ParseException();
-
+#if(DEBUG)
+                System.Diagnostics.Debug.WriteLine("Executing : " + handler.Method.Name);
+#endif
                 this.handler(entity, this);
             }
             while (repeat);

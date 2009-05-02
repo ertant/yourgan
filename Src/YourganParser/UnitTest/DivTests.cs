@@ -36,5 +36,25 @@ namespace Yourgan.Parser.UnitTest
             Assert.AreEqual("div", doc.DocumentElement.FirstChild.NextSibling.FirstChild.NextSibling.LocalName);
             Assert.AreEqual("some text", doc.DocumentElement.FirstChild.NextSibling.FirstChild.NextSibling.InnerText);
         }
+
+        [Test]
+        public void DoubleDiv()
+        {
+            string html = "<html><body><div>test</div><div>zzz</div></body></html>";
+
+            int unexpectedTagCount = 0;
+            int totalErrors = 0;
+
+            System.Xml.XmlDocument doc = LoadDocument(html, delegate(object sender, EntityErrorEventArgs args)
+            {
+                totalErrors++;
+
+                if (args.Code == EntityErrorCode.UnexpectedTag)
+                    unexpectedTagCount++;
+            });
+
+            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
+
+        }
     }
 }
