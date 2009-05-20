@@ -1060,6 +1060,9 @@ namespace Yourgan.Parser
                                         state.Pop();
                                     }
 
+                                    // include current node.
+                                    state.Pop();
+
                                     break;
                                 }
                                 // Otherwise,
