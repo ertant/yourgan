@@ -22,61 +22,101 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class GraphicObject
+    public abstract class GraphicObject
     {
-        public GraphicObject()
+        protected GraphicObject()
         {
         }
 
-        private RectangleF bounds;
+        private LayoutMode layoutMode = LayoutMode.Block;
 
-        public RectangleF Bounds
+        public LayoutMode LayoutMode
         {
             get
             {
-                return bounds;
+                return layoutMode;
             }
             set
             {
-                bounds = value;
-                OnBoundsChanged();
+                layoutMode = value;
             }
         }
 
-        protected virtual void OnBoundsChanged()
-        {
-        }
+        private GraphicContainer parent;
 
-        public float X
+        public GraphicContainer Parent
         {
             get
             {
-                return this.Bounds.X;
+                return parent;
+            }
+            set
+            {
+                parent = value;
             }
         }
 
-        public float Y
+        private RectangleF clientBounds;
+
+        public RectangleF ClientBounds
         {
             get
             {
-                return this.Bounds.Y;
+                if (clientBounds.IsEmpty)
+                    return parent.ClientBounds;
+                else
+                    return clientBounds;
+            }
+            set
+            {
+                clientBounds = value;
+                OnClientBoundsChanged();
             }
         }
 
-        public float Width
+        protected virtual void OnClientBoundsChanged()
+        {
+        }
+
+        private RectangleF scrollBounds;
+
+        public RectangleF ScrollBounds
         {
             get
             {
-                return this.Bounds.Width;
+                if (scrollBounds.IsEmpty)
+                    return this.ClientBounds;
+                else
+                    return scrollBounds;
+            }
+            set
+            {
+                scrollBounds = value;
+                OnScrollBoundsChanged();
             }
         }
 
-        public float Height
+        protected virtual void OnScrollBoundsChanged()
+        {
+        }
+
+        private RectangleF offsetBounds;
+
+        public RectangleF OffsetBounds
         {
             get
             {
-                return this.Bounds.Height;
+                return offsetBounds;
             }
+            set
+            {
+                offsetBounds = value;
+                OnOffsetBoundsChanged();
+            }
+        }
+
+        protected virtual void OnOffsetBoundsChanged()
+        {
         }
 
         public virtual bool HasPreferredWidth
@@ -109,23 +149,19 @@ namespace Yourgan.Rendering
             }
         }
 
-        public void Move(PointF position)
-        {
-            this.Bounds.Offset(position);
-        }
-
         public virtual SizeF GetPreferredSize(SizeF proposedSize)
         {
             return proposedSize;
         }
 
-        protected virtual void CorePaint(DrawingContext drawingContext)
+        protected virtual void CorePaint(PointF offset, DrawingContext drawingContext)
         {
+
         }
 
-        public void Paint(DrawingContext drawingContext)
+        public void Paint(PointF offset, DrawingContext drawingContext)
         {
-            CorePaint(drawingContext);
+            CorePaint(offset, drawingContext);
         }
     }
 }

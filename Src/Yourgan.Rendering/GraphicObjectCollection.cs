@@ -47,12 +47,22 @@ namespace Yourgan.Rendering
 
             base.ClearItems();
 
+            foreach (GraphicObject item in items)
+            {
+                item.Parent = null;
+            }
+
             owner.OnChildrenRemoved(items);
         }
 
         protected override void InsertItems(int index, IEnumerable<GraphicObject> collection)
         {
             base.InsertItems(index, collection);
+
+            foreach (GraphicObject item in collection)
+            {
+                item.Parent = this.owner;
+            }
 
             owner.OnChildrenAdded(collection);
         }
@@ -64,6 +74,11 @@ namespace Yourgan.Rendering
             ((List<GraphicObject>)base.Items).CopyTo(index, childs, 0, count);
 
             base.RemoveItems(index, count);
+
+            foreach (GraphicObject item in childs)
+            {
+                item.Parent = null;
+            }
 
             owner.OnChildrenRemoved(childs);
         }
@@ -88,6 +103,11 @@ namespace Yourgan.Rendering
             {
                 ((List<GraphicObject>)base.Items).Clear();
                 ((List<GraphicObject>)base.Items).AddRange(collection);
+
+                foreach (GraphicObject item in collection)
+                {
+                    item.Parent = null;
+                }
 
                 if (this.owner != null)
                 {

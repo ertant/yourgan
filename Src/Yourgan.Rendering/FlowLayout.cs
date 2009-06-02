@@ -40,6 +40,65 @@ namespace Yourgan.Rendering
             }
         }
 
+        public SizeF GetAutoSize(SizeF maxSize)
+        {
+            return PerformLayoutInternal();
+        }
+
+        public void PerformLayout()
+        {
+            PerformLayoutInternal();
+            isLayoutRequired = false;
+        }
+
+        private SizeF PerformLayoutInternal()
+        {
+            PointF location = PointF.Empty;
+            RectangleF rectangle = owner.ScrollBounds;
+
+            float maxHeight = 0;
+
+            foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
+            {
+                SizeF childSize = child.GetPreferredSize(SizeF.Empty);
+
+                if (location.X + childSize.Width > rectangle.Width)
+                {
+                    location.X = 0;
+                    location.Y += maxHeight;
+                    maxHeight = 0;
+                }
+
+                switch (child.LayoutMode)
+                {
+                    case LayoutMode.Block:
+                        child.OffsetBounds = new RectangleF(location, this.owner.ScrollBounds.Size);
+
+                        location.Y += childSize.Height;
+                        location.X = 0;
+
+                        break;
+
+                    case LayoutMode.Inline:
+                        child.OffsetBounds = new RectangleF(location, childSize);
+
+                        location.X += childSize.Width;
+
+                        break;
+                }
+
+                if (childSize.Height > maxHeight)
+                {
+                    maxHeight = childSize.Height;
+                }
+            }
+
+            if (location.Y < maxHeight)
+                location.Y = maxHeight;
+
+            return new SizeF(location.X, location.Y);
+        }
+
         private bool isLayoutRequired;
 
         public bool IsLayoutRequired
@@ -55,29 +114,7 @@ namespace Yourgan.Rendering
             isLayoutRequired = true;
         }
 
-        public void PerformLayout()
-        {
-            RectangleF rectangle = owner.Bounds;
 
-            foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
-            {
-                SizeF childSize = child.GetPreferredSize(SizeF.Empty);
-
-                child.Bounds = new RectangleF(rectangle.Location, childSize);
-
-                if (rectangle.X + childSize.Width > rectangle.Width)
-                {
-                    rectangle.X = 0;
-                    rectangle.Y += childSize.Height;
-                }
-                else
-                {
-                    rectangle.X += childSize.Width;
-                }
-            }
-
-            isLayoutRequired = false;
-        }
 
         public void PerformLayoutIfRequired()
         {

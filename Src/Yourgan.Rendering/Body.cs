@@ -28,21 +28,5 @@ namespace Yourgan.Rendering
             : base(model)
         {
         }
-
-        public float ClientHeight
-        {
-            get
-            {
-                return this.Bounds.Height;
-            }
-        }
-
-        public float ClientWidth
-        {
-            get
-            {
-                return this.Bounds.Width;
-            }
-        }
     }
 }
