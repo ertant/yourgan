@@ -18,12 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class GraphicContainer : GraphicObject, IChildManager
+    public abstract class GraphicContainer : GraphicObject, IChildManager
     {
-        public GraphicContainer()
+        protected GraphicContainer()
         {
         }
 
@@ -42,11 +43,14 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
+        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
         {
+            offset.X += this.OffsetBounds.X;
+            offset.Y += this.OffsetBounds.Y;
+
             foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
             {
-                child.Paint(drawingContext);
+                child.Paint(offset, drawingContext);
             }
         }
 

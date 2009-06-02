@@ -29,6 +29,7 @@ namespace Yourgan.Rendering
             this.model = model;
             this.text = text;
             this.font = font;
+            this.LayoutMode = LayoutMode.Inline;
         }
 
         private string text;
@@ -68,9 +69,14 @@ namespace Yourgan.Rendering
             return FontCache.MeasureString(this.text, this.font, SizeF.Empty, format);
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
+        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
         {
-            drawingContext.Graphics.DrawString(this.text, SystemFonts.DefaultFont, SystemBrushes.WindowText, this.Bounds);
+            RectangleF client = this.OffsetBounds;
+
+            client.Offset(offset);
+
+            drawingContext.Graphics.DrawString(this.text, font.CachedFont, SystemBrushes.WindowText, client);
+            drawingContext.Graphics.DrawRectangle(SystemPens.WindowFrame, client.X, client.Y, client.Width, client.Height);
         }
     }
 }

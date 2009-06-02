@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
@@ -27,7 +28,6 @@ namespace Yourgan.Rendering
         public Html(ModelNode node)
             : base(node)
         {
-            
         }
 
         private Body body;
@@ -40,9 +40,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void OnBoundsChanged()
+        protected override void OnClientBoundsChanged()
         {
-            base.OnBoundsChanged();
+            base.OnClientBoundsChanged();
 
             UpdateBodyBounds();
         }
@@ -51,7 +51,7 @@ namespace Yourgan.Rendering
         {
             if (this.body != null)
             {
-                this.body.Bounds = this.Bounds;
+                this.body.ClientBounds = this.ClientBounds;
             }
         }
 
@@ -70,11 +70,11 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
+        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
         {
             if (this.body != null)
             {
-                this.body.Paint(drawingContext);
+                this.body.Paint(offset, drawingContext);
             }
         }
     }

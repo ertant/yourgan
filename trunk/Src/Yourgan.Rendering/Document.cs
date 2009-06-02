@@ -59,7 +59,7 @@ namespace Yourgan.Rendering
 
             if (!this.Objects.TryGetValue(args.Node, out graphicElement))
             {
-                graphicElement = this.Create(args.Node);
+                graphicElement = this.Create(parent as GraphicContainer, args.Node);
             }
 
             if (graphicElement != null)
@@ -93,7 +93,7 @@ namespace Yourgan.Rendering
             }
         }
 
-        public GraphicObject Create(System.Xml.XmlNode element)
+        public GraphicObject Create(GraphicContainer parent, System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
 
@@ -106,21 +106,49 @@ namespace Yourgan.Rendering
                         switch (element.LocalName)
                         {
                             case "html":
-                                obj = new Html(node);
-                                break;
+                                {
+                                    obj = new Html(node);
+                                    break;
+                                }
                             case "body":
-                                obj = new Body(node);
-                                break;
+                                {
+                                    obj = new Body(node);
+                                    break;
+                                }
+                            case "div":
+                                {
+                                    Block block = new Block(node);
+
+                                    obj = block;
+
+                                    break;
+                                }
+                            case "span":
+                                {
+                                    Block block = new Block(node);
+
+                                    block.LayoutMode = LayoutMode.Inline;
+                                    block.Layout = new FlowLayout(block);
+
+                                    obj = block;
+
+                                    break;
+                                }
                             default:
-                                obj = new Block(node);
-                                break;
+                                {
+                                    Block block = new Block(node);
+
+                                    obj = block;
+
+                                    break;
+                                }
                         }
 
                         break;
                     }
                 case XmlNodeType.Text:
                     {
-                        obj = new Word(node, element.Value, null);
+                        obj = new Word(node, element.Value, new Font());
                         break;
                     }
             }
@@ -150,9 +178,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void OnBoundsChanged()
+        protected override void OnClientBoundsChanged()
         {
-            base.OnBoundsChanged();
+            base.OnClientBoundsChanged();
 
             UpdateDocumentBounds();
         }
@@ -161,7 +189,7 @@ namespace Yourgan.Rendering
         {
             if (documentElement != null)
             {
-                documentElement.Bounds = this.Bounds;
+                documentElement.ClientBounds = this.ClientBounds;
             }
         }
 
@@ -180,11 +208,11 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
+        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
         {
             if (this.documentElement != null)
             {
-                this.documentElement.Paint(drawingContext);
+                this.documentElement.Paint(offset, drawingContext);
             }
         }
     }

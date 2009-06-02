@@ -63,8 +63,13 @@
     </Compile>
     <Compile Include="Html.cs" />
     <Compile Include="IChildManager.cs" />
-    <Compile Include="ILayout.cs" />
-    <Compile Include="ILayoutProvider.cs" />
+    <Compile Include="ILayout.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ILayoutProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LayoutMode.cs" />
     <Compile Include="ModelNode.cs" />
     <Compile Include="OwnedCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

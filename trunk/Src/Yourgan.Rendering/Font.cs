@@ -34,5 +34,7 @@ namespace Yourgan.Rendering
                 return 0;
             }
         }
+
+        public System.Drawing.Font CachedFont = System.Drawing.SystemFonts.DefaultFont;
     }
 }

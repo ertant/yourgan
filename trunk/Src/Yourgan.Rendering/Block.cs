@@ -24,7 +24,7 @@ using System.Drawing;
 namespace Yourgan.Rendering
 {
     [DebuggerDisplay("{Model.Element.Name}")]
-    public class Block : GraphicContainer, ILayoutProvider
+    public class Block : GraphicContainer
     {
         public Block(ModelNode model)
         {
@@ -32,20 +32,10 @@ namespace Yourgan.Rendering
             this.layout = new FlowLayout(this);
         }
 
-        protected override void OnBoundsChanged()
+        protected override void OnClientBoundsChanged()
         {
-            base.OnBoundsChanged();
+            base.OnClientBoundsChanged();
             this.Layout.Invalidate();
-        }
-
-        private GraphicContainer parent;
-
-        public GraphicContainer Parent
-        {
-            get
-            {
-                return parent;
-            }
         }
 
         private ModelNode model;
@@ -64,7 +54,12 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return layout;
+                return this.layout;
+            }
+            set
+            {
+                this.layout = value;
+                this.layout.Invalidate();
             }
         }
 
@@ -80,33 +75,29 @@ namespace Yourgan.Rendering
             this.Layout.Invalidate();
         }
 
-        public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
+        public SizeF GetAutoSize(SizeF maxSize)
         {
-            SizeF size = SizeF.Empty;
-
-            if (this.Childs.Count == 0)
-            {
-                return new SizeF(50, 50);
-            }
-
-            foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
-            {
-                size += child.GetPreferredSize(SizeF.Empty);
-            }
-
-            return size;
+            return this.Layout.GetAutoSize(maxSize);
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
+        public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
+        {
+            return this.GetAutoSize(proposedSize);
+        }
+
+        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
         {
             this.Layout.PerformLayoutIfRequired();
 
-            if (this.Childs.Count == 0)
-            {
-                drawingContext.Graphics.DrawRectangle(Pens.Black, this.Bounds.X, this.Bounds.Y, this.Bounds.Width, this.Bounds.Height);
-            }
-            else
-                base.CorePaint(drawingContext);
+            base.CorePaint(offset, drawingContext);
+
+            RectangleF client = this.OffsetBounds;
+
+            client.Offset(offset);
+
+            Pen pen = SystemPens.ButtonHighlight;
+
+            drawingContext.Graphics.DrawRectangle(pen, client.X, client.Y, client.Width, client.Height);
         }
     }
 }

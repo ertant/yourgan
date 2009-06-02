@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
@@ -29,6 +30,8 @@ namespace Yourgan.Rendering
         void PerformLayoutIfRequired();
 
         void Invalidate();
+
+        SizeF GetAutoSize(SizeF maxSize);
 
         bool IsLayoutRequired
         {
