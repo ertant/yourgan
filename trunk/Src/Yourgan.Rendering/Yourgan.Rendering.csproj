@@ -47,6 +47,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
     <Compile Include="Body.cs" />
+    <Compile Include="DisplayMode.cs" />
     <Compile Include="DrawingContext.cs" />
     <Compile Include="FlowLayout.cs" />
     <Compile Include="Font.cs" />
@@ -72,7 +73,9 @@
     <Compile Include="LayoutMode.cs" />
     <Compile Include="ModelNode.cs" />
     <Compile Include="OwnedCollection.cs" />
+    <Compile Include="Padding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Style.cs" />
     <Compile Include="UnitTests\FlowLayoutTests.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>

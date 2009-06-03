@@ -127,7 +127,7 @@ namespace Yourgan.Rendering
                                 {
                                     Block block = new Block(node);
 
-                                    block.LayoutMode = LayoutMode.Inline;
+                                    block.Style.Display = DisplayMode.Inline;
                                     block.Layout = new FlowLayout(block);
 
                                     obj = block;
