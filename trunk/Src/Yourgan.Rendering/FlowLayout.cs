@@ -60,11 +60,16 @@ namespace Yourgan.Rendering
 
             LayoutMode previousMode = LayoutMode.Block;
 
+
             foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
             {
                 SizeF childSize = child.GetPreferredSize(SizeF.Empty);
 
-                if (location.X + childSize.Width > rectangle.Width)
+                if (
+                    (previousMode != child.LayoutMode) ||
+                    (child.LayoutMode == LayoutMode.Block) ||
+                    ((location.X + childSize.Width > rectangle.Width))
+                    )
                 {
                     location.X = 0;
                     location.Y += maxHeight;
@@ -75,21 +80,12 @@ namespace Yourgan.Rendering
                 {
                     case LayoutMode.Block:
 
-                        if (previousMode != LayoutMode.Block)
-                        {
-                            location.Y += maxHeight;
-                        }
-
-                        location.X = 0;
-
                         child.OffsetBounds = new RectangleF(location, this.owner.ScrollBounds.Size);
-
-                        location.Y += childSize.Height;
-                        location.X = 0;
 
                         break;
 
                     case LayoutMode.Inline:
+
                         child.OffsetBounds = new RectangleF(location, childSize);
 
                         location.X += childSize.Width;
@@ -97,16 +93,15 @@ namespace Yourgan.Rendering
                         break;
                 }
 
+                previousMode = child.LayoutMode;
+
                 if (childSize.Height > maxHeight)
                 {
                     maxHeight = childSize.Height;
                 }
-
-                previousMode = child.LayoutMode;
             }
 
-            if (location.Y < maxHeight)
-                location.Y = maxHeight;
+            location.Y += maxHeight;
 
             return new SizeF(location.X, location.Y);
         }
@@ -125,8 +120,6 @@ namespace Yourgan.Rendering
         {
             isLayoutRequired = true;
         }
-
-
 
         public void PerformLayoutIfRequired()
         {
