@@ -26,19 +26,16 @@ namespace Yourgan.Rendering
     {
         protected GraphicObject()
         {
+            this.style = new Style();
         }
 
-        private LayoutMode layoutMode = LayoutMode.Block;
+        private Style style;
 
-        public LayoutMode LayoutMode
+        public Style Style
         {
             get
             {
-                return layoutMode;
-            }
-            set
-            {
-                layoutMode = value;
+                return style;
             }
         }
 

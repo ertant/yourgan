@@ -58,16 +58,15 @@ namespace Yourgan.Rendering
 
             float maxHeight = 0;
 
-            LayoutMode previousMode = LayoutMode.Block;
-
+            DisplayMode previousMode = DisplayMode.Block;
 
             foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
             {
                 SizeF childSize = child.GetPreferredSize(SizeF.Empty);
 
                 if (
-                    (previousMode != child.LayoutMode) ||
-                    (child.LayoutMode == LayoutMode.Block) ||
+                    (previousMode != child.Style.Display) ||
+                    (child.Style.Display == DisplayMode.Block) ||
                     ((location.X + childSize.Width > rectangle.Width))
                     )
                 {
@@ -76,15 +75,15 @@ namespace Yourgan.Rendering
                     maxHeight = 0;
                 }
 
-                switch (child.LayoutMode)
+                switch (child.Style.Display)
                 {
-                    case LayoutMode.Block:
+                    case DisplayMode.Block:
 
                         child.OffsetBounds = new RectangleF(location, this.owner.ScrollBounds.Size);
 
                         break;
 
-                    case LayoutMode.Inline:
+                    case DisplayMode.Inline:
 
                         child.OffsetBounds = new RectangleF(location, childSize);
 
@@ -93,7 +92,7 @@ namespace Yourgan.Rendering
                         break;
                 }
 
-                previousMode = child.LayoutMode;
+                previousMode = child.Style.Display;
 
                 if (childSize.Height > maxHeight)
                 {
