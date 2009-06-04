@@ -23,10 +23,9 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class Html : Block
+    public class Html : GraphicContainer
     {
         public Html(ModelNode node)
-            : base(node)
         {
         }
 
@@ -40,21 +39,6 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void OnClientBoundsChanged()
-        {
-            base.OnClientBoundsChanged();
-
-            UpdateBodyBounds();
-        }
-
-        private void UpdateBodyBounds()
-        {
-            if (this.body != null)
-            {
-                this.body.ClientBounds = this.ClientBounds;
-            }
-        }
-
         protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
         {
             base.OnChildrenAdded(objects);
@@ -64,8 +48,6 @@ namespace Yourgan.Rendering
                 if (graphicObject is Body)
                 {
                     this.body = graphicObject as Body;
-
-                    UpdateBodyBounds();
                 }
             }
         }

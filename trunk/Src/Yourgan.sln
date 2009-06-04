@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering", "Yourga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.DOM", "Yourgan.DOM\Yourgan.DOM.csproj", "{9C4DF9D4-8B71-4A41-94C0-426516BF903C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering.WindowsForms", "Yourgan.Rendering.WindowsForms\Yourgan.Rendering.WindowsForms.csproj", "{D954A0EA-AC02-440F-867C-382B4055A383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering.WindowsForms.Test", "Yourgan.Rendering.WindowsForms.Test\Yourgan.Rendering.WindowsForms.Test.csproj", "{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D954A0EA-AC02-440F-867C-382B4055A383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D954A0EA-AC02-440F-867C-382B4055A383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D954A0EA-AC02-440F-867C-382B4055A383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D954A0EA-AC02-440F-867C-382B4055A383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

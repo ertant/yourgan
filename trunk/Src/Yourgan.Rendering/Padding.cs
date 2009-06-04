@@ -7,7 +7,16 @@ namespace Yourgan.Rendering
 {
     public class Padding
     {
-        private bool all;
+        public Padding()
+        {
+        }
+
+        public Padding(float all)
+        {
+            this.top = all;
+        }
+
+        private bool all = true;
 
         public float All
         {
@@ -90,6 +99,22 @@ namespace Yourgan.Rendering
             {
                 bottom = value;
                 all = false;
+            }
+        }
+
+        public float Vertical
+        {
+            get
+            {
+                return this.Top + this.Bottom;
+            }
+        }
+
+        public float Horizontal
+        {
+            get
+            {
+                return this.Left + this.Right;
             }
         }
     }

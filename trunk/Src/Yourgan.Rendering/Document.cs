@@ -178,18 +178,28 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void OnClientBoundsChanged()
-        {
-            base.OnClientBoundsChanged();
+        private RectangleF documentSize;
 
-            UpdateDocumentBounds();
+        public RectangleF DocumentSize
+        {
+            get
+            {
+                return documentSize;
+            }
+            set
+            {
+                documentSize = value;
+
+                if (this.documentElement != null)
+                    this.documentElement.Body.Layout.Invalidate();
+            }
         }
 
-        private void UpdateDocumentBounds()
+        public override RectangleF ClientBounds
         {
-            if (documentElement != null)
+            get
             {
-                documentElement.ClientBounds = this.ClientBounds;
+                return documentSize;
             }
         }
 
@@ -202,8 +212,6 @@ namespace Yourgan.Rendering
                 if (graphicObject is Html)
                 {
                     this.documentElement = graphicObject as Html;
-
-                    UpdateDocumentBounds();
                 }
             }
         }
@@ -212,6 +220,8 @@ namespace Yourgan.Rendering
         {
             if (this.documentElement != null)
             {
+                drawingContext.Graphics.FillRectangle(SystemBrushes.Window, this.ClientBounds);
+
                 this.documentElement.Paint(offset, drawingContext);
             }
         }
