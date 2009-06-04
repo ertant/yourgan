@@ -66,7 +66,7 @@ namespace Yourgan.Rendering
         {
             StringFormat format = new StringFormat();
 
-            return FontCache.MeasureString(this.text, this.font, SizeF.Empty, format);
+            return FontCache.MeasureString(this.text, this.font, this.ScrollBounds.Size, format);
         }
 
         protected override void CorePaint(PointF offset, DrawingContext drawingContext)
@@ -76,7 +76,7 @@ namespace Yourgan.Rendering
             client.Offset(offset);
 
             drawingContext.Graphics.DrawString(this.text, font.CachedFont, SystemBrushes.WindowText, client);
-            drawingContext.Graphics.DrawRectangle(SystemPens.WindowFrame, client.X, client.Y, client.Width, client.Height);
+            drawingContext.Graphics.DrawRectangle(SystemPens.MenuHighlight, client.X, client.Y, client.Width, client.Height);
         }
     }
 }

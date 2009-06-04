@@ -53,48 +53,25 @@ namespace Yourgan.Rendering
             }
         }
 
-        private RectangleF clientBounds;
-
-        public RectangleF ClientBounds
+        public virtual RectangleF ClientBounds
         {
             get
             {
-                if (clientBounds.IsEmpty)
-                    return parent.ClientBounds;
-                else
-                    return clientBounds;
-            }
-            set
-            {
-                clientBounds = value;
-                OnClientBoundsChanged();
+                RectangleF client = parent.ClientBounds;
+
+                client.Offset(this.Style.Margin.Left, this.Style.Margin.Top);
+                client.Size = new SizeF(client.Width - this.Style.Margin.Right, client.Height - this.Style.Margin.Bottom);
+
+                return client;
             }
         }
-
-        protected virtual void OnClientBoundsChanged()
-        {
-        }
-
-        private RectangleF scrollBounds;
 
         public RectangleF ScrollBounds
         {
             get
             {
-                if (scrollBounds.IsEmpty)
-                    return this.ClientBounds;
-                else
-                    return scrollBounds;
+                return this.ClientBounds;
             }
-            set
-            {
-                scrollBounds = value;
-                OnScrollBoundsChanged();
-            }
-        }
-
-        protected virtual void OnScrollBoundsChanged()
-        {
         }
 
         private RectangleF offsetBounds;

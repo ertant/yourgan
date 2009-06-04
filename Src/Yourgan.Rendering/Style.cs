@@ -10,6 +10,8 @@ namespace Yourgan.Rendering
         public Style()
         {
             this.display = DisplayMode.Block;
+            this.padding = new Padding(1);
+            this.margin = new Padding(2);
         }
 
         private Padding padding;

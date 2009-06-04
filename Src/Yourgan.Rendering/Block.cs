@@ -32,12 +32,6 @@ namespace Yourgan.Rendering
             this.layout = new FlowLayout(this);
         }
 
-        protected override void OnClientBoundsChanged()
-        {
-            base.OnClientBoundsChanged();
-            this.Layout.Invalidate();
-        }
-
         private ModelNode model;
 
         public ModelNode Model
@@ -77,7 +71,12 @@ namespace Yourgan.Rendering
 
         public SizeF GetAutoSize(SizeF maxSize)
         {
-            return this.Layout.GetAutoSize(maxSize);
+            SizeF size = this.Layout.GetAutoSize(maxSize);
+
+            size.Width += this.Style.Margin.Right;
+            size.Height += this.Style.Margin.Bottom;
+
+            return size;
         }
 
         public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
@@ -95,7 +94,7 @@ namespace Yourgan.Rendering
 
             client.Offset(offset);
 
-            Pen pen = SystemPens.ButtonHighlight;
+            Pen pen = SystemPens.WindowFrame;
 
             drawingContext.Graphics.DrawRectangle(pen, client.X, client.Y, client.Width, client.Height);
         }

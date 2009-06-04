@@ -53,33 +53,45 @@ namespace Yourgan.Rendering
 
         private SizeF PerformLayoutInternal()
         {
-            PointF location = PointF.Empty;
-            RectangleF rectangle = owner.ScrollBounds;
+            GraphicObject[] childs = owner.Childs.ToArrayThreadSafe();
+
+            PointF location = new PointF(this.owner.Style.Margin.Left, this.owner.Style.Margin.Top);
+
+            SizeF scrollSize = this.owner.ScrollBounds.Size;
 
             float maxHeight = 0;
 
             DisplayMode previousMode = DisplayMode.Block;
+            bool isFirst = true;
 
-            foreach (GraphicObject child in owner.Childs.ToArrayThreadSafe())
+            location.Y += this.owner.Style.Padding.Top;
+
+            foreach (GraphicObject child in childs)
             {
                 SizeF childSize = child.GetPreferredSize(SizeF.Empty);
 
-                if (
-                    (previousMode != child.Style.Display) ||
-                    (child.Style.Display == DisplayMode.Block) ||
-                    ((location.X + childSize.Width > rectangle.Width))
+                if (!isFirst &&
+                        (
+                            (previousMode != child.Style.Display) ||
+                            (child.Style.Display == DisplayMode.Block) ||
+                            ((location.X + childSize.Width > scrollSize.Width))
+                        )
                     )
                 {
-                    location.X = 0;
+                    location.X = this.owner.Style.Margin.Left;
                     location.Y += maxHeight;
                     maxHeight = 0;
+
+                    location.Y += this.owner.Style.Padding.Top;
                 }
+
+                location.X += this.owner.Style.Padding.Left;
 
                 switch (child.Style.Display)
                 {
                     case DisplayMode.Block:
 
-                        child.OffsetBounds = new RectangleF(location, this.owner.ScrollBounds.Size);
+                        child.OffsetBounds = new RectangleF(location, new SizeF(scrollSize.Width - this.owner.Style.Padding.Horizontal, childSize.Height));
 
                         break;
 
@@ -92,13 +104,18 @@ namespace Yourgan.Rendering
                         break;
                 }
 
-                previousMode = child.Style.Display;
-
                 if (childSize.Height > maxHeight)
                 {
                     maxHeight = childSize.Height;
                 }
+
+                location.X += this.owner.Style.Padding.Right;
+
+                previousMode = child.Style.Display;
+                isFirst = false;
             }
+
+            location.Y += this.owner.Style.Padding.Bottom;
 
             location.Y += maxHeight;
 
