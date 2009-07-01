@@ -19,21 +19,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public interface ILayout
+    public enum Position
     {
-        void PerformLayout();
-
-        void PerformLayoutIfRequired();
-
-        void Invalidate();
-
-        bool IsLayoutRequired
-        {
-            get;
-        }
+        Inherit,
+        Static,
+        Relative,
+        Fixed,
+        Absolute
     }
 }

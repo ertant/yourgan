@@ -43,14 +43,23 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
+        protected override void CorePaint(DrawingContext drawingContext)
         {
-            offset.X += this.OffsetBounds.X;
-            offset.Y += this.OffsetBounds.Y;
+            if (this is ILayoutProvider)
+            {
+                drawingContext.PushTransform();
+
+                drawingContext.Translate(this.OffsetLeft, this.OffsetTop);
+            }
 
             foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
             {
-                child.Paint(offset, drawingContext);
+                child.Paint(drawingContext);
+            }
+
+            if (this is ILayoutProvider)
+            {
+                drawingContext.PopTransform();
             }
         }
 

@@ -29,7 +29,6 @@ namespace Yourgan.Rendering
         public Block(ModelNode model)
         {
             this.model = model;
-            this.layout = new FlowLayout(this);
         }
 
         private ModelNode model;
@@ -42,61 +41,24 @@ namespace Yourgan.Rendering
             }
         }
 
-        private ILayout layout;
-
-        public ILayout Layout
+        protected override void CorePaint(DrawingContext drawingContext)
         {
-            get
-            {
-                return this.layout;
-            }
-            set
-            {
-                this.layout = value;
-                this.layout.Invalidate();
-            }
-        }
+            base.CorePaint(drawingContext);
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
-        {
-            base.OnChildrenAdded(objects);
-            this.Layout.Invalidate();
-        }
+            drawingContext.PushTransform();
 
-        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
-        {
-            base.OnChildrenRemoved(objects);
-            this.Layout.Invalidate();
-        }
+            drawingContext.Translate(this.OffsetLeft, this.OffsetTop);
 
-        public SizeF GetAutoSize(SizeF maxSize)
-        {
-            SizeF size = this.Layout.GetAutoSize(maxSize);
+            Pen pen = Pens.Red;
 
-            size.Width += this.Style.Margin.Right;
-            size.Height += this.Style.Margin.Bottom;
+            if (this is Body)
+                pen = Pens.Cyan;
+            if (this.Model.Element.LocalName == "span")
+                pen = Pens.LawnGreen;
 
-            return size;
-        }
+            drawingContext.Graphics.DrawRectangle(pen, 0, 0, this.OffsetWidth, this.OffsetHeight);
 
-        public override System.Drawing.SizeF GetPreferredSize(System.Drawing.SizeF proposedSize)
-        {
-            return this.GetAutoSize(proposedSize);
-        }
-
-        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
-        {
-            this.Layout.PerformLayoutIfRequired();
-
-            base.CorePaint(offset, drawingContext);
-
-            RectangleF client = this.OffsetBounds;
-
-            client.Offset(offset);
-
-            Pen pen = SystemPens.WindowFrame;
-
-            drawingContext.Graphics.DrawRectangle(pen, client.X, client.Y, client.Width, client.Height);
+            drawingContext.PopTransform();
         }
     }
 }

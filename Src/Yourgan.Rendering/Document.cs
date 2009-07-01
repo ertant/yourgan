@@ -128,7 +128,6 @@ namespace Yourgan.Rendering
                                     Block block = new Block(node);
 
                                     block.Style.Display = DisplayMode.Inline;
-                                    block.Layout = new FlowLayout(block);
 
                                     obj = block;
 
@@ -195,11 +194,83 @@ namespace Yourgan.Rendering
             }
         }
 
-        public override RectangleF ClientBounds
+        public override float ClientLeft
         {
             get
             {
-                return documentSize;
+                return 0;
+            }
+        }
+
+        public override float ClientTop
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public override float ClientHeight
+        {
+            get
+            {
+                return this.documentSize.Height;
+            }
+        }
+
+        public override float ClientWidth
+        {
+            get
+            {
+                return this.documentSize.Width;
+            }
+        }
+
+        public override float PixelsHeight
+        {
+            get
+            {
+                return this.documentSize.Height;
+            }
+        }
+
+        public override float PixelsWidth
+        {
+            get
+            {
+                return this.documentSize.Width;
+            }
+        }
+
+        public override float OffsetLeft
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public override float OffsetTop
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public override float ScrollWidth
+        {
+            get
+            {
+                return this.ClientWidth;
+            }
+        }
+
+        public override float ScrollHeight
+        {
+            get
+            {
+                return this.ClientHeight;
             }
         }
 
@@ -216,13 +287,13 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
+        protected override void CorePaint(DrawingContext drawingContext)
         {
             if (this.documentElement != null)
             {
-                drawingContext.Graphics.FillRectangle(SystemBrushes.Window, this.ClientBounds);
+                drawingContext.Graphics.FillRectangle(SystemBrushes.Window, this.ClientLeft, this.ClientTop, this.ClientWidth, this.ClientHeight);
 
-                this.documentElement.Paint(offset, drawingContext);
+                this.documentElement.Paint(drawingContext);
             }
         }
     }

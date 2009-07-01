@@ -39,6 +39,22 @@ namespace Yourgan.Rendering
             }
         }
 
+        public override float PixelsHeight
+        {
+            get
+            {
+                return this.Parent.PixelsHeight;
+            }
+        }
+
+        public override float PixelsWidth
+        {
+            get
+            {
+                return this.Parent.PixelsWidth;
+            }
+        }
+
         protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
         {
             base.OnChildrenAdded(objects);
@@ -52,11 +68,11 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
+        protected override void CorePaint(DrawingContext drawingContext)
         {
             if (this.body != null)
             {
-                this.body.Paint(offset, drawingContext);
+                this.body.Paint(drawingContext);
             }
         }
     }

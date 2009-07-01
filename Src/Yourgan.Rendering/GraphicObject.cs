@@ -53,60 +53,145 @@ namespace Yourgan.Rendering
             }
         }
 
-        public virtual RectangleF ClientBounds
+        public virtual float ClientTop
         {
             get
             {
-                RectangleF client = parent.ClientBounds;
-
-                client.Offset(this.Style.Margin.Left, this.Style.Margin.Top);
-                client.Size = new SizeF(client.Width - this.Style.Margin.Right, client.Height - this.Style.Margin.Bottom);
-
-                return client;
+                return parent.ClientTop;
             }
         }
 
-        public RectangleF ScrollBounds
+        public virtual float ClientLeft
         {
             get
             {
-                return this.ClientBounds;
+                return parent.ClientLeft;
             }
         }
 
-        private RectangleF offsetBounds;
-
-        public RectangleF OffsetBounds
+        public virtual float ClientWidth
         {
             get
             {
-                return offsetBounds;
-            }
-            set
-            {
-                offsetBounds = value;
-                OnOffsetBoundsChanged();
+                return this.OffsetWidth + this.Style.Padding.Horizontal;
             }
         }
 
-        protected virtual void OnOffsetBoundsChanged()
-        {
-        }
-
-        public virtual bool HasPreferredWidth
+        public virtual float ClientHeight
         {
             get
             {
-                return false;
+                return this.OffsetHeight + this.Style.Padding.Vertical;
             }
         }
 
-        public virtual bool HasPreferredHeight
+        public virtual float ScrollTop
         {
             get
             {
-                return false;
+                return parent.ScrollTop;
             }
+        }
+
+        public virtual float ScrollLeft
+        {
+            get
+            {
+                return parent.ScrollLeft;
+            }
+        }
+
+        public virtual float ScrollWidth
+        {
+            get
+            {
+                return parent.ScrollWidth;
+            }
+        }
+
+        public virtual float ScrollHeight
+        {
+            get
+            {
+                return parent.ScrollHeight;
+            }
+        }
+
+        float offsetTop = -1;
+
+        public virtual float OffsetTop
+        {
+            get
+            {
+                if (this.offsetTop < 0)
+                    return parent.OffsetTop;
+                else
+                    return this.offsetTop;
+            }
+        }
+
+        float offsetLeft = -1;
+
+        public virtual float OffsetLeft
+        {
+            get
+            {
+                if (this.offsetLeft < 0)
+                    return parent.OffsetLeft;
+                else
+                    return this.offsetLeft;
+            }
+        }
+
+        public float OffsetWidth
+        {
+            get
+            {
+                return this.PixelsWidth;
+            }
+        }
+
+        public float OffsetHeight
+        {
+            get
+            {
+                return this.PixelsHeight;
+            }
+        }
+
+        float pixelsWidth;
+
+        public virtual float PixelsWidth
+        {
+            get
+            {
+                return pixelsWidth;
+            }
+        }
+
+        float pixelsHeight;
+
+        public virtual float PixelsHeight
+        {
+            get
+            {
+                return pixelsHeight;
+            }
+        }
+
+        internal void UpdateOffset(float x, float y)
+        {
+            this.offsetLeft = x;
+            this.offsetTop = y;
+        }
+
+        internal void UpdateSize(float width, float height)
+        {
+            if (width > 0)
+                this.pixelsWidth = width;
+
+            if (height > 0)
+                this.pixelsHeight = height;
         }
 
         private Document ownerDocument;
@@ -123,19 +208,13 @@ namespace Yourgan.Rendering
             }
         }
 
-        public virtual SizeF GetPreferredSize(SizeF proposedSize)
+        protected virtual void CorePaint(DrawingContext drawingContext)
         {
-            return proposedSize;
         }
 
-        protected virtual void CorePaint(PointF offset, DrawingContext drawingContext)
+        public void Paint(DrawingContext drawingContext)
         {
-
-        }
-
-        public void Paint(PointF offset, DrawingContext drawingContext)
-        {
-            CorePaint(offset, drawingContext);
+            CorePaint(drawingContext);
         }
     }
 }

@@ -40,86 +40,110 @@ namespace Yourgan.Rendering
             }
         }
 
-        public SizeF GetAutoSize(SizeF maxSize)
-        {
-            return PerformLayoutInternal();
-        }
-
         public void PerformLayout()
         {
-            PerformLayoutInternal();
+            PerformLayoutInternal(this.owner, PointF.Empty, this.owner.ScrollWidth);
+
             isLayoutRequired = false;
         }
 
-        private SizeF PerformLayoutInternal()
+        private static void LineFeed(ref PointF location, PointF origin, ref float maxHeight)
         {
-            GraphicObject[] childs = owner.Childs.ToArrayThreadSafe();
+            location.X = origin.X;
+            location.Y += maxHeight;
+            maxHeight = 0;
+        }
 
-            PointF location = new PointF(this.owner.Style.Margin.Left, this.owner.Style.Margin.Top);
+        private static void PerformLayoutIfRequired(GraphicObject child, PointF location, float scrollWidth)
+        {
+            ILayoutProvider childLayout = child as ILayoutProvider;
 
-            SizeF scrollSize = this.owner.ScrollBounds.Size;
+            if (childLayout != null)
+            {
+                childLayout.Layout.PerformLayoutIfRequired();
+            }
+            else
+            {
+                GraphicContainer childContainer = child as GraphicContainer;
 
+                if (childContainer != null)
+                {
+                    PerformLayoutInternal(childContainer, location, scrollWidth);
+                }
+            }
+        }
+
+        private static void PerformLayoutInternal(GraphicContainer container, PointF offset, float scrollWidth)
+        {
+            GraphicObject[] childs = container.Childs.ToArrayThreadSafe();
+
+            PointF origin = offset;
+
+            origin.X += container.Style.Margin.Left;
+            origin.Y += container.Style.Margin.Top;
+
+            PointF location = offset;
+
+            float maxWidth = 0;
             float maxHeight = 0;
-
-            DisplayMode previousMode = DisplayMode.Block;
-            bool isFirst = true;
-
-            location.Y += this.owner.Style.Padding.Top;
 
             foreach (GraphicObject child in childs)
             {
-                SizeF childSize = child.GetPreferredSize(SizeF.Empty);
-
-                if (!isFirst &&
-                        (
-                            (previousMode != child.Style.Display) ||
-                            (child.Style.Display == DisplayMode.Block) ||
-                            ((location.X + childSize.Width > scrollSize.Width))
-                        )
-                    )
+                if (child.Style.Display == DisplayMode.Block)
                 {
-                    location.X = this.owner.Style.Margin.Left;
-                    location.Y += maxHeight;
-                    maxHeight = 0;
-
-                    location.Y += this.owner.Style.Padding.Top;
+                    LineFeed(ref location, origin, ref maxHeight);
                 }
 
-                location.X += this.owner.Style.Padding.Left;
+                PerformLayoutIfRequired(child, location, scrollWidth);
 
                 switch (child.Style.Display)
                 {
                     case DisplayMode.Block:
+                        {
+                            child.UpdateOffset(location.X, location.Y);
 
-                        child.OffsetBounds = new RectangleF(location, new SizeF(scrollSize.Width - this.owner.Style.Padding.Horizontal, childSize.Height));
+                            location.Y = child.OffsetTop + child.OffsetHeight;
+                            location.X = origin.X;
 
-                        break;
+                            maxHeight = 0;
 
+                            break;
+                        }
                     case DisplayMode.Inline:
+                        {
+                            if (location.X + child.OffsetWidth > container.ScrollWidth)
+                            {
+                                LineFeed(ref location, origin, ref maxHeight);
 
-                        child.OffsetBounds = new RectangleF(location, childSize);
+                                PerformLayoutIfRequired(child, location, scrollWidth);
+                            }
 
-                        location.X += childSize.Width;
+                            child.UpdateOffset(location.X, location.Y);
 
-                        break;
+                            location.X += child.OffsetWidth;
+
+                            if (maxHeight < child.OffsetHeight)
+                            {
+                                maxHeight = child.OffsetHeight;
+                            }
+
+                            break;
+                        }
                 }
 
-                if (childSize.Height > maxHeight)
-                {
-                    maxHeight = childSize.Height;
-                }
-
-                location.X += this.owner.Style.Padding.Right;
-
-                previousMode = child.Style.Display;
-                isFirst = false;
+                location.X += child.Style.Padding.Right;
             }
 
-            location.Y += this.owner.Style.Padding.Bottom;
-
             location.Y += maxHeight;
+            location.Y += container.Style.Padding.Bottom;
 
-            return new SizeF(location.X, location.Y);
+            if (container.Style.Display == DisplayMode.Block)
+            {
+                location.X = container.ScrollWidth;
+            }
+
+            container.UpdateOffset(offset.X, offset.Y);
+            container.UpdateSize(location.X - offset.X, location.Y - offset.Y);
         }
 
         private bool isLayoutRequired;
