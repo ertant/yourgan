@@ -93,6 +93,15 @@ namespace Yourgan.Rendering
             }
         }
 
+        private GraphicObject CreateBlock(ModelNode node, DisplayMode mode)
+        {
+            Block block = new Block(node);
+
+            block.Style.Display = mode;
+
+            return block;
+        }
+
         public GraphicObject Create(GraphicContainer parent, System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
@@ -117,20 +126,18 @@ namespace Yourgan.Rendering
                                 }
                             case "div":
                                 {
-                                    Block block = new Block(node);
-
-                                    obj = block;
-
+                                    obj = CreateBlock(node, DisplayMode.Block);
                                     break;
                                 }
+                            case "font":
                             case "span":
                                 {
-                                    Block block = new Block(node);
-
-                                    block.Style.Display = DisplayMode.Inline;
-
-                                    obj = block;
-
+                                    obj = CreateBlock(node, DisplayMode.Inline);
+                                    break;
+                                }
+                            case "a":
+                                {
+                                    obj = CreateBlock(node, DisplayMode.Inline);
                                     break;
                                 }
                             default:
