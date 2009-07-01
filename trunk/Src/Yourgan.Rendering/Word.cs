@@ -62,21 +62,62 @@ namespace Yourgan.Rendering
             }
         }
 
-        public override SizeF GetPreferredSize(SizeF proposedSize)
+        public override float ClientWidth
         {
-            StringFormat format = new StringFormat();
-
-            return FontCache.MeasureString(this.text, this.font, this.ScrollBounds.Size, format);
+            get
+            {
+                return 0;
+            }
         }
 
-        protected override void CorePaint(PointF offset, DrawingContext drawingContext)
+        public override float ClientHeight
         {
-            RectangleF client = this.OffsetBounds;
+            get
+            {
+                return 0;
+            }
+        }
 
-            client.Offset(offset);
+        public override float PixelsHeight
+        {
+            get
+            {
+                SizeF size = GetAutoSize();
 
-            drawingContext.Graphics.DrawString(this.text, font.CachedFont, SystemBrushes.WindowText, client);
-            drawingContext.Graphics.DrawRectangle(SystemPens.MenuHighlight, client.X, client.Y, client.Width, client.Height);
+                return size.Height;
+            }
+        }
+
+        public override float PixelsWidth
+        {
+            get
+            {
+                SizeF size = GetAutoSize();
+
+                return size.Width;
+            }
+        }
+
+        SizeF autoSize;
+
+        private SizeF GetAutoSize()
+        {
+            if (autoSize == SizeF.Empty)
+            {
+                StringFormat format = new StringFormat();
+
+                autoSize = FontCache.MeasureString(this.text, this.font, new SizeF(this.ScrollWidth, 0), format);
+            }
+
+            return autoSize;
+        }
+
+        protected override void CorePaint(DrawingContext drawingContext)
+        {
+            RectangleF rect = new RectangleF(this.OffsetLeft, this.OffsetTop, this.OffsetWidth, this.OffsetHeight);
+
+            drawingContext.Graphics.DrawString(this.text, font.CachedFont, SystemBrushes.WindowText, rect);
+            drawingContext.Graphics.DrawRectangle(SystemPens.MenuHighlight, rect.X, rect.Y, rect.Width, rect.Height);
         }
     }
 }

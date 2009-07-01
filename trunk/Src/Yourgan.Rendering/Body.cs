@@ -19,14 +19,61 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class Body : Block
+    public class Body : Block, ILayoutProvider
     {
         public Body(ModelNode model)
             : base(model)
         {
+            this.layout = new FlowLayout(this);
+        }
+
+        ILayout layout;
+
+        public ILayout Layout
+        {
+            get
+            {
+                return this.layout;
+            }
+        }
+
+        public override float PixelsHeight
+        {
+            get
+            {
+                return this.Parent.PixelsHeight;
+            }
+        }
+
+        public override float PixelsWidth
+        {
+            get
+            {
+                return this.Parent.PixelsWidth;
+            }
+        }
+
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        {
+            base.OnChildrenAdded(objects);
+            this.Layout.Invalidate();
+        }
+
+        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
+        {
+            base.OnChildrenRemoved(objects);
+            this.Layout.Invalidate();
+        }
+
+        protected override void CorePaint(DrawingContext drawingContext)
+        {
+            this.Layout.PerformLayoutIfRequired();
+
+            base.CorePaint(drawingContext);
         }
     }
 }

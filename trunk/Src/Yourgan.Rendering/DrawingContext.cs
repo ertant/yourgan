@@ -39,5 +39,22 @@ namespace Yourgan.Rendering
                 return graphics;
             }
         }
+
+        Stack<System.Drawing.Drawing2D.Matrix> transformStack = new Stack<System.Drawing.Drawing2D.Matrix>();
+
+        public void PushTransform()
+        {
+            transformStack.Push(this.graphics.Transform);
+        }
+
+        public void PopTransform()
+        {
+            this.graphics.Transform = transformStack.Pop();
+        }
+
+        public void Translate(float dx, float dy)
+        {
+            this.graphics.TranslateTransform(dx, dy);
+        }
     }
 }

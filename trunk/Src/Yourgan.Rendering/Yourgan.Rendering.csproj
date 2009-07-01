@@ -47,9 +47,10 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
     <Compile Include="Body.cs" />
+    <Compile Include="FlowLayout.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="DisplayMode.cs" />
     <Compile Include="DrawingContext.cs" />
-    <Compile Include="FlowLayout.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="FontCache.cs" />
