@@ -47,10 +47,16 @@ namespace Yourgan.Rendering
             isLayoutRequired = false;
         }
 
-        private static void LineFeed(ref PointF location, PointF origin, ref float maxHeight)
+        private static void LineFeed(GraphicContainer container, ref PointF location, PointF origin, ref float maxHeight, bool includeBottom)
         {
             location.X = origin.X;
             location.Y += maxHeight;
+
+            if (includeBottom)
+            {
+                location.Y += container.Style.Padding.Bottom;
+            }
+
             maxHeight = 0;
         }
 
@@ -82,16 +88,23 @@ namespace Yourgan.Rendering
             origin.X += container.Style.Margin.Left;
             origin.Y += container.Style.Margin.Top;
 
-            PointF location = offset;
+            PointF location = origin;
 
-            float maxWidth = 0;
             float maxHeight = 0;
+            bool isFirst = true;
+
+            location.Y += container.Style.Padding.Top;
 
             foreach (GraphicObject child in childs)
             {
+                location.X += container.Style.Padding.Left;
+                //location.Y += container.Style.Padding.Top;
+
                 if (child.Style.Display == DisplayMode.Block)
                 {
-                    LineFeed(ref location, origin, ref maxHeight);
+                    LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
+
+                    location.X += container.Style.Padding.Left;
                 }
 
                 PerformLayoutIfRequired(child, location, scrollWidth);
@@ -103,17 +116,18 @@ namespace Yourgan.Rendering
                             child.UpdateOffset(location.X, location.Y);
 
                             location.Y = child.OffsetTop + child.OffsetHeight;
-                            location.X = origin.X;
 
-                            maxHeight = 0;
+                            LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
 
                             break;
                         }
                     case DisplayMode.Inline:
                         {
-                            if (location.X + child.OffsetWidth > container.ScrollWidth)
+                            if (location.X + child.OffsetWidth + container.Style.Padding.Right > container.ScrollWidth - offset.X)
                             {
-                                LineFeed(ref location, origin, ref maxHeight);
+                                LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
+
+                                location.X += container.Style.Padding.Left;
 
                                 PerformLayoutIfRequired(child, location, scrollWidth);
                             }
@@ -132,6 +146,7 @@ namespace Yourgan.Rendering
                 }
 
                 location.X += child.Style.Padding.Right;
+                isFirst = false;
             }
 
             location.Y += maxHeight;
@@ -139,8 +154,11 @@ namespace Yourgan.Rendering
 
             if (container.Style.Display == DisplayMode.Block)
             {
-                location.X = container.ScrollWidth;
+                location.X = container.ScrollWidth - offset.X - container.Style.Padding.Right - container.Style.Margin.Right;
             }
+
+            location.Y += container.Style.Margin.Bottom;
+            location.X += container.Style.Margin.Right;
 
             container.UpdateOffset(offset.X, offset.Y);
             container.UpdateSize(location.X - offset.X, location.Y - offset.Y);

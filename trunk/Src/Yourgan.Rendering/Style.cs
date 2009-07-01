@@ -28,8 +28,8 @@ namespace Yourgan.Rendering
         {
             this.display = DisplayMode.Block;
             this.position = Position.Inherit;
-            this.padding = new Padding(0);
-            this.margin = new Padding(0);
+            this.padding = new Padding(2);
+            this.margin = new Padding(4);
         }
 
         private Padding padding;
