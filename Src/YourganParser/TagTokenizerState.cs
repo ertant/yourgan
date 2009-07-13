@@ -28,7 +28,7 @@ namespace Yourgan.Parser
         public TagTokenizerState(System.Xml.XmlDocument document)
         {
             this.entityGeneration = new EntityGenerationState(this, document);
-            this.decoder = System.Text.Encoding.UTF8.GetDecoder();
+            this.encoding = System.Text.Encoding.UTF8;
             this.handler = TagTokenizer.Data;
         }
 
@@ -108,25 +108,17 @@ namespace Yourgan.Parser
 
         public char[] Buffer;
 
-        public int Offset;
+        //public int Offset;
 
-        public int Length;
+        public int Position;
 
-        Decoder decoder;
+        Encoding encoding;
 
-        public Decoder Encoding
+        public Encoding Encoding
         {
             get
             {
-                return decoder;
-            }
-        }
-
-        public bool HasMore
-        {
-            get
-            {
-                return this.Offset < this.Length;
+                return encoding;
             }
         }
 
@@ -252,32 +244,51 @@ namespace Yourgan.Parser
             this.EntityGeneration.Emit(tokenValue, TokenType.Data);
         }
 
+        StringBuilder dataBuilder = new StringBuilder();
+
         public void EmitData()
         {
-            string tokenValue = new string(this.token.ToArray());
+            dataBuilder.Length = 0;
 
-            // scan value
-            for (int i = 0; i < tokenValue.Length; i++)
+            bool isPreviousWhitespace = false;
+
+            foreach (char c in this.token)
             {
-                // is current not a whitespace ?
-                if (!char.IsWhiteSpace(tokenValue, i))
+                if (char.IsWhiteSpace(c))
                 {
-                    this.EntityGeneration.Emit(tokenValue, TokenType.Data);
+                    if (isPreviousWhitespace)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        isPreviousWhitespace = true;
 
-                    // mark as processed
-                    this.ClearToken();
+                        dataBuilder.Append(c);
+                    }
+                }
+                else
+                {
+                    isPreviousWhitespace = false;
 
-                    break;
+                    dataBuilder.Append(c);
                 }
             }
 
-            // is not processed ?
-            if (this.token.Count > 0)
+            // any real data processed ?
+            if (dataBuilder.Length > 1)
+            {
+                // emit data
+                this.EntityGeneration.Emit(dataBuilder.ToString(), TokenType.Data);
+            }
+            else
             {
                 // emit as whitespace
-                this.EntityGeneration.Emit(tokenValue, TokenType.WhiteSpace);
-                this.ClearToken();
+                this.EntityGeneration.Emit(dataBuilder.ToString(), TokenType.WhiteSpace);
             }
+
+            // mark as processed
+            this.ClearToken();
         }
 
         public void SetError()
@@ -294,27 +305,40 @@ namespace Yourgan.Parser
             this.handler = newHandler;
         }
 
-        public void Parse(byte[] buffer, int offset, int length)
+        Stack<ProcessCharHandler> handlerStack = new Stack<ProcessCharHandler>();
+
+        public void PushState(ProcessCharHandler newHandler)
         {
-            int charCount = this.Encoding.GetCharCount(buffer, offset, length);
+            handlerStack.Push(this.handler);
 
-            if (charCount > this.Length)
+            this.handler = newHandler;
+        }
+
+        public void PopState()
+        {
+            this.handler = handlerStack.Pop();
+        }
+
+        public void Parse(char[] buffer, int offset, int length)
+        {
+            this.Buffer = buffer;
+
+            fixed (char* c = buffer)
             {
-                Array.Resize(ref this.Buffer, charCount);
-            }
+                this.Position = offset;
 
-            this.Offset = 0;
-            this.Length = this.Encoding.GetChars(buffer, offset, length, this.Buffer, 0);
-
-            fixed (char* c = this.Buffer)
-            {
-                while (this.HasMore)
+                while (this.Position < offset + length)
                 {
-                    int tmpOffset = this.Offset++;
+                    this.Position++;
 
-                    this.handler(this, c + tmpOffset);
+                    this.handler(this, c + offset + Position - 1);
                 }
             }
+        }
+
+        public void Parse(char c)
+        {
+            this.handler(this, &c);
         }
     }
 }

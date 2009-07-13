@@ -24,7 +24,7 @@ using System.Drawing;
 namespace Yourgan.Rendering
 {
     [DebuggerDisplay("{Model.Element.Name}")]
-    public class Block : GraphicContainer
+    public class Block : GraphicElement
     {
         public Block(ModelNode model)
         {

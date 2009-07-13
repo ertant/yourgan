@@ -1033,6 +1033,11 @@ namespace Yourgan.Parser
                                 // TODO : Clear the list of active formatting elements up to the last marker. 
                             }
                         }
+                        // Custom fix
+                        else if (entity.IsOneOfTag("option"))
+                        {
+                            state.CloseInStack(entity.Data);
+                        }
                         // Any other end tag 
                         else
                         {
@@ -1050,7 +1055,7 @@ namespace Yourgan.Parser
                                     state.CloseImpliedTags();
 
                                     // If the tag name of the end tag token does not match the tag name of the current node, this is a parse error. 
-                                    if (!entity.IsTag(node.LocalName))
+                                    if (!entity.IsTag(state.Current.LocalName))
                                     {
                                         state.SetError(EntityErrorCode.UnexpectedEndTag, entity);
                                     }

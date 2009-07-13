@@ -22,69 +22,26 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public abstract class GraphicContainer : GraphicObject, IChildManager
+    public abstract class GraphicContainer : GraphicElement, IChildManager
     {
         protected GraphicContainer()
         {
         }
 
-        private GraphicObjectCollection childs;
+        private GraphicNodeCollection childs;
 
-        public GraphicObjectCollection Childs
+        public GraphicNodeCollection Childs
         {
             get
             {
                 if (childs == null)
                 {
-                    childs = new GraphicObjectCollection(this);
+                    childs = new GraphicNodeCollection(this);
                 }
 
                 return childs;
             }
         }
 
-        protected override void CorePaint(DrawingContext drawingContext)
-        {
-            if (this is ILayoutProvider)
-            {
-                drawingContext.PushTransform();
-
-                drawingContext.Translate(this.OffsetLeft, this.OffsetTop);
-            }
-
-            foreach (GraphicObject child in this.Childs.ToArrayThreadSafe())
-            {
-                child.Paint(drawingContext);
-            }
-
-            if (this is ILayoutProvider)
-            {
-                drawingContext.PopTransform();
-            }
-        }
-
-        #region IChildManager
-
-        public void AddChildren(IEnumerable<GraphicObject> objects)
-        {
-            this.Childs.AddRange(objects);
-        }
-
-        public void RemoveChildren(IEnumerable<GraphicObject> objects)
-        {
-            this.Childs.RemoveRange(objects);
-        }
-
-        protected internal virtual void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
-        {
-
-        }
-
-        protected internal virtual void OnChildrenAdded(IEnumerable<GraphicObject> objects)
-        {
-
-        }
-
-        #endregion
     }
 }

@@ -38,6 +38,7 @@ namespace Yourgan.Parser
             AttributeValueDoubleQuoted = _AttributeValueDoubleQuoted;
             AttributeValueSingleQuoted = _AttributeValueSingleQuoted;
             AttributeValueUnQuoted = _AttributeValueUnQuoted;
+            AttributeValueCharacterReference = _AttributeValueCharacterReference;
             AfterAttributeValueQuoted = _AfterAttributeValueQuoted;
             BogusComment = _BogusComment;
             CommentStart = _CommentStart;
@@ -74,6 +75,7 @@ namespace Yourgan.Parser
         private readonly static ProcessCharHandler AttributeValueDoubleQuoted;
         private readonly static ProcessCharHandler AttributeValueSingleQuoted;
         private readonly static ProcessCharHandler AttributeValueUnQuoted;
+        private readonly static ProcessCharHandler AttributeValueCharacterReference;
         private readonly static ProcessCharHandler AfterAttributeValueQuoted;
         private readonly static ProcessCharHandler BogusComment;
         private readonly static ProcessCharHandler CommentStart;
@@ -175,7 +177,7 @@ namespace Yourgan.Parser
                             // Parse error. Emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
                             state.SetError();
                             // TODO : Emit a U+003C LESS-THAN SIGN character token
-                            state.Offset--;
+                            state.Position--;
                             state.Switch(Data);
                         }
 
@@ -249,21 +251,17 @@ namespace Yourgan.Parser
             {
                 case '>':
                     {
+                        // Set the self-closing flag of the current tag token. Emit the current tag token. Switch to the data state.
                         state.EmitSelfClosedElement();
                         state.Switch(Data);
                         break;
                     }
                 default:
                     {
-                        if (state.HasMore)
-                        {
-                            state.Offset--;
-                            state.Switch(BeforeAttributeName);
-                        }
-
-                        // TODO : EOF but what now ?
-                        state.Switch(Data);
-
+                        // Parse error. Reconsume the character in the before attribute name state.
+                        state.SetError();
+                        state.Position--;
+                        state.Switch(BeforeAttributeName);
                         break;
                     }
             }
@@ -494,7 +492,7 @@ namespace Yourgan.Parser
                     }
                 case '&':
                     {
-                        state.Switch(CharacterRefence);
+                        state.PushState(AttributeValueCharacterReference);
                         break;
                     }
                 default:
@@ -517,7 +515,7 @@ namespace Yourgan.Parser
                     }
                 case '&':
                     {
-                        state.Switch(CharacterRefence);
+                        state.PushState(AttributeValueCharacterReference);
                         break;
                     }
                 default:
@@ -543,7 +541,7 @@ namespace Yourgan.Parser
                     }
                 case '&':
                     {
-                        state.Switch(CharacterRefence);
+                        state.PushState(AttributeValueCharacterReference);
                         break;
                     }
                 case '>':
@@ -558,6 +556,22 @@ namespace Yourgan.Parser
                         break;
                     }
             }
+        }
+
+        private static void _AttributeValueCharacterReference(TagTokenizerState state, char* c)
+        {
+            char? consumedCharacter = ConsumeCharacter(state);
+
+            if (consumedCharacter == null)
+            {
+                state.AddToken('&');
+            }
+            else
+            {
+                state.AddToken(consumedCharacter.Value);
+            }
+
+            state.PopState();
         }
 
         private static void _AfterAttributeValueQuoted(TagTokenizerState state, char* c)
@@ -584,7 +598,7 @@ namespace Yourgan.Parser
                     }
                 default:
                     {
-                        state.Offset--;
+                        state.Position--;
                         state.Switch(BeforeAttributeName);
                         break;
                     }
@@ -737,7 +751,7 @@ namespace Yourgan.Parser
                 // Otherwise, if the next seven characters are an ASCII case-insensitive match for the word "DOCTYPE", then consume those characters and switch to the DOCTYPE state.
                 if (string.Equals(tmpVal, "DOCTYPE", StringComparison.OrdinalIgnoreCase))
                 {
-                    state.Offset += 6;
+                    state.Position += 6;
                     state.Switch(DocType);
                 }
                 // Otherwise, if the insertion mode is "in foreign content" and the current node is not an element in the HTML namespace and 
@@ -747,7 +761,7 @@ namespace Yourgan.Parser
                 else if (string.Equals(tmpVal, "[CDATA[", StringComparison.Ordinal))
                 {
                     // TODO : CDATA state
-                    state.Offset += 6;
+                    state.Position += 6;
                     state.Switch(Data);
                 }
                 else
@@ -756,7 +770,7 @@ namespace Yourgan.Parser
                     // Switch to the bogus comment state. 
                     // The next character that is consumed, if any, is the first character that will be in the comment.
                     state.SetError();
-                    state.Offset--;
+                    state.Position--;
                     state.Switch(BogusComment);
                 }
             }
@@ -878,14 +892,14 @@ namespace Yourgan.Parser
                         // and switch to the before DOCTYPE public identifier state.
                         if (tokenVal.Equals("PUBLIC", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            state.Offset += 6;
+                            state.Position += 6;
                             state.Switch(BeforeDocTypePublicIdentifier);
                         }
                         // Otherwise, if the next six characters are an ASCII case-insensitive match for the word "SYSTEM", 
                         // then consume those characters and switch to the before DOCTYPE system identifier state.
                         else if (tokenVal.Equals("SYSTEM", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            state.Offset += 6;
+                            state.Position += 6;
                             state.Switch(BeforeDocTypeSystemIdentifier);
                         }
                         // Otherwise, this is the parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
@@ -1192,5 +1206,32 @@ namespace Yourgan.Parser
             }
         }
 
+        private static char? ConsumeCharacter(TagTokenizerState state)
+        {
+            char c = state.Buffer[state.Position];
+
+            switch (c)
+            {
+                case '\t':
+                case '\r':
+                case '\n':
+                case ' ':
+                case '<':
+                case '&':
+                    {
+                        return null;
+                    }
+                case '#':
+                    {
+                        // TODO : implement
+                        return null;
+                    }
+                default:
+                    {
+                        // TODO : implement
+                        return null;
+                    }
+            }
+        }
     }
 }

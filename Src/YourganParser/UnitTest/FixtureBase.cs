@@ -29,15 +29,19 @@ namespace Yourgan.Parser.UnitTest
 
                 using (Stream input = new MemoryStream(bytes))
                 {
-                    int size = 512;
-                    byte[] buffer = new byte[size];
-
-                    while (size > 0)
+                    using (StreamReader reader = new StreamReader(input))
                     {
-                        size = input.Read(buffer, 0, size);
+                        int size = 512;
+                        char[] buffer = new char[size];
 
-                        stream.Write(buffer, 0, size);
+                        while (size > 0)
+                        {
+                            size = reader.Read(buffer, 0, size);
+
+                            stream.Write(buffer, 0, size);
+                        }
                     }
+
                 }
             }
 

@@ -21,9 +21,9 @@ using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public class GraphicObjectCollection : OwnedCollection<GraphicObject>
+    public class GraphicNodeCollection : OwnedCollection<GraphicNode>
     {
-        public GraphicObjectCollection(GraphicContainer container)
+        public GraphicNodeCollection(GraphicNode container)
         {
             if (container == null)
                 throw new ArgumentNullException("container");
@@ -31,9 +31,9 @@ namespace Yourgan.Rendering
             this.owner = container;
         }
 
-        private GraphicContainer owner;
+        private GraphicNode owner;
 
-        public GraphicContainer Owner
+        public GraphicNode Owner
         {
             get
             {
@@ -43,11 +43,11 @@ namespace Yourgan.Rendering
 
         protected override void ClearItems()
         {
-            GraphicObject[] items = this.ToArray();
+            GraphicNode[] items = this.ToArray();
 
             base.ClearItems();
 
-            foreach (GraphicObject item in items)
+            foreach (GraphicNode item in items)
             {
                 item.Parent = null;
             }
@@ -55,11 +55,11 @@ namespace Yourgan.Rendering
             owner.OnChildrenRemoved(items);
         }
 
-        protected override void InsertItems(int index, IEnumerable<GraphicObject> collection)
+        protected override void InsertItems(int index, IEnumerable<GraphicNode> collection)
         {
             base.InsertItems(index, collection);
 
-            foreach (GraphicObject item in collection)
+            foreach (GraphicNode item in collection)
             {
                 item.Parent = this.owner;
             }
@@ -69,13 +69,13 @@ namespace Yourgan.Rendering
 
         protected override void RemoveItems(int index, int count)
         {
-            GraphicObject[] childs = new GraphicObject[count];
+            GraphicElement[] childs = new GraphicElement[count];
 
-            ((List<GraphicObject>)base.Items).CopyTo(index, childs, 0, count);
+            ((List<GraphicElement>)base.Items).CopyTo(index, childs, 0, count);
 
             base.RemoveItems(index, count);
 
-            foreach (GraphicObject item in childs)
+            foreach (GraphicElement item in childs)
             {
                 item.Parent = null;
             }
@@ -83,12 +83,12 @@ namespace Yourgan.Rendering
             owner.OnChildrenRemoved(childs);
         }
 
-        public void RemoveRange(IEnumerable<GraphicObject> childs)
+        public void RemoveRange(IEnumerable<GraphicNode> childs)
         {
-            List<GraphicObject> children = new List<GraphicObject>();
-            List<GraphicObject> collection = new List<GraphicObject>(base.Items);
+            List<GraphicNode> children = new List<GraphicNode>();
+            List<GraphicNode> collection = new List<GraphicNode>(base.Items);
 
-            foreach (GraphicObject obj2 in childs)
+            foreach (GraphicNode obj2 in childs)
             {
                 int index = collection.IndexOf(obj2);
 
@@ -101,10 +101,10 @@ namespace Yourgan.Rendering
 
             if (children.Count != 0)
             {
-                ((List<GraphicObject>)base.Items).Clear();
-                ((List<GraphicObject>)base.Items).AddRange(collection);
+                ((List<GraphicNode>)base.Items).Clear();
+                ((List<GraphicNode>)base.Items).AddRange(collection);
 
-                foreach (GraphicObject item in collection)
+                foreach (GraphicNode item in collection)
                 {
                     item.Parent = null;
                 }
@@ -116,7 +116,7 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected override void SetItem(int index, GraphicObject item)
+        protected override void SetItem(int index, GraphicNode item)
         {
             throw new NotImplementedException();
         }
