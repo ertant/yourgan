@@ -522,7 +522,7 @@ namespace Yourgan.Parser
 
                 if (handler == null)
                     throw new ParseException();
-#if(DEBUG)
+#if(LOG)
                 System.Diagnostics.Debug.WriteLine("Executing : " + handler.Method.Name);
 #endif
                 this.handler(entity, this);
@@ -536,7 +536,7 @@ namespace Yourgan.Parser
             {
                 EntityError(this, new EntityErrorEventArgs(code, entity));
             }
-#if(DEBUG)
+#if(LOG)
             else
             {
                 System.Diagnostics.Debug.WriteLine("Parse error : " + code.ToString() + " Entity : " + entity);
