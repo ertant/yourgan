@@ -25,14 +25,14 @@ namespace Yourgan.Rendering
 {
     public class FlowLayout : ILayout
     {
-        public FlowLayout(GraphicContainer owner)
+        public FlowLayout(GraphicElement owner)
         {
             this.owner = owner;
         }
 
-        private GraphicContainer owner;
+        private GraphicElement owner;
 
-        public GraphicContainer Owner
+        public GraphicElement Owner
         {
             get
             {
@@ -47,7 +47,7 @@ namespace Yourgan.Rendering
             isLayoutRequired = false;
         }
 
-        private static void LineFeed(GraphicContainer container, ref PointF location, PointF origin, ref float maxHeight, bool includeBottom)
+        private static void LineFeed(GraphicElement container, ref PointF location, PointF origin, ref float maxHeight, bool includeBottom)
         {
             location.X = origin.X;
             location.Y += maxHeight;
@@ -60,7 +60,7 @@ namespace Yourgan.Rendering
             maxHeight = 0;
         }
 
-        private static void PerformLayoutIfRequired(GraphicObject child, PointF location, float scrollWidth)
+        private static void PerformLayoutIfRequired(GraphicNode child, PointF location, float scrollWidth)
         {
             ILayoutProvider childLayout = child as ILayoutProvider;
 
@@ -70,18 +70,16 @@ namespace Yourgan.Rendering
             }
             else
             {
-                GraphicContainer childContainer = child as GraphicContainer;
-
-                if (childContainer != null)
+                if (child.Childs.Count > 0)
                 {
-                    PerformLayoutInternal(childContainer, location, scrollWidth);
+                    PerformLayoutInternal(child as GraphicElement, location, scrollWidth);
                 }
             }
         }
 
-        private static void PerformLayoutInternal(GraphicContainer container, PointF offset, float scrollWidth)
+        private static void PerformLayoutInternal(GraphicElement container, PointF offset, float scrollWidth)
         {
-            GraphicObject[] childs = container.Childs.ToArrayThreadSafe();
+            GraphicNode[] childs = container.Childs.ToArrayThreadSafe();
 
             PointF origin = offset;
 
@@ -95,58 +93,63 @@ namespace Yourgan.Rendering
 
             location.Y += container.Style.Padding.Top;
 
-            foreach (GraphicObject child in childs)
+            foreach (GraphicNode node in childs)
             {
-                location.X += container.Style.Padding.Left;
-                //location.Y += container.Style.Padding.Top;
+                GraphicElement child = node as GraphicElement;
 
-                if (child.Style.Display == DisplayMode.Block)
+                if (child != null)
                 {
-                    LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
-
                     location.X += container.Style.Padding.Left;
-                }
+                    //location.Y += container.Style.Padding.Top;
 
-                PerformLayoutIfRequired(child, location, scrollWidth);
+                    if (child.Style.Display == DisplayMode.Block)
+                    {
+                        LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
 
-                switch (child.Style.Display)
-                {
-                    case DisplayMode.Block:
-                        {
-                            child.UpdateOffset(location.X, location.Y);
+                        location.X += container.Style.Padding.Left;
+                    }
 
-                            location.Y = child.OffsetTop + child.OffsetHeight;
+                    PerformLayoutIfRequired(child, location, scrollWidth);
 
-                            LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
-
-                            break;
-                        }
-                    case DisplayMode.Inline:
-                        {
-                            if (location.X + child.OffsetWidth + container.Style.Padding.Right > container.ScrollWidth - offset.X)
+                    switch (child.Style.Display)
+                    {
+                        case DisplayMode.Block:
                             {
+                                child.UpdateOffset(location.X, location.Y);
+
+                                location.Y = child.OffsetTop + child.OffsetHeight;
+
                                 LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
 
-                                location.X += container.Style.Padding.Left;
-
-                                PerformLayoutIfRequired(child, location, scrollWidth);
+                                break;
                             }
-
-                            child.UpdateOffset(location.X, location.Y);
-
-                            location.X += child.OffsetWidth;
-
-                            if (maxHeight < child.OffsetHeight)
+                        case DisplayMode.Inline:
                             {
-                                maxHeight = child.OffsetHeight;
+                                if (location.X + child.OffsetWidth + container.Style.Padding.Right > container.ScrollWidth - offset.X)
+                                {
+                                    LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
+
+                                    location.X += container.Style.Padding.Left;
+
+                                    PerformLayoutIfRequired(child, location, scrollWidth);
+                                }
+
+                                child.UpdateOffset(location.X, location.Y);
+
+                                location.X += child.OffsetWidth;
+
+                                if (maxHeight < child.OffsetHeight)
+                                {
+                                    maxHeight = child.OffsetHeight;
+                                }
+
+                                break;
                             }
+                    }
 
-                            break;
-                        }
+                    location.X += child.Style.Padding.Right;
+                    isFirst = false;
                 }
-
-                location.X += child.Style.Padding.Right;
-                isFirst = false;
             }
 
             location.Y += maxHeight;

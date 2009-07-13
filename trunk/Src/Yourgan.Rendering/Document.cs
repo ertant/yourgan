@@ -23,19 +23,18 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class Document : GraphicContainer
+    public class Document : GraphicNode
     {
-        public Document()
+        public Document(Window window)
         {
             this.OwnerDocument = this;
+            this.defaultView = window;
 
             this.xmlDocument = new System.Xml.XmlDocument();
             this.xmlDocument.NodeChanged += NodeHandler;
             this.xmlDocument.NodeInserted += NodeHandler;
             this.xmlDocument.NodeRemoved += NodeHandler;
         }
-
-        public event Action Change;
 
         private Html documentElement;
 
@@ -47,10 +46,20 @@ namespace Yourgan.Rendering
             }
         }
 
+        Window defaultView;
+
+        public Window DefaultView
+        {
+            get
+            {
+                return defaultView;
+            }
+        }
+
         private void NodeHandler(object sender, System.Xml.XmlNodeChangedEventArgs args)
         {
-            GraphicObject graphicElement = null;
-            GraphicObject parent = null;
+            GraphicNode graphicElement = null;
+            GraphicNode parent = null;
 
             if ((args.NewParent != null) && (args.NewParent != xmlDocument))
             {
@@ -59,7 +68,7 @@ namespace Yourgan.Rendering
 
             if (!this.Objects.TryGetValue(args.Node, out graphicElement))
             {
-                graphicElement = this.Create(parent as GraphicContainer, args.Node);
+                graphicElement = this.Create(parent, args.Node);
             }
 
             if (graphicElement != null)
@@ -69,17 +78,9 @@ namespace Yourgan.Rendering
                     parent = this;
                 }
 
-                GraphicContainer container = parent as GraphicContainer;
+                parent.Childs.Add(graphicElement);
 
-                if (container != null)
-                {
-                    container.Childs.Add(graphicElement);
-                }
-
-                if (Change != null)
-                {
-                    Change();
-                }
+                this.DefaultView.OnChange();
             }
         }
 
@@ -93,7 +94,7 @@ namespace Yourgan.Rendering
             }
         }
 
-        private GraphicObject CreateBlock(ModelNode node, DisplayMode mode)
+        private GraphicNode CreateBlock(ModelNode node, DisplayMode mode)
         {
             Block block = new Block(node);
 
@@ -102,11 +103,11 @@ namespace Yourgan.Rendering
             return block;
         }
 
-        public GraphicObject Create(GraphicContainer parent, System.Xml.XmlNode element)
+        public GraphicNode Create(GraphicNode parent, System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
 
-            GraphicObject obj = null;
+            GraphicNode obj = null;
 
             switch (element.NodeType)
             {
@@ -140,6 +141,11 @@ namespace Yourgan.Rendering
                                     obj = CreateBlock(node, DisplayMode.Inline);
                                     break;
                                 }
+                            case "script":
+                                {
+                                    // do not create anything
+                                    break;
+                                }
                             default:
                                 {
                                     Block block = new Block(node);
@@ -169,123 +175,51 @@ namespace Yourgan.Rendering
             return obj;
         }
 
-        private Dictionary<System.Xml.XmlNode, GraphicObject> objects;
+        private Dictionary<System.Xml.XmlNode, GraphicNode> objects;
 
-        public Dictionary<System.Xml.XmlNode, GraphicObject> Objects
+        public Dictionary<System.Xml.XmlNode, GraphicNode> Objects
         {
             get
             {
                 if (this.objects == null)
                 {
-                    this.objects = new Dictionary<System.Xml.XmlNode, GraphicObject>();
+                    this.objects = new Dictionary<System.Xml.XmlNode, GraphicNode>();
                 }
 
                 return this.objects;
             }
         }
 
-        private RectangleF documentSize;
+        //private RectangleF documentSize;
 
-        public RectangleF DocumentSize
+        //public RectangleF DocumentSize
+        //{
+        //    get
+        //    {
+        //        return documentSize;
+        //    }
+        //    set
+        //    {
+        //        documentSize = value;
+
+        //        if (this.documentElement != null)
+        //            this.documentElement.Body.Layout.Invalidate();
+        //    }
+        //}
+
+        public void PerformLayout()
         {
-            get
+            if (this.DocumentElement != null)
             {
-                return documentSize;
-            }
-            set
-            {
-                documentSize = value;
-
-                if (this.documentElement != null)
-                    this.documentElement.Body.Layout.Invalidate();
+                this.DocumentElement.Body.Layout.Invalidate();
             }
         }
 
-        public override float ClientLeft
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override float ClientTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override float ClientHeight
-        {
-            get
-            {
-                return this.documentSize.Height;
-            }
-        }
-
-        public override float ClientWidth
-        {
-            get
-            {
-                return this.documentSize.Width;
-            }
-        }
-
-        public override float PixelsHeight
-        {
-            get
-            {
-                return this.documentSize.Height;
-            }
-        }
-
-        public override float PixelsWidth
-        {
-            get
-            {
-                return this.documentSize.Width;
-            }
-        }
-
-        public override float OffsetLeft
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override float OffsetTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override float ScrollWidth
-        {
-            get
-            {
-                return this.ClientWidth;
-            }
-        }
-
-        public override float ScrollHeight
-        {
-            get
-            {
-                return this.ClientHeight;
-            }
-        }
-
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
         {
             base.OnChildrenAdded(objects);
 
-            foreach (GraphicObject graphicObject in objects)
+            foreach (GraphicElement graphicObject in objects)
             {
                 if (graphicObject is Html)
                 {
@@ -298,8 +232,6 @@ namespace Yourgan.Rendering
         {
             if (this.documentElement != null)
             {
-                drawingContext.Graphics.FillRectangle(SystemBrushes.Window, this.ClientLeft, this.ClientTop, this.ClientWidth, this.ClientHeight);
-
                 this.documentElement.Paint(drawingContext);
             }
         }

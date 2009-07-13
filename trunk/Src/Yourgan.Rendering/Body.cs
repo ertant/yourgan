@@ -45,7 +45,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.Parent.PixelsHeight;
+                return this.ParentElement.PixelsHeight;
             }
         }
 
@@ -53,17 +53,17 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.Parent.PixelsWidth;
+                return this.ParentElement.PixelsWidth;
             }
         }
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
         {
             base.OnChildrenAdded(objects);
             this.Layout.Invalidate();
         }
 
-        protected internal override void OnChildrenRemoved(IEnumerable<GraphicObject> objects)
+        protected internal override void OnChildrenRemoved(IEnumerable<GraphicNode> objects)
         {
             base.OnChildrenRemoved(objects);
             this.Layout.Invalidate();

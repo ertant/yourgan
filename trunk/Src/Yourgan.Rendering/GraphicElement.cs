@@ -22,9 +22,9 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public abstract class GraphicObject
+    public abstract class GraphicElement : GraphicNode
     {
-        protected GraphicObject()
+        protected GraphicElement()
         {
             this.style = new Style();
         }
@@ -39,25 +39,11 @@ namespace Yourgan.Rendering
             }
         }
 
-        private GraphicContainer parent;
-
-        public GraphicContainer Parent
-        {
-            get
-            {
-                return parent;
-            }
-            set
-            {
-                parent = value;
-            }
-        }
-
         public virtual float ClientTop
         {
             get
             {
-                return parent.ClientTop;
+                return this.ParentElement.ClientTop;
             }
         }
 
@@ -65,7 +51,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return parent.ClientLeft;
+                return this.ParentElement.ClientLeft;
             }
         }
 
@@ -89,7 +75,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return parent.ScrollTop;
+                return this.ParentElement.ScrollTop;
             }
         }
 
@@ -97,7 +83,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return parent.ScrollLeft;
+                return this.ParentElement.ScrollLeft;
             }
         }
 
@@ -105,7 +91,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return parent.ScrollWidth;
+                return this.ParentElement.ScrollWidth;
             }
         }
 
@@ -113,7 +99,7 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return parent.ScrollHeight;
+                return this.ParentElement.ScrollHeight;
             }
         }
 
@@ -124,7 +110,7 @@ namespace Yourgan.Rendering
             get
             {
                 if (this.offsetTop < 0)
-                    return parent.OffsetTop;
+                    return this.ParentElement.OffsetTop;
                 else
                     return this.offsetTop;
             }
@@ -137,7 +123,7 @@ namespace Yourgan.Rendering
             get
             {
                 if (this.offsetLeft < 0)
-                    return parent.OffsetLeft;
+                    return this.ParentElement.OffsetLeft;
                 else
                     return this.offsetLeft;
             }
@@ -194,27 +180,21 @@ namespace Yourgan.Rendering
                 this.pixelsHeight = height;
         }
 
-        private Document ownerDocument;
-
-        public Document OwnerDocument
+        protected override void CorePaint(DrawingContext drawingContext)
         {
-            get
+            if (this is ILayoutProvider)
             {
-                return ownerDocument;
+                drawingContext.PushTransform();
+
+                drawingContext.Translate(this.OffsetLeft, this.OffsetTop);
             }
-            set
+
+            base.CorePaint(drawingContext);
+
+            if (this is ILayoutProvider)
             {
-                ownerDocument = value;
+                drawingContext.PopTransform();
             }
-        }
-
-        protected virtual void CorePaint(DrawingContext drawingContext)
-        {
-        }
-
-        public void Paint(DrawingContext drawingContext)
-        {
-            CorePaint(drawingContext);
         }
     }
 }

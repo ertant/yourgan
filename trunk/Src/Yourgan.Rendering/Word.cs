@@ -22,7 +22,7 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class Word : GraphicObject
+    public class Word : GraphicElement
     {
         public Word(ModelNode model, string text, Font font)
         {
@@ -98,18 +98,13 @@ namespace Yourgan.Rendering
             }
         }
 
-        SizeF autoSize;
+        StringFormat format = new StringFormat();
 
         private SizeF GetAutoSize()
         {
-            if (autoSize == SizeF.Empty)
-            {
-                StringFormat format = new StringFormat();
+            format.FormatFlags = StringFormatFlags.FitBlackBox;
 
-                autoSize = FontCache.MeasureString(this.text, this.font, new SizeF(this.ScrollWidth, 0), format);
-            }
-
-            return autoSize;
+            return FontCache.MeasureString(this.text, this.font, new SizeF(this.ScrollWidth, 0), format);
         }
 
         protected override void CorePaint(DrawingContext drawingContext)

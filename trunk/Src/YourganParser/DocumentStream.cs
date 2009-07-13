@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Yourgan.Parser
 {
-    public class DocumentStream : System.IO.Stream
+    public class DocumentStream : System.IO.TextWriter
     {
         TagTokenizerState tagTokenization;
 
@@ -60,70 +60,22 @@ namespace Yourgan.Parser
             }
         }
 
-        public override void Write(byte[] buffer, int offset, int count)
+        public override void Write(char[] buffer, int offset, int count)
         {
             tagTokenization.Parse(buffer, offset, count);
         }
 
-        public override bool CanRead
+        public override void Write(char value)
+        {
+            base.Write(value);
+        }
+
+        public override Encoding Encoding
         {
             get
             {
-                return false;
+                return tagTokenization.Encoding;
             }
-        }
-
-        public override bool CanSeek
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public override bool CanWrite
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override void Flush()
-        {
-
-        }
-
-        public override long Length
-        {
-            get { throw new NotSupportedException(); }
-        }
-
-        public override long Position
-        {
-            get
-            {
-                throw new NotSupportedException();
-            }
-            set
-            {
-                throw new NotSupportedException();
-            }
-        }
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override long Seek(long offset, System.IO.SeekOrigin origin)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override void SetLength(long value)
-        {
-            throw new NotSupportedException();
         }
     }
 }

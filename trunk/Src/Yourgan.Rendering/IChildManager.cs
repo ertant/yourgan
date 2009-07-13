@@ -24,11 +24,11 @@ namespace Yourgan.Rendering
 {
     public interface IChildManager
     {
-        void AddChildren(IEnumerable<GraphicObject> childs);
+        void AddChildren(IEnumerable<GraphicElement> childs);
 
-        void RemoveChildren(IEnumerable<GraphicObject> childs);
+        void RemoveChildren(IEnumerable<GraphicElement> childs);
 
-        GraphicObjectCollection Childs
+        GraphicNodeCollection Childs
         {
             get;
         }

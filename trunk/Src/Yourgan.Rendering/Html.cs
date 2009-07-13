@@ -23,7 +23,7 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    public class Html : GraphicContainer
+    public class Html : GraphicElement
     {
         public Html(ModelNode node)
         {
@@ -39,27 +39,43 @@ namespace Yourgan.Rendering
             }
         }
 
-        public override float PixelsHeight
+        public override float ScrollHeight
         {
             get
             {
-                return this.Parent.PixelsHeight;
+                return this.OwnerDocument.DefaultView.InnerHeight;
             }
         }
 
-        public override float PixelsWidth
+        public override float ScrollWidth
         {
             get
             {
-                return this.Parent.PixelsWidth;
+                return this.OwnerDocument.DefaultView.InnerWidth;
             }
         }
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicObject> objects)
+        public override float OffsetLeft
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public override float OffsetTop
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
         {
             base.OnChildrenAdded(objects);
 
-            foreach (GraphicObject graphicObject in objects)
+            foreach (GraphicElement graphicObject in objects)
             {
                 if (graphicObject is Body)
                 {
