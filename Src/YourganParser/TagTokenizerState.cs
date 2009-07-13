@@ -284,7 +284,7 @@ namespace Yourgan.Parser
         {
             this.ClearToken();
 
-#if(DEBUG)
+#if(LOG)
             System.Diagnostics.Debug.WriteLine("Parse error");
 #endif
         }
