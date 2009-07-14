@@ -130,17 +130,6 @@ namespace Yourgan.Rendering
                                     obj = CreateBlock(node, DisplayMode.Block);
                                     break;
                                 }
-                            case "font":
-                            case "span":
-                                {
-                                    obj = CreateBlock(node, DisplayMode.Inline);
-                                    break;
-                                }
-                            case "a":
-                                {
-                                    obj = CreateBlock(node, DisplayMode.Inline);
-                                    break;
-                                }
                             case "script":
                                 {
                                     // do not create anything
@@ -148,10 +137,7 @@ namespace Yourgan.Rendering
                                 }
                             default:
                                 {
-                                    Block block = new Block(node);
-
-                                    obj = block;
-
+                                    obj = CreateBlock(node, DisplayMode.Inline);
                                     break;
                                 }
                         }
