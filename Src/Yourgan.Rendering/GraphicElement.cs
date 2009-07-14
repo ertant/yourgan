@@ -182,7 +182,9 @@ namespace Yourgan.Rendering
 
         protected override void CorePaint(DrawingContext drawingContext)
         {
-            if (this is ILayoutProvider)
+            ILayoutProvider layoutProvider = this as ILayoutProvider;
+
+            if (layoutProvider != null)
             {
                 drawingContext.PushTransform();
 
@@ -191,7 +193,7 @@ namespace Yourgan.Rendering
 
             base.CorePaint(drawingContext);
 
-            if (this is ILayoutProvider)
+            if (layoutProvider != null)
             {
                 drawingContext.PopTransform();
             }

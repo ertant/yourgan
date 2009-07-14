@@ -71,15 +71,17 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> affectedChilds)
         {
-            base.OnChildrenAdded(objects);
+            base.OnChildrenAdded(affectedChilds);
 
-            foreach (GraphicElement graphicObject in objects)
+            foreach (GraphicElement graphicObject in affectedChilds)
             {
-                if (graphicObject is Body)
+                Body tmpBody = graphicObject as Body;
+
+                if (tmpBody != null)
                 {
-                    this.body = graphicObject as Body;
+                    this.body = tmpBody;
                 }
             }
         }
