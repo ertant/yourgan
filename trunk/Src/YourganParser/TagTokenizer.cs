@@ -997,14 +997,14 @@ namespace Yourgan.Parser
 
                         // If the next six characters are an ASCII case-insensitive match for the word "PUBLIC", then consume those characters 
                         // and switch to the before DOCTYPE public identifier state.
-                        if (tokenVal.Equals("PUBLIC", StringComparison.InvariantCultureIgnoreCase))
+                        if (tokenVal.Equals("PUBLIC", StringComparison.OrdinalIgnoreCase))
                         {
                             state.Position += 6;
                             state.Switch(BeforeDocTypePublicIdentifier);
                         }
                         // Otherwise, if the next six characters are an ASCII case-insensitive match for the word "SYSTEM", 
                         // then consume those characters and switch to the before DOCTYPE system identifier state.
-                        else if (tokenVal.Equals("SYSTEM", StringComparison.InvariantCultureIgnoreCase))
+                        else if (tokenVal.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
                         {
                             state.Position += 6;
                             state.Switch(BeforeDocTypeSystemIdentifier);

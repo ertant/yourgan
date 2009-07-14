@@ -499,11 +499,11 @@ namespace Yourgan.Parser
 
         ProcessEntityHandler originalHandler;
 
-        public void Switch(ProcessEntityHandler handler)
+        public void Switch(ProcessEntityHandler newHandler)
         {
             this.originalHandler = this.handler;
 
-            this.handler = handler;
+            this.handler = newHandler;
         }
 
         public void RevertMode()
