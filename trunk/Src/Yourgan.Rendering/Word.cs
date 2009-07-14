@@ -98,13 +98,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        StringFormat format = new StringFormat();
-
         private SizeF GetAutoSize()
         {
-            format.FormatFlags = StringFormatFlags.FitBlackBox;
-
-            return FontCache.MeasureString(this.text, this.font, new SizeF(this.ScrollWidth, 0), format);
+            return FontCache.MeasureString(this.text, this.font, new SizeF(this.ScrollWidth, 0));
         }
 
         protected override void CorePaint(DrawingContext drawingContext)

@@ -57,15 +57,15 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> affectedChilds)
         {
-            base.OnChildrenAdded(objects);
+            base.OnChildrenAdded(affectedChilds);
             this.Layout.Invalidate();
         }
 
-        protected internal override void OnChildrenRemoved(IEnumerable<GraphicNode> objects)
+        protected internal override void OnChildrenRemoved(IEnumerable<GraphicNode> affectedChilds)
         {
-            base.OnChildrenRemoved(objects);
+            base.OnChildrenRemoved(affectedChilds);
             this.Layout.Invalidate();
         }
 

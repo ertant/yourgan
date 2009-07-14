@@ -52,6 +52,7 @@ namespace Yourgan.Rendering
             this.graphics.Transform = transformStack.Pop();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "dy")]
         public void Translate(float dx, float dy)
         {
             this.graphics.TranslateTransform(dx, dy);

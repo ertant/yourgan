@@ -58,7 +58,7 @@ namespace Yourgan.Rendering
 
         private void NodeHandler(object sender, System.Xml.XmlNodeChangedEventArgs args)
         {
-            GraphicNode graphicElement = null;
+            GraphicNode graphicElement;
             GraphicNode parent = null;
 
             if ((args.NewParent != null) && (args.NewParent != xmlDocument))
@@ -68,7 +68,7 @@ namespace Yourgan.Rendering
 
             if (!this.Objects.TryGetValue(args.Node, out graphicElement))
             {
-                graphicElement = this.Create(parent, args.Node);
+                graphicElement = this.Create(args.Node);
             }
 
             if (graphicElement != null)
@@ -103,7 +103,7 @@ namespace Yourgan.Rendering
             return block;
         }
 
-        public GraphicNode Create(GraphicNode parent, System.Xml.XmlNode element)
+        public GraphicNode Create(System.Xml.XmlNode element)
         {
             ModelNode node = new ModelNode(element);
 
@@ -201,15 +201,17 @@ namespace Yourgan.Rendering
             }
         }
 
-        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> objects)
+        protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> affectedChilds)
         {
-            base.OnChildrenAdded(objects);
+            base.OnChildrenAdded(affectedChilds);
 
-            foreach (GraphicElement graphicObject in objects)
+            foreach (GraphicElement graphicObject in affectedChilds)
             {
-                if (graphicObject is Html)
+                Html tmpHtml = graphicObject as Html;
+
+                if (tmpHtml != null)
                 {
-                    this.documentElement = graphicObject as Html;
+                    this.documentElement = tmpHtml;
                 }
             }
         }

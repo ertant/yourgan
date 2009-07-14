@@ -57,24 +57,25 @@ namespace Yourgan.Rendering
         {
             get
             {
-                GraphicNode parent = this.Parent;
-                GraphicElement element = null;
+                GraphicNode tmpParent = this.Parent;
+                GraphicElement element;
 
                 do
                 {
                     element = parent as GraphicElement;
 
-                    parent = parent.Parent;
+                    tmpParent = tmpParent.Parent;
 
-                } while ((element == null) && (parent != null));
+                } while ((element == null) && (tmpParent != null));
 
                 return element;
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public ILayoutProvider GetParentLayout()
         {
-            ILayoutProvider layout = null;
+            ILayoutProvider layout;
             GraphicNode tmpParent = this.Parent;
 
             do
@@ -130,7 +131,7 @@ namespace Yourgan.Rendering
             this.Childs.RemoveRange(objects);
         }
 
-        protected internal virtual void OnChildrenRemoved(IEnumerable<GraphicNode> objects)
+        protected internal virtual void OnChildrenRemoved(IEnumerable<GraphicNode> affectedChilds)
         {
             ILayoutProvider layoutNode = GetParentLayout();
 
@@ -138,7 +139,7 @@ namespace Yourgan.Rendering
                 layoutNode.Layout.Invalidate();
         }
 
-        protected internal virtual void OnChildrenAdded(IEnumerable<GraphicNode> objects)
+        protected internal virtual void OnChildrenAdded(IEnumerable<GraphicNode> affectedChilds)
         {
             ILayoutProvider layoutNode = GetParentLayout();
 

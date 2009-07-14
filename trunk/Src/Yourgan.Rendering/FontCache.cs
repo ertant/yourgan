@@ -27,8 +27,14 @@ namespace Yourgan.Rendering
     {
         private static Image image;
         private static Graphics graphics;
+        private static StringFormat format;
 
-        public static SizeF MeasureString(string text, Font font, SizeF maxSize, StringFormat format)
+        static FontCache()
+        {
+            format = new StringFormat();
+        }
+
+        public static SizeF MeasureString(string text, Font font, SizeF maxSize)
         {
             if (image == null)
             {

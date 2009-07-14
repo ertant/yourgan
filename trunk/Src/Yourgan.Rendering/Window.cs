@@ -152,7 +152,7 @@ namespace Yourgan.Rendering
             // Status("Completed");
         }
 
-        public void Load(string url)
+        public void Load(Uri url)
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
