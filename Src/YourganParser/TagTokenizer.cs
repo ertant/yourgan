@@ -60,6 +60,7 @@ namespace Yourgan.Parser
             DocTypeSystemIdentifierSingleQuoted = _DocTypeSystemIdentifierSingleQuoted;
             AfterDocTypeSystemIdentifier = _AfterDocTypeSystemIdentifier;
             BogusDocType = _BogusDocType;
+            CDataSection = _CDataSection;
         }
 
         public readonly static ProcessCharHandler Data;
@@ -97,6 +98,7 @@ namespace Yourgan.Parser
         private readonly static ProcessCharHandler DocTypeSystemIdentifierSingleQuoted;
         private readonly static ProcessCharHandler AfterDocTypeSystemIdentifier;
         private readonly static ProcessCharHandler BogusDocType;
+        private readonly static ProcessCharHandler CDataSection;
 
         private static void _Data(TagTokenizerState state, char* c)
         {
@@ -104,19 +106,86 @@ namespace Yourgan.Parser
             {
                 case '&':
                     {
-                        state.EmitData();
-                        state.Switch(CharacterRefence);
+                        // When the content model flag is set to one of the PCDATA or RCDATA states and the escape flag is false: switch to the character reference data state.
+                        // Otherwise: treat it as per the "anything else" entry below.
+                        if (
+                            ((state.ContentModel == ContentModelType.PCData) || (state.ContentModel == ContentModelType.RCData))
+                            &&
+                            (!state.EscapeFlag)
+                           )
+                        {
+                            state.EmitData();
+                            state.Switch(CharacterRefence);
+                        }
+                        else
+                        {
+                            state.AddToken(*c);
+                        }
+
                         break;
                     }
                 case '<':
                     {
-                        state.EmitData();
-                        state.Switch(TagOpen);
+                        // When the content model flag is set to the PCDATA state: switch to the tag open state.
+                        if (state.ContentModel == ContentModelType.PCData)
+                        {
+                            state.EmitData();
+                            state.Switch(TagOpen);
+                        }
+                        // When the content model flag is set to either the RCDATA state or the CDATA state, and the escape flag is false: switch to the tag open state.
+                        else if (((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData)) && !state.EscapeFlag)
+                        {
+                            state.EmitData();
+                            state.Switch(TagOpen);
+                        }
+                        // Otherwise: treat it as per the "anything else" entry below.
+                        else
+                        {
+                            state.AddToken(*c);
+                        }
+
                         break;
                     }
                 case '>':
                     {
+                        // If the content model flag is set to either the RCDATA state or the CDATA state, and the escape flag is true,
+                        // and the last three characters in the input stream including this one are
+                        // U+002D HYPHEN-MINUS, U+002D HYPHEN-MINUS, U+003E GREATER-THAN SIGN ("-->"), set the escape flag to false.
+                        if (((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData) && state.EscapeFlag))
+                        {
+                            string testString = new string(c, 0, 4);
+
+                            if (testString == "-->")
+                            {
+                                state.EscapeFlag = false;
+                            }
+                        }
+
+                        // In any case, emit the input character as a character token. Stay in the data state.
                         state.AddToken(*c);
+
+                        break;
+                    }
+                case '-':
+                    {
+                        // If the content model flag is set to either the RCDATA state or the CDATA state, and the escape flag is false, 
+                        // and there are at least three characters before this one in the input stream, and the last four characters in the input stream,
+                        // including this one, are U+003C LESS-THAN SIGN, U+0021 EXCLAMATION MARK, U+002D HYPHEN-MINUS, and U+002D HYPHEN-MINUS ("<!--"), 
+                        // then set the escape flag to true.
+
+                        if (((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData)) && !state.EscapeFlag)
+                        {
+                            string testString = new string(c, 0, 4);
+
+                            if (testString == "<!--")
+                            {
+                                state.EscapeFlag = true;
+                            }
+                        }
+
+                        // In any case, emit the input character as a character token. Stay in the data state.
+                        state.AddToken(*c);
+
                         break;
                     }
                 default:
@@ -129,79 +198,99 @@ namespace Yourgan.Parser
 
         private static void _TagOpen(TagTokenizerState state, char* c)
         {
-            switch (*c)
+            if ((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData))
             {
-                case '/':
-                    {
-                        // Switch to the close tag open state.
-                        state.CloseElement();
-                        state.Switch(CloseTagOpen);
-                        break;
-                    }
-                case '!':
-                    {
-                        // Switch to the markup declaration open state.
-                        state.Switch(MarkupDeclaration);
-                        break;
-                    }
-                case '>':
-                    {
-                        // Parse error. 
-                        state.SetError();
-                        // TODO : Emit a U+003C LESS-THAN SIGN character token and a U+003E GREATER-THAN SIGN character token. 
-                        // Switch to the data state.
-                        state.Switch(Data);
-                        break;
-                    }
-                case '?':
-                    {
-                        // Parse error. 
-                        state.SetError();
-                        // Switch to the bogus comment state.
-                        state.Switch(BogusComment);
-                        break;
-                    }
-                default:
-                    {
-                        // Emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
-                        if (char.IsLetter(*c))
-                        {
-                            state.OpenElement();
-                            state.AddToken(*c);
+                // Consume the next input character. 
+                char nextChar = *(c++);
 
-                            state.Switch(TagName);
-                        }
-                        else
+                // If it is a U+002F SOLIDUS (/) character, switch to the close tag open state. 
+                if (nextChar == '/')
+                {
+                    state.Switch(CloseTagOpen);
+                }
+                // Otherwise, emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
+                else
+                {
+                    state.AddToken('<');
+                    state.Position--;
+                    state.Switch(Data);
+                }
+            }
+            else if (state.ContentModel == ContentModelType.PCData)
+            {
+                switch (*c)
+                {
+                    case '/':
                         {
-                            // Anything else
-                            // Parse error. Emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
+                            // Switch to the close tag open state.
+                            state.CloseElement();
+                            state.Switch(CloseTagOpen);
+                            break;
+                        }
+                    case '!':
+                        {
+                            // Switch to the markup declaration open state.
+                            state.Switch(MarkupDeclaration);
+                            break;
+                        }
+                    case '>':
+                        {
+                            // Parse error. 
                             state.SetError();
-                            // TODO : Emit a U+003C LESS-THAN SIGN character token
-                            state.Position--;
+                            // TODO : Emit a U+003C LESS-THAN SIGN character token and a U+003E GREATER-THAN SIGN character token. 
+                            // Switch to the data state.
                             state.Switch(Data);
+                            break;
                         }
+                    case '?':
+                        {
+                            // Parse error. 
+                            state.SetError();
+                            // Switch to the bogus comment state.
+                            state.Switch(BogusComment);
+                            break;
+                        }
+                    default:
+                        {
+                            // Emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
+                            if (char.IsLetter(*c))
+                            {
+                                state.OpenElement();
+                                state.AddToken(*c);
 
-                        break;
-                    }
+                                state.Switch(TagName);
+                            }
+                            else
+                            {
+                                // Anything else
+                                // Parse error. Emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
+                                state.SetError();
+                                // TODO : Emit a U+003C LESS-THAN SIGN character token
+                                state.Position--;
+                                state.Switch(Data);
+                            }
+
+                            break;
+                        }
+                }
             }
         }
 
         private static void _CharacterRefence(TagTokenizerState state, char* c)
         {
-            switch (*c)
+            char? consumedCharacter = ConsumeCharacter(state);
+
+            if (!consumedCharacter.HasValue)
             {
-                case ';':
-                    {
-                        state.EmitCharacterReference();
-                        state.Switch(Data);
-                        break;
-                    }
-                default:
-                    {
-                        state.AddToken(*c);
-                        break;
-                    }
+                state.AddToken('&');
+                state.AddToken(*c);
             }
+            else
+            {
+                state.AddToken(consumedCharacter.Value);
+            }
+
+            state.Switch(Data);
         }
 
         private static void _TagName(TagTokenizerState state, char* c)
@@ -269,31 +358,46 @@ namespace Yourgan.Parser
 
         private static void _CloseTagOpen(TagTokenizerState state, char* c)
         {
-            switch (*c)
+            // If the content model flag is set to the RCDATA or CDATA states but no start tag token has ever been emitted by this instance of the tokeniser (fragment case),
+            // or, if the content model flag is set to the RCDATA or CDATA states and the next few characters do not match the tag name of the last start tag token 
+            // emitted (compared in an ASCII case insensitive manner), or if they do but they are not immediately followed by one of the following characters:
+
+            if ((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData))
             {
-                case '>':
-                    {
-                        state.SetError();
-
-                        state.Switch(Data);
-
-                        break;
-                    }
-                default:
-                    {
-                        if (char.IsLetter(*c))
-                        {
-                            state.AddToken(*c);
-                            state.Switch(TagName);
-                        }
-                        else
+                // then emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character token, and switch to the data state  to process the next input character.
+                state.AddToken('<');
+                state.AddToken('/');
+                state.Switch(Data);
+            }
+            // Otherwise, if the content model flag is set to the PCDATA state, or if the next few characters do match that tag name, consume the next input character:
+            else if (state.ContentModel == ContentModelType.PCData)
+            {
+                switch (*c)
+                {
+                    case '>':
                         {
                             state.SetError();
-                            state.Switch(BogusComment);
-                        }
 
-                        break;
-                    }
+                            state.Switch(Data);
+
+                            break;
+                        }
+                    default:
+                        {
+                            if (char.IsLetter(*c))
+                            {
+                                state.AddToken(*c);
+                                state.Switch(TagName);
+                            }
+                            else
+                            {
+                                state.SetError();
+                                state.Switch(BogusComment);
+                            }
+
+                            break;
+                        }
+                }
             }
         }
 
@@ -607,6 +711,8 @@ namespace Yourgan.Parser
 
         private static void _BogusComment(TagTokenizerState state, char* c)
         {
+            // (This can only happen if the content model flag is set to the PCDATA state.)
+
             switch (*c)
             {
                 case '>':
@@ -735,6 +841,8 @@ namespace Yourgan.Parser
 
         private static void _MarkupDeclaration(TagTokenizerState state, char* c)
         {
+            // (This can only happen if the content model flag is set to the PCDATA state.)
+
             string tmpVal = new string(c, 0, 2);
 
             // If the next two characters are both U+002D HYPHEN-MINUS (-) characters, consume those two characters, 
@@ -760,9 +868,8 @@ namespace Yourgan.Parser
                 // consume those characters and switch to the CDATA section state (which is unrelated to the content model flag's CDATA state).
                 else if (string.Equals(tmpVal, "[CDATA[", StringComparison.Ordinal))
                 {
-                    // TODO : CDATA state
                     state.Position += 6;
-                    state.Switch(Data);
+                    state.Switch(CDataSection);
                 }
                 else
                 {
@@ -1206,6 +1313,29 @@ namespace Yourgan.Parser
             }
         }
 
+        private static void _CDataSection(TagTokenizerState state, char* c)
+        {
+            // (This can only happen if the content model flag is set to the PCDATA state, and is unrelated to the content model flag's CDATA state.)
+
+            // Consume every character up to the next occurrence of the three character sequence 
+            // U+005D RIGHT SQUARE BRACKET U+005D RIGHT SQUARE BRACKET U+003E GREATER-THAN SIGN (]]>), or the end of the file (EOF), whichever comes first. 
+            // Emit a series of character tokens consisting of all the characters consumed except the matching three character sequence at the end 
+            // (if one was found before the end of the file).
+            string testString = new string(c, 0, 3);
+
+            if (testString == "]]>")
+            {
+                state.EmitData();
+
+                // Switch to the data state.
+                state.Switch(Data);
+            }
+            else
+            {
+                state.AddToken(*c);
+            }
+        }
+
         private static char? ConsumeCharacter(TagTokenizerState state)
         {
             char c = state.Buffer[state.Position];
@@ -1228,7 +1358,29 @@ namespace Yourgan.Parser
                     }
                 default:
                     {
-                        // TODO : implement
+                        int pos = state.Position;
+
+                        while ((pos < state.Length) && ((pos - state.Position) < 10) && (state.Buffer[pos] != ';'))
+                        {
+                            pos++;
+                        }
+
+                        if (pos != state.Length)
+                        {
+                            string reference = new string(state.Buffer, state.Position, pos - state.Position);
+
+                            // TODO : implement
+                            switch (reference)
+                            {
+                                case "nbsp":
+                                    state.Position = pos;
+                                    return ' ';
+                                case "amp":
+                                    state.Position = pos;
+                                    return '&';
+                            }
+                        }
+
                         return null;
                     }
             }

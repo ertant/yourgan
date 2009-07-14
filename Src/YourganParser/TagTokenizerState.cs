@@ -21,6 +21,9 @@ using System.Text;
 
 namespace Yourgan.Parser
 {
+#if(DEBUG)
+    [System.Diagnostics.DebuggerDisplay("T={TokenValue} ContentModel={ContentModel}")]
+#endif
     public unsafe class TagTokenizerState
     {
         ProcessCharHandler handler;
@@ -30,6 +33,7 @@ namespace Yourgan.Parser
             this.entityGeneration = new EntityGenerationState(this, document);
             this.encoding = System.Text.Encoding.UTF8;
             this.handler = TagTokenizer.Data;
+            this.contentModel = ContentModelType.PCData;
         }
 
         public void Close()
@@ -47,7 +51,7 @@ namespace Yourgan.Parser
             }
         }
 
-        ContentModelType contentModel = ContentModelType.PCData;
+        ContentModelType contentModel;
 
         public ContentModelType ContentModel
         {
@@ -85,6 +89,18 @@ namespace Yourgan.Parser
 
         List<char> token = new List<char>(1024);
 
+#if(DEBUG)
+
+        public string TokenValue
+        {
+            get
+            {
+                return new string(token.ToArray());
+            }
+        }
+
+#endif
+
         public void AddToken(char* c)
         {
             token.Add(*c);
@@ -111,6 +127,8 @@ namespace Yourgan.Parser
         //public int Offset;
 
         public int Position;
+
+        public int Length;
 
         Encoding encoding;
 
@@ -188,6 +206,8 @@ namespace Yourgan.Parser
         {
             this.ClearToken();
 
+            this.ContentModel = ContentModelType.PCData;
+
             this.EntityGeneration.Emit(docTypeName, publicIdentifier, systemIdentifier);
         }
 
@@ -196,6 +216,8 @@ namespace Yourgan.Parser
             string tokenValue = new string(this.token.ToArray());
 
             this.ClearToken();
+
+            this.ContentModel = ContentModelType.PCData;
 
             this.EntityGeneration.Emit(tokenValue, TokenType.Comment);
         }
@@ -224,25 +246,66 @@ namespace Yourgan.Parser
 
             this.ClearToken();
 
+            if (Entity.IsOneOf(tokenValue, "title", "textarea"))
+            {
+                this.ContentModel = ContentModelType.RCData;
+            }
+            else if (Entity.IsOneOf(tokenValue, "style", "script", "xml", "iframe", "noembed", "noframes"))
+            {
+                this.ContentModel = ContentModelType.CData;
+            }
+            else if (Entity.IsOneOf(tokenValue, "noscript"))
+            {
+                if (this.EntityGeneration.HTMLTokenization.ScriptingEnabled)
+                {
+                    this.ContentModel = ContentModelType.CData;
+                }
+                else
+                {
+                    this.ContentModel = ContentModelType.PCData;
+                }
+            }
+            else if (Entity.IsTag(tokenValue, "plaintext"))
+            {
+                this.ContentModel = ContentModelType.PlainText;
+            }
+            else
+            {
+                this.ContentModel = ContentModelType.PCData;
+            }
+
             this.EntityGeneration.Emit(tokenValue, isOpen ? TokenType.OpenElement : TokenType.CloseElement);
         }
 
         public void EmitSelfClosedElement()
         {
             this.ClearToken();
+
             this.isOpen = false;
+
+            this.ContentModel = ContentModelType.PCData;
 
             this.EntityGeneration.EmitSelfClosed();
         }
 
-        public void EmitCharacterReference()
-        {
-            string tokenValue = new string(this.token.ToArray());
+        //public void EmitCharacterReference()
+        //{
+        //    string tokenValue = new string(this.token.ToArray());
 
-            this.ClearToken();
+        //    this.ClearToken();
 
-            this.EntityGeneration.Emit(tokenValue, TokenType.Data);
-        }
+        //    switch (tokenValue)
+        //    {
+        //        case "nbsp":
+        //            tokenValue = " ";
+        //            break;
+        //            case "
+        //    }
+        //    if ( tokenValue == "nbsp")
+
+
+        //    this.EntityGeneration.Emit(tokenValue, TokenType.Data);
+        //}
 
         StringBuilder dataBuilder = new StringBuilder();
 
@@ -275,6 +338,11 @@ namespace Yourgan.Parser
                 }
             }
 
+            // mark as processed
+            this.ClearToken();
+
+            this.ContentModel = ContentModelType.PCData;
+
             // any real data processed ?
             if (dataBuilder.Length > 1)
             {
@@ -286,9 +354,6 @@ namespace Yourgan.Parser
                 // emit as whitespace
                 this.EntityGeneration.Emit(dataBuilder.ToString(), TokenType.WhiteSpace);
             }
-
-            // mark as processed
-            this.ClearToken();
         }
 
         public void SetError()
@@ -322,6 +387,7 @@ namespace Yourgan.Parser
         public void Parse(char[] buffer, int offset, int length)
         {
             this.Buffer = buffer;
+            this.Length = length;
 
             fixed (char* c = buffer)
             {
@@ -329,9 +395,8 @@ namespace Yourgan.Parser
 
                 while (this.Position < offset + length)
                 {
+                    this.handler(this, c + offset + Position);
                     this.Position++;
-
-                    this.handler(this, c + offset + Position - 1);
                 }
             }
         }
