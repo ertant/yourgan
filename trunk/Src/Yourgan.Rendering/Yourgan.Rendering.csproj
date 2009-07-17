@@ -47,6 +47,8 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
     <Compile Include="Body.cs" />
+    <Compile Include="IStyle.cs" />
+    <Compile Include="StyleList.cs" />
     <Compile Include="FlowLayout.cs" />
     <Compile Include="GraphicNode.cs" />
     <Compile Include="Position.cs" />

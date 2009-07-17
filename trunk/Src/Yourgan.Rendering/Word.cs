@@ -29,7 +29,7 @@ namespace Yourgan.Rendering
             this.model = model;
             this.text = text;
             this.font = font;
-            this.Style.Display = DisplayMode.Inline;
+            this.Style.ElementStyle.Display = DisplayMode.Inline;
         }
 
         private string text;

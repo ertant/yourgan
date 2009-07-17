@@ -22,75 +22,63 @@ using System.Text;
 
 namespace Yourgan.Rendering
 {
-    public class Style : IStyle
+    public class StyleList //: IStyle
     {
-        public Style()
+        public StyleList()
         {
-            this.display = DisplayMode.Block;
-            this.position = Position.Inherit;
-            this.padding = new Padding(1);
-            this.margin = new Padding(2);
+            this.elementStyle = new Style();
         }
 
-        private Padding padding;
+        public void AddStyle(Style style)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Style elementStyle;
+
+        public Style ElementStyle
+        {
+            get
+            {
+                return elementStyle;
+            }
+        }
 
         public Padding Padding
         {
             get
             {
-                return padding;
-            }
-            set
-            {
-                padding = value;
+                return this.ElementStyle.Padding;
             }
         }
-
-        private Padding margin;
 
         public Padding Margin
         {
             get
             {
-                return margin;
-            }
-            set
-            {
-                margin = value;
+                return this.ElementStyle.Margin;
             }
         }
-
-        private DisplayMode display;
 
         public DisplayMode Display
         {
             get
             {
-                return display;
-            }
-            set
-            {
-                display = value;
+                return this.ElementStyle.Display;
             }
         }
-
-        private Position position;
 
         public Position Position
         {
             get
             {
-                return position;
-            }
-            set
-            {
-                position = value;
+                return this.ElementStyle.Position;
             }
         }
 
-        string width = "";
+        private float width;
 
-        public string Width
+        public float Width
         {
             get
             {
@@ -98,14 +86,31 @@ namespace Yourgan.Rendering
             }
         }
 
-        string height = "";
-
-        public string Height
+        public bool HasWidth
         {
             get
             {
-                return height;
+                return this.Width > 0;
             }
         }
+
+        private float height;
+
+        public float Height
+        {
+            get
+            {
+                return this.height;
+            }
+        }
+
+        public bool HasHeight
+        {
+            get
+            {
+                return this.Height > 0;
+            }
+        }
+
     }
 }
