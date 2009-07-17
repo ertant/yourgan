@@ -98,7 +98,7 @@ namespace Yourgan.Rendering
         {
             Block block = new Block(node);
 
-            block.Style.Display = mode;
+            block.Style.ElementStyle.Display = mode;
 
             return block;
         }

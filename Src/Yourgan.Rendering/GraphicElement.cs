@@ -26,12 +26,12 @@ namespace Yourgan.Rendering
     {
         protected GraphicElement()
         {
-            this.style = new Style();
+            this.style = new StyleList();
         }
 
-        private Style style;
+        private StyleList style;
 
-        public Style Style
+        public StyleList Style
         {
             get
             {
@@ -75,7 +75,11 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.ParentElement.ScrollTop;
+                return 0;
+            }
+            set
+            {
+                // Not called
             }
         }
 
@@ -83,7 +87,11 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.ParentElement.ScrollLeft;
+                return 0;
+            }
+            set
+            {
+                // Not called
             }
         }
 
@@ -91,7 +99,10 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.ParentElement.ScrollWidth;
+                if (this.Style.HasWidth)
+                    return this.Style.Width;
+                else
+                    return this.ParentElement.ScrollWidth;
             }
         }
 
@@ -99,7 +110,10 @@ namespace Yourgan.Rendering
         {
             get
             {
-                return this.ParentElement.ScrollHeight;
+                if (this.Style.HasHeight)
+                    return this.Style.Height;
+                else
+                    return this.ParentElement.ScrollHeight;
             }
         }
 
@@ -189,6 +203,8 @@ namespace Yourgan.Rendering
                 drawingContext.PushTransform();
 
                 drawingContext.Translate(this.OffsetLeft, this.OffsetTop);
+
+                drawingContext.Translate(-this.ScrollLeft, -this.ScrollTop);
             }
 
             base.CorePaint(drawingContext);

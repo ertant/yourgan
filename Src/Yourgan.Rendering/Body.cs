@@ -57,6 +57,34 @@ namespace Yourgan.Rendering
             }
         }
 
+        private float scrollTop;
+
+        public override float ScrollTop
+        {
+            get
+            {
+                return scrollTop;
+            }
+            set
+            {
+                scrollTop = value;
+            }
+        }
+
+        private float scrollLeft;
+
+        public override float ScrollLeft
+        {
+            get
+            {
+                return scrollLeft;
+            }
+            set
+            {
+                scrollLeft = value;
+            }
+        }
+
         protected internal override void OnChildrenAdded(IEnumerable<GraphicNode> affectedChilds)
         {
             base.OnChildrenAdded(affectedChilds);
