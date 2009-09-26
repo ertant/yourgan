@@ -53,7 +53,7 @@ namespace Yourgan.Rendering
 
             if (this is Body)
                 pen = Pens.Cyan;
-            if (this.Model.Element.LocalName == "span")
+            if (this.Style.Display == DisplayMode.Inline)
                 pen = Pens.LawnGreen;
 
             drawingContext.Graphics.DrawRectangle(pen, 0, 0, this.OffsetWidth, this.OffsetHeight);

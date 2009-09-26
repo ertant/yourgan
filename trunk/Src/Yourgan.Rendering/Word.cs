@@ -108,7 +108,7 @@ namespace Yourgan.Rendering
             RectangleF rect = new RectangleF(this.OffsetLeft, this.OffsetTop, this.OffsetWidth, this.OffsetHeight);
 
             drawingContext.Graphics.DrawString(this.text, font.CachedFont, SystemBrushes.WindowText, rect);
-            drawingContext.Graphics.DrawRectangle(SystemPens.MenuHighlight, rect.X, rect.Y, rect.Width, rect.Height);
+            drawingContext.Graphics.DrawRectangle(Pens.Blue, rect.X, rect.Y, rect.Width, rect.Height);
         }
     }
 }

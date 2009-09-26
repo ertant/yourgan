@@ -100,9 +100,9 @@ namespace Yourgan.Rendering
             get
             {
                 if (this.Style.HasWidth)
-                    return this.Style.Width;
+                    return this.Style.Width - this.Style.Margin.Horizontal;
                 else
-                    return this.ParentElement.ScrollWidth;
+                    return this.ParentElement.ScrollWidth - this.Style.Margin.Horizontal;
             }
         }
 

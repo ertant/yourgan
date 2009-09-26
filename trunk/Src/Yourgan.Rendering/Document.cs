@@ -176,26 +176,9 @@ namespace Yourgan.Rendering
             }
         }
 
-        //private RectangleF documentSize;
-
-        //public RectangleF DocumentSize
-        //{
-        //    get
-        //    {
-        //        return documentSize;
-        //    }
-        //    set
-        //    {
-        //        documentSize = value;
-
-        //        if (this.documentElement != null)
-        //            this.documentElement.Body.Layout.Invalidate();
-        //    }
-        //}
-
-        public void PerformLayout()
+        public void InvalidateLayout()
         {
-            if (this.DocumentElement != null)
+            if ((this.DocumentElement != null) && (this.DocumentElement.Body != null))
             {
                 this.DocumentElement.Body.Layout.Invalidate();
             }
