@@ -26,9 +26,23 @@ namespace Yourgan.Rendering
 {
     public class FlowLayout : ILayout
     {
+        private Thread layoutThread;
+
         public FlowLayout(GraphicElement owner)
         {
+            if (owner == null)
+                throw new ArgumentNullException("owner");
+
             this.owner = owner;
+
+            layoutThread = new Thread(new ThreadStart(PerformLayoutLoop));
+            layoutThread.IsBackground = true;
+            layoutThread.Start();
+        }
+
+        ~FlowLayout()
+        {
+            layoutThread.Abort();
         }
 
         private GraphicElement owner;
@@ -39,13 +53,6 @@ namespace Yourgan.Rendering
             {
                 return owner;
             }
-        }
-
-        public void PerformLayout()
-        {
-            PerformLayoutInternal(this.owner, PointF.Empty);
-
-            isLayoutRequired = false;
         }
 
         private static void LineFeed(GraphicElement container, ref PointF location, PointF origin, ref float maxHeight, bool includeBottom)
@@ -190,26 +197,52 @@ namespace Yourgan.Rendering
             container.UpdateSize(location.X - offset.X, location.Y - offset.Y);
         }
 
-        private bool isLayoutRequired;
+        private int invalidateCount;
 
         public bool IsLayoutRequired
         {
             get
             {
-                return isLayoutRequired;
+                return invalidateCount > 0;
             }
         }
 
         public void Invalidate()
         {
-            isLayoutRequired = true;
+            Interlocked.Increment(ref invalidateCount);
         }
 
-        public void PerformLayoutIfRequired()
+        public void PerformLayout()
         {
-            if (isLayoutRequired)
+            PerformLayoutInternal(this.owner, PointF.Empty);
+        }
+
+        public bool PerformLayoutIfRequired()
+        {
+            bool invalidated = false;
+
+            while (invalidateCount > 0)
             {
                 this.PerformLayout();
+
+                Interlocked.Decrement(ref invalidateCount);
+
+                invalidated = true;
+            }
+
+            return invalidated;
+        }
+
+        private void PerformLayoutLoop()
+        {
+            while (true)
+            {
+                if (PerformLayoutIfRequired())
+                {
+                    this.owner.OwnerDocument.DefaultView.InvalidatePaint();
+                }
+
+                Thread.Sleep(10);
             }
         }
     }

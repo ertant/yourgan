@@ -27,7 +27,7 @@ namespace Yourgan.Rendering
     {
         void PerformLayout();
 
-        void PerformLayoutIfRequired();
+        bool PerformLayoutIfRequired();
 
         void Invalidate();
 
