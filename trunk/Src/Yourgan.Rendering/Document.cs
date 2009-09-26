@@ -80,7 +80,7 @@ namespace Yourgan.Rendering
 
                 parent.Childs.Add(graphicElement);
 
-                this.DefaultView.OnChange();
+                this.DefaultView.InvalidatePaint();
             }
         }
 

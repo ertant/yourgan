@@ -23,26 +23,42 @@ using System.Drawing;
 
 namespace Yourgan.Rendering
 {
-    static class FontCache
+    class FontCache
     {
-        private static Image image;
-        private static Graphics graphics;
-        private static StringFormat format;
+        private static Dictionary<int, FontCache> ThreadContexts;
+        private Image image;
+        private Graphics graphics;
+        private StringFormat format;
 
         static FontCache()
         {
+            ThreadContexts = new Dictionary<int, FontCache>();
+        }
+
+        private FontCache()
+        {
             format = new StringFormat();
+            image = new Bitmap(1, 1);
+            graphics = Graphics.FromImage(image);
+        }
+
+        private SizeF InternalMeasureString(string text, Font font, SizeF maxSize)
+        {
+            return graphics.MeasureString(text, font.CachedFont, maxSize, format);
         }
 
         public static SizeF MeasureString(string text, Font font, SizeF maxSize)
         {
-            if (image == null)
+            FontCache cache;
+
+            if (!ThreadContexts.TryGetValue(System.Threading.Thread.CurrentThread.ManagedThreadId, out cache))
             {
-                image = new Bitmap(1, 1);
-                graphics = Graphics.FromImage(image);
+                cache = new FontCache();
+
+                ThreadContexts[System.Threading.Thread.CurrentThread.ManagedThreadId] = cache;
             }
 
-            return graphics.MeasureString(text, font.CachedFont, maxSize, format);
+            return cache.InternalMeasureString(text, font, maxSize);
         }
     }
 }

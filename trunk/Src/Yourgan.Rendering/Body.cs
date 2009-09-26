@@ -80,12 +80,5 @@ namespace Yourgan.Rendering
             base.OnChildrenRemoved(affectedChilds);
             this.Layout.Invalidate();
         }
-
-        protected override void CorePaint(DrawingContext drawingContext)
-        {
-            this.Layout.PerformLayoutIfRequired();
-
-            base.CorePaint(drawingContext);
-        }
     }
 }

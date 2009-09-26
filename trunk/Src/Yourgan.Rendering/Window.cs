@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Yourgan.Parser;
 using System.Drawing;
 
@@ -34,7 +35,7 @@ namespace Yourgan.Rendering
 
         public event Action Change;
 
-        internal void OnChange()
+        public void InvalidatePaint()
         {
             if (Change != null)
                 Change();
@@ -66,8 +67,6 @@ namespace Yourgan.Rendering
             }
         }
 
-        float innerWidth;
-
         public float InnerWidth
         {
             get
@@ -75,8 +74,6 @@ namespace Yourgan.Rendering
                 return this.size.Width;
             }
         }
-
-        float innerHeight;
 
         public float InnerHeight
         {
@@ -148,7 +145,6 @@ namespace Yourgan.Rendering
                 }
             }
 
-            this.Document.InvalidateLayout();
             // Status("Completed");
         }
 
