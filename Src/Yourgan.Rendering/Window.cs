@@ -62,7 +62,7 @@ namespace Yourgan.Rendering
             {
                 size = value;
 
-                this.Document.PerformLayout();
+                this.Document.InvalidateLayout();
             }
         }
 
@@ -148,7 +148,7 @@ namespace Yourgan.Rendering
                 }
             }
 
-            this.Document.PerformLayout();
+            this.Document.InvalidateLayout();
             // Status("Completed");
         }
 

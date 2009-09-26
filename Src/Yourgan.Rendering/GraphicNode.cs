@@ -50,26 +50,34 @@ namespace Yourgan.Rendering
             set
             {
                 parent = value;
+                UpdateParentElement();
             }
         }
+
+        private GraphicElement parentElement;
 
         public GraphicElement ParentElement
         {
             get
             {
-                GraphicNode tmpParent = this.Parent;
-                GraphicElement element;
-
-                do
-                {
-                    element = parent as GraphicElement;
-
-                    tmpParent = tmpParent.Parent;
-
-                } while ((element == null) && (tmpParent != null));
-
-                return element;
+                return parentElement;
             }
+        }
+
+        private void UpdateParentElement()
+        {
+            GraphicNode tmpParent = this.Parent;
+            GraphicElement element;
+
+            do
+            {
+                element = parent as GraphicElement;
+
+                tmpParent = tmpParent.Parent;
+
+            } while ((element == null) && (tmpParent != null));
+
+            this.parentElement = element;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]

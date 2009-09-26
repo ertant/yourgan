@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace Yourgan.Rendering
 {
@@ -42,7 +43,7 @@ namespace Yourgan.Rendering
 
         public void PerformLayout()
         {
-            PerformLayoutInternal(this.owner, PointF.Empty, this.owner.ScrollWidth);
+            PerformLayoutInternal(this.owner, PointF.Empty);
 
             isLayoutRequired = false;
         }
@@ -60,7 +61,7 @@ namespace Yourgan.Rendering
             maxHeight = 0;
         }
 
-        private static void PerformLayoutIfRequired(GraphicNode child, PointF location, float scrollWidth)
+        private static void PerformLayoutIfRequired(GraphicNode child, PointF location)
         {
             ILayoutProvider childLayout = child as ILayoutProvider;
 
@@ -72,12 +73,12 @@ namespace Yourgan.Rendering
             {
                 if (child.Childs.Count > 0)
                 {
-                    PerformLayoutInternal(child as GraphicElement, location, scrollWidth);
+                    PerformLayoutInternal(child as GraphicElement, location);
                 }
             }
         }
 
-        private static void PerformLayoutInternal(GraphicElement container, PointF offset, float scrollWidth)
+        private static void PerformLayoutInternal(GraphicElement container, PointF offset)
         {
             GraphicNode[] childs = container.Childs.ToArrayThreadSafe();
 
@@ -89,7 +90,10 @@ namespace Yourgan.Rendering
             PointF location = origin;
 
             float maxHeight = 0;
+            float maxWidth = 0;
             bool isFirst = true;
+
+            float scrollWidth = container.ScrollWidth - container.OffsetLeft;
 
             location.Y += container.Style.Padding.Top;
 
@@ -109,7 +113,10 @@ namespace Yourgan.Rendering
                         location.X += container.Style.Padding.Left;
                     }
 
-                    PerformLayoutIfRequired(child, location, scrollWidth);
+                    PerformLayoutIfRequired(child, location);
+
+                    float childWidth = child.OffsetWidth;
+                    float childHeight = child.OffsetHeight;
 
                     switch (child.Style.Display)
                     {
@@ -117,7 +124,7 @@ namespace Yourgan.Rendering
                             {
                                 child.UpdateOffset(location.X, location.Y);
 
-                                location.Y = child.OffsetTop + child.OffsetHeight;
+                                location.Y = child.OffsetTop + childHeight;
 
                                 LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
 
@@ -125,22 +132,30 @@ namespace Yourgan.Rendering
                             }
                         case DisplayMode.Inline:
                             {
-                                if (location.X + child.OffsetWidth + container.Style.Padding.Right > container.ScrollWidth - offset.X)
+                                if (childWidth + container.Style.Padding.Right > scrollWidth - location.X)
                                 {
                                     LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
 
                                     location.X += container.Style.Padding.Left;
 
-                                    PerformLayoutIfRequired(child, location, scrollWidth);
+                                    PerformLayoutIfRequired(child, location);
+
+                                    childWidth = child.OffsetWidth;
+                                    childHeight = child.OffsetHeight;
                                 }
 
                                 child.UpdateOffset(location.X, location.Y);
 
-                                location.X += child.OffsetWidth;
+                                location.X += childWidth;
 
-                                if (maxHeight < child.OffsetHeight)
+                                if (maxWidth < childWidth)
                                 {
-                                    maxHeight = child.OffsetHeight;
+                                    maxWidth = childWidth;
+                                }
+
+                                if (maxHeight < childHeight)
+                                {
+                                    maxHeight = childHeight;
                                 }
 
                                 break;
@@ -152,16 +167,24 @@ namespace Yourgan.Rendering
                 }
             }
 
+
             location.Y += maxHeight;
             location.Y += container.Style.Padding.Bottom;
+            location.Y += container.Style.Margin.Bottom;
 
             if (container.Style.Display == DisplayMode.Block)
             {
-                location.X = container.ScrollWidth - offset.X - container.Style.Padding.Right - container.Style.Margin.Right;
+                location.X = scrollWidth - container.Style.Padding.Horizontal;
             }
+            else
+            {
+                if (location.X < maxWidth)
+                {
+                    location.X = maxWidth;
+                }
 
-            location.Y += container.Style.Margin.Bottom;
-            location.X += container.Style.Margin.Right;
+                location.X += container.Style.Margin.Right;
+            }
 
             container.UpdateOffset(offset.X, offset.Y);
             container.UpdateSize(location.X - offset.X, location.Y - offset.Y);

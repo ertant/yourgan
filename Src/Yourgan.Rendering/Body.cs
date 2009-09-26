@@ -41,22 +41,6 @@ namespace Yourgan.Rendering
             }
         }
 
-        public override float PixelsHeight
-        {
-            get
-            {
-                return this.ParentElement.PixelsHeight;
-            }
-        }
-
-        public override float PixelsWidth
-        {
-            get
-            {
-                return this.ParentElement.PixelsWidth;
-            }
-        }
-
         private float scrollTop;
 
         public override float ScrollTop
