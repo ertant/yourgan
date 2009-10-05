@@ -29,7 +29,7 @@ namespace Yourgan.Rendering
             this.display = DisplayMode.Block;
             this.position = Position.Inherit;
             this.padding = new Padding(2);
-            this.margin = new Padding(2);
+            this.margin = new Padding(4);
         }
 
         private Padding padding;

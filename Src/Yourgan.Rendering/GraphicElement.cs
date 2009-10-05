@@ -187,10 +187,10 @@ namespace Yourgan.Rendering
 
         internal void UpdateSize(float width, float height)
         {
-            if (width > 0)
+            //if (width > 0)
                 this.pixelsWidth = width;
 
-            if (height > 0)
+            //if (height > 0)
                 this.pixelsHeight = height;
         }
 

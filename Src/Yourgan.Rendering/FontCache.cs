@@ -51,11 +51,14 @@ namespace Yourgan.Rendering
         {
             FontCache cache;
 
-            if (!ThreadContexts.TryGetValue(System.Threading.Thread.CurrentThread.ManagedThreadId, out cache))
+            lock (ThreadContexts)
             {
-                cache = new FontCache();
+                if (!ThreadContexts.TryGetValue(System.Threading.Thread.CurrentThread.ManagedThreadId, out cache))
+                {
+                    cache = new FontCache();
 
-                ThreadContexts[System.Threading.Thread.CurrentThread.ManagedThreadId] = cache;
+                    ThreadContexts[System.Threading.Thread.CurrentThread.ManagedThreadId] = cache;
+                }
             }
 
             return cache.InternalMeasureString(text, font, maxSize);

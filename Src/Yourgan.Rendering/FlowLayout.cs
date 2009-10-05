@@ -58,6 +58,8 @@ namespace Yourgan.Rendering
         private static void LineFeed(GraphicElement container, ref PointF location, PointF origin, ref float maxHeight, bool includeBottom)
         {
             location.X = origin.X;
+            location.X += container.Style.Padding.Left;
+
             location.Y += maxHeight;
 
             if (includeBottom)
@@ -65,24 +67,32 @@ namespace Yourgan.Rendering
                 location.Y += container.Style.Padding.Bottom;
             }
 
+            location.Y += container.Style.Padding.Top;
+
             maxHeight = 0;
         }
 
-        private static void PerformLayoutIfRequired(GraphicNode child, PointF location)
+        private static bool PerformLayoutIfRequired(GraphicNode child, PointF location)
         {
             ILayoutProvider childLayout = child as ILayoutProvider;
 
             if (childLayout != null)
             {
                 childLayout.Layout.PerformLayoutIfRequired();
+
+                return true;
             }
             else
             {
                 if (child.Childs.Count > 0)
                 {
                     PerformLayoutInternal(child as GraphicElement, location);
+
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private static void PerformLayoutInternal(GraphicElement container, PointF offset)
@@ -99,10 +109,12 @@ namespace Yourgan.Rendering
             float maxHeight = 0;
             float maxWidth = 0;
             bool isFirst = true;
+            bool wasBlock = false;
 
             float scrollWidth = container.ScrollWidth - container.OffsetLeft;
 
             location.Y += container.Style.Padding.Top;
+            location.X += container.Style.Padding.Left;
 
             foreach (GraphicNode node in childs)
             {
@@ -110,66 +122,73 @@ namespace Yourgan.Rendering
 
                 if (child != null)
                 {
-                    location.X += container.Style.Padding.Left;
-                    //location.Y += container.Style.Padding.Top;
-
-                    if (child.Style.Display == DisplayMode.Block)
-                    {
-                        LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
-
-                        location.X += container.Style.Padding.Left;
-                    }
-
-                    PerformLayoutIfRequired(child, location);
-
-                    float childWidth = child.OffsetWidth;
-                    float childHeight = child.OffsetHeight;
-
                     switch (child.Style.Display)
                     {
                         case DisplayMode.Block:
                             {
+                                if (!isFirst)
+                                {
+                                    LineFeed(container, ref location, origin, ref maxHeight, true);
+                                }
+
                                 child.UpdateOffset(location.X, location.Y);
 
-                                location.Y = child.OffsetTop + childHeight;
+                                PerformLayoutIfRequired(child, location);
 
-                                LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
+                                location.Y = child.OffsetTop + child.OffsetHeight;
+
+                                maxWidth = scrollWidth;
+
+                                wasBlock = true;
 
                                 break;
                             }
                         case DisplayMode.Inline:
                             {
-                                if (childWidth + container.Style.Padding.Right > scrollWidth - location.X)
+                                float childWidth = child.OffsetWidth;
+                                float childHeight = child.OffsetHeight;
+
+                                if (wasBlock)
                                 {
-                                    LineFeed(container, ref location, origin, ref maxHeight, !isFirst);
-
-                                    location.X += container.Style.Padding.Left;
-
-                                    PerformLayoutIfRequired(child, location);
-
-                                    childWidth = child.OffsetWidth;
-                                    childHeight = child.OffsetHeight;
+                                    LineFeed(container, ref location, origin, ref maxHeight, true);
+                                }
+                                else
+                                {
+                                    if ((childWidth + container.Style.Padding.Right > scrollWidth - location.X) &&
+                                        (!isFirst))
+                                    {
+                                        LineFeed(container, ref location, origin, ref maxHeight, true);
+                                    }
                                 }
 
                                 child.UpdateOffset(location.X, location.Y);
 
-                                location.X += childWidth;
-
-                                if (maxWidth < childWidth)
+                                if (PerformLayoutIfRequired(child, location))
                                 {
-                                    maxWidth = childWidth;
+                                    childWidth = child.OffsetWidth;
+                                    childHeight = child.OffsetHeight;
                                 }
+
+                                location.X += childWidth;
 
                                 if (maxHeight < childHeight)
                                 {
                                     maxHeight = childHeight;
                                 }
 
+                                location.X += child.Style.Padding.Right;
+
+                                wasBlock = false;
+
                                 break;
                             }
                     }
 
-                    location.X += child.Style.Padding.Right;
+                    if (maxWidth < location.X)
+                    {
+                        maxWidth = location.X;
+                    }
+
                     isFirst = false;
                 }
             }
@@ -181,7 +200,7 @@ namespace Yourgan.Rendering
 
             if (container.Style.Display == DisplayMode.Block)
             {
-                location.X = scrollWidth - container.Style.Padding.Horizontal;
+                location.X = container.ScrollWidth; //scrollWidth - container.Style.Padding.Horizontal;
             }
             else
             {
