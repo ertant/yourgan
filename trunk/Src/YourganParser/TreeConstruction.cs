@@ -1012,6 +1012,7 @@ namespace Yourgan.Parser
                         // An end tag whose tag name is one of: "a", "b", "big", "em", "font", "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
                         else if (entity.IsOneOfTag("a", "b", "big", "em", "font", "i", "nobr", "s", "small", "strike", "strong", "tt", "u"))
                         {
+                            state.CloseInStack(entity.Data);
                             // TODO : implement
                         }
                         // A end tag token whose tag name is one of: "applet", "marquee", "object" 

@@ -135,9 +135,16 @@ namespace Yourgan.Rendering
                                     // do not create anything
                                     break;
                                 }
-                            default:
+                            case "span":
+                            case "a":
+                            case "font":
                                 {
                                     obj = CreateBlock(node, DisplayMode.Inline);
+                                    break;
+                                }
+                            default:
+                                {
+                                    obj = CreateBlock(node, DisplayMode.Block);
                                     break;
                                 }
                         }

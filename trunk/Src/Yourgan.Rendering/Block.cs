@@ -58,6 +58,8 @@ namespace Yourgan.Rendering
 
             drawingContext.Graphics.DrawRectangle(pen, 0, 0, this.OffsetWidth, this.OffsetHeight);
 
+            drawingContext.Graphics.DrawRectangle(Pens.LightGray, this.Style.Padding.Left, this.Style.Padding.Top, this.OffsetWidth - this.Style.Padding.Right, this.OffsetHeight - this.Style.Padding.Top);
+
             drawingContext.PopTransform();
         }
     }
