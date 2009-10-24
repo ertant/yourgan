@@ -14,5 +14,19 @@ namespace Yourgan.Core.Page
             get { return mainFrame; }
             set { mainFrame = value; }
         }
+
+        private IHostWindow hostWindow;
+
+        public IHostWindow HostWindow
+        {
+            get
+            {
+                return hostWindow;
+            }
+            set
+            {
+                hostWindow = value;
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Yourgan.Core.Page
         public Frame(Page page)
         {
             this.page = page;
+            this.view = new FrameView(this);
         }
 
         private Page page;
@@ -28,6 +29,14 @@ namespace Yourgan.Core.Page
             set { document = value; }
         }
 
+        private FrameView view;
 
+        public FrameView View
+        {
+            get
+            {
+                return view;
+            }
+        }
     }
 }
