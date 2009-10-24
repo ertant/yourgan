@@ -117,5 +117,141 @@ namespace Yourgan.Core.Render
 
             return yPos;
         }
+
+        public int BorderLeft
+        {
+            get
+            {
+                return this.Style.Surround.Border.Left.GetWidth();
+            }
+        }
+
+        public int BorderTop
+        {
+            get
+            {
+                return this.Style.Surround.Border.Top.GetWidth();
+            }
+        }
+
+        public int BorderRight
+        {
+            get
+            {
+                return this.Style.Surround.Border.Right.GetWidth();
+            }
+        }
+
+        public int BorderBottom
+        {
+            get
+            {
+                return this.Style.Surround.Border.Bottom.GetWidth();
+            }
+        }
+
+        public virtual int PaddingLeft
+        {
+            get
+            {
+                Length padding = this.Style.Surround.Padding.Left;
+
+                int width = 0;
+
+                if (padding.Type == LengthType.Percent)
+                {
+                    width = this.ContainingBlock.AvailableWidth;
+                }
+
+                return padding.CalculateMin(width);
+            }
+        }
+
+        public virtual int PaddingTop
+        {
+            get
+            {
+                Length padding = this.Style.Surround.Padding.Top;
+
+                int width = 0;
+
+                if (padding.Type == LengthType.Percent)
+                {
+                    width = this.ContainingBlock.AvailableWidth;
+                }
+
+                return padding.CalculateMin(width);
+            }
+        }
+
+        public virtual int PaddingRight
+        {
+            get
+            {
+                Length padding = this.Style.Surround.Padding.Right;
+
+                int width = 0;
+
+                if (padding.Type == LengthType.Percent)
+                {
+                    width = this.ContainingBlock.AvailableWidth;
+                }
+
+                return padding.CalculateMin(width);
+            }
+        }
+
+        public virtual int PaddingBottom
+        {
+            get
+            {
+                Length padding = this.Style.Surround.Padding.Bottom;
+
+                int width = 0;
+
+                if (padding.Type == LengthType.Percent)
+                {
+                    width = this.ContainingBlock.AvailableWidth;
+                }
+
+                return padding.CalculateMin(width);
+            }
+        }
+
+        public int MarginTop
+        {
+            get
+            {
+                // TODO : 
+                return 0;
+            }
+        }
+
+        public int MarginLeft
+        {
+            get
+            {
+                // TODO : 
+                return 0;
+            }
+        }
+
+        public int MarginRight
+        {
+            get
+            {
+                // TODO : 
+                return 0;
+            }
+        }
+
+        public int MarginBottom
+        {
+            get
+            {
+                // TODO : 
+                return 0;
+            }
+        }
     }
 }

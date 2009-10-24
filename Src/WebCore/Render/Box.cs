@@ -47,5 +47,69 @@ namespace Yourgan.Core.Render
             }
         }
 
+        public int Width
+        {
+            get
+            {
+                return frame.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return frame.Height;
+            }
+        }
+
+        public int ClientWidth
+        {
+            get
+            {
+                // TODO : Scrollbar width
+                return Width - this.BorderLeft - this.BorderRight;
+            }
+        }
+
+        public int ClientHeight
+        {
+            get
+            {
+                // TODO : Scrollbar height
+                return this.Height - this.BorderTop - this.BorderBottom;
+            }
+        }
+
+        public int ContentWidth
+        {
+            get
+            {
+                return this.ClientWidth - PaddingLeft - PaddingRight;
+            }
+        }
+
+        public int ContentHeight
+        {
+            get
+            {
+                return this.ClientHeight - PaddingTop - PaddingBottom;
+            }
+        }
+
+        private PrimitiveList childs;
+
+        public PrimitiveList Childs
+        {
+            get
+            {
+                if (childs == null)
+                {
+                    childs = new PrimitiveList(this);
+                }
+
+                return childs;
+            }
+        }
     }
 }

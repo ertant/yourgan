@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yourgan.Core
 {
-    public struct LengthBox
+    public class LengthBox
     {
         private Length left;
 
