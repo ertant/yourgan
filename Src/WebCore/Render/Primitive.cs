@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Yourgan.Core.DOM;
 using Yourgan.Core.Style;
 
 namespace Yourgan.Core.Render
