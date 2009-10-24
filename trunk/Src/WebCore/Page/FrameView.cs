@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Yourgan.Core.Page
 {
-    abstract class FrameView
+    public class FrameView
     {
         public FrameView(Frame frame)
         {
@@ -20,9 +20,12 @@ namespace Yourgan.Core.Page
             get { return frame; }
         }
 
-        public abstract Rectangle Bounds
+        public Rectangle Bounds
         {
-            get;
+            get
+            {
+                return this.Frame.Page.HostWindow.Bounds;
+            }
         }
 
         public int Width

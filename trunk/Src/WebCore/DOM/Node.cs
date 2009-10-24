@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Yourgan.Core.Render;
 
 namespace Yourgan.Core.DOM
 {
@@ -19,6 +20,24 @@ namespace Yourgan.Core.DOM
             get
             {
                 return document;
+            }
+            protected set
+            {
+                document = value;
+            }
+        }
+
+        private Primitive renderer;
+
+        public Primitive Renderer
+        {
+            get
+            {
+                return renderer;
+            }
+            protected set
+            {
+                renderer = value;
             }
         }
     }
