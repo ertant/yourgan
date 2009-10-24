@@ -121,5 +121,29 @@ namespace Yourgan.Core.Render
 
             return boxObject;
         }
+
+        public Block ContainingBlock
+        {
+            get
+            {
+                Primitive parent = this.Parent;
+
+                while (parent != null)
+                {
+                    // TODO : Check relative or absolute positions
+
+                    Block block = parent as Block;
+
+                    if (block != null)
+                    {
+                        return block;
+                    }
+
+                    parent = parent.Parent;
+                }
+
+                return null;
+            }
+        }
     }
 }

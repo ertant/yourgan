@@ -52,10 +52,15 @@
     <Compile Include="LengthType.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Render\Block.cs" />
     <Compile Include="Render\Box.cs" />
     <Compile Include="Render\BoxModel.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="Render\InlineBox.cs" />
+    <Compile Include="Render\InlineFlowBox.cs" />
+    <Compile Include="Render\InlineRunBox.cs" />
     <Compile Include="Render\Layer.cs" />
+    <Compile Include="Render\InlineBoxList.cs" />
     <Compile Include="Render\Primitive.cs" />
     <Compile Include="Render\PrimitiveList.cs" />
     <Compile Include="Style\Border.cs" />
