@@ -78,6 +78,14 @@
     <Compile Include="Style\PositionStyle.cs" />
     <Compile Include="Style\StyleData.cs" />
     <Compile Include="Style\Surround.cs" />
+    <Compile Include="UI\INativeWidget.cs" />
+    <Compile Include="UI\Scrollbar.cs" />
+    <Compile Include="UI\ScrollbarMode.cs" />
+    <Compile Include="UI\ScrollDirection.cs" />
+    <Compile Include="UI\ScrollGranularity.cs" />
+    <Compile Include="UI\ScrollOrientation.cs" />
+    <Compile Include="UI\ScrollView.cs" />
+    <Compile Include="UI\Widget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
