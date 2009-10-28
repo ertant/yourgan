@@ -18,8 +18,6 @@ namespace TestApp2
 
         public void Load(string uri)
         {
-            System.Net.WebClient client = new System.Net.WebClient();
-
             System.Xml.XmlDocument doc = new XmlDocument();
 
             Page page = new Page();
@@ -34,6 +32,8 @@ namespace TestApp2
 
             using (DocumentStream documentStream = new DocumentStream(document.XmlDocument))
             {
+                System.Net.WebClient client = new System.Net.WebClient();
+
                 using (System.IO.Stream html = client.OpenRead(uri))
                 {
                     using (System.IO.StreamReader htmlReader = new System.IO.StreamReader(html, documentStream.Encoding))

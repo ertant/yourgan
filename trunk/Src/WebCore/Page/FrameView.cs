@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using Yourgan.Core.UI;
 
 namespace Yourgan.Core.Page
 {
-    public class FrameView
+    public class FrameView : ScrollView
     {
         public FrameView(Frame frame)
         {
