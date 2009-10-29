@@ -86,9 +86,9 @@ namespace TestApp2
             }
         }
 
-        GDIPlatform platform = new GDIPlatform();
+        GDIDrawingPlatform platform = new GDIDrawingPlatform();
 
-        IPlatform Yourgan.Core.Drawing.IHostWindow.GetPlatform()
+        IDrawingPlatform Yourgan.Core.Drawing.IHostWindow.GetPlatform()
         {
             return platform;
         }

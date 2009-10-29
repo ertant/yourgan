@@ -18,6 +18,6 @@ namespace Yourgan.Core.Drawing
 
         event EventHandler SizeChanged;
 
-        IPlatform GetPlatform();
+        IDrawingPlatform GetPlatform();
     }
 }
