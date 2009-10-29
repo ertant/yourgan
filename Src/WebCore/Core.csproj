@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DOM\Document.cs" />
-    <Compile Include="Drawing\GDI\GDIPlatform.cs" />
+    <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />
     <Compile Include="Length.cs" />
     <Compile Include="LengthBox.cs" />

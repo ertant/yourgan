@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Yourgan.Core.Drawing
 {
-    public interface IDrawingPlatform
+    public interface IDrawingPlatform : IDisposable
     {
         void Reset(Size size);
 
