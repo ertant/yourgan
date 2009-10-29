@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace Yourgan.Core.Drawing.GDI
 {
-    public class GDIPlatform : IPlatform, IDisposable
+    public class GDIDrawingPlatform : IDrawingPlatform, IDisposable
     {
-        public GDIPlatform()
+        public GDIDrawingPlatform()
         {
         }
 
