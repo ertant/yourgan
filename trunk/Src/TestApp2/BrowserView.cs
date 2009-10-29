@@ -6,10 +6,15 @@ using System.Xml;
 using Yourgan.Core.DOM;
 using Yourgan.Core.Page;
 using Yourgan.Parser;
+using System.Drawing;
+
+using Yourgan.Core.Drawing;
+using Yourgan.Core.Drawing.GDI;
+
 
 namespace TestApp2
 {
-    class BrowserView : System.Windows.Forms.Panel, Yourgan.Core.Page.IHostWindow
+    class BrowserView : System.Windows.Forms.Panel, Yourgan.Core.Drawing.IHostWindow
     {
         public BrowserView()
         {
@@ -52,14 +57,40 @@ namespace TestApp2
             }
         }
 
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            this.platform.Render(e.Graphics, e.ClipRectangle);
+        }
+
         #region IHostWindow Members
 
-        System.Drawing.Rectangle Yourgan.Core.Page.IHostWindow.Bounds
+        Size Yourgan.Core.Drawing.IHostWindow.Size
         {
             get
             {
-                return this.ClientRectangle;
+                return this.Size;
             }
+        }
+
+        event EventHandler Yourgan.Core.Drawing.IHostWindow.SizeChanged
+        {
+            add
+            {
+                this.SizeChanged += value;
+            }
+            remove
+            {
+                this.SizeChanged += value;
+            }
+        }
+
+        GDIPlatform platform = new GDIPlatform();
+
+        IPlatform Yourgan.Core.Drawing.IHostWindow.GetPlatform()
+        {
+            return platform;
         }
 
         #endregion

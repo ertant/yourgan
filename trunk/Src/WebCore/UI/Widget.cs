@@ -53,5 +53,29 @@ namespace Yourgan.Core.UI
                 bounds = value;
             }
         }
+
+        public int Width
+        {
+            get
+            {
+                return this.Bounds.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return this.Bounds.Height;
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                return this.Bounds.Size;
+            }
+        }
     }
 }

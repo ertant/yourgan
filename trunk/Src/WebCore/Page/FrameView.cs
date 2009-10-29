@@ -21,55 +21,6 @@ namespace Yourgan.Core.Page
             get { return frame; }
         }
 
-        public Rectangle Bounds
-        {
-            get
-            {
-                return this.Frame.Page.HostWindow.Bounds;
-            }
-        }
-
-        public int Width
-        {
-            get
-            {
-                return this.Bounds.Width;
-            }
-        }
-
-        public int Height
-        {
-            get
-            {
-                return this.Bounds.Height;
-            }
-        }
-
-        public Rectangle VisibleContent
-        {
-            get
-            {
-                // TODO : Add scrollbars
-                return this.Bounds;
-            }
-        }
-
-        public int VisibleWidth
-        {
-            get
-            {
-                return this.VisibleContent.Width;
-            }
-        }
-
-        public int VisibleHeight
-        {
-            get
-            {
-                return this.VisibleContent.Height;
-            }
-        }
-
         public int LayoutWidth
         {
             get
