@@ -12,7 +12,34 @@ namespace Yourgan.Core.UI
         public int Value
         {
             get { return this.value; }
-            set { this.value = value; }
+            set
+            {
+                int newValue = EnsureValueRange(value);
+
+                OnValueChanging(newValue);
+                this.value = newValue;
+                OnValueChanged(newValue);
+            }
+        }
+
+        public event ScrollbarValueChangeHandler ValueChanging;
+
+        private void OnValueChanging(int newValue)
+        {
+            if (ValueChanging != null)
+            {
+                ValueChanging(this, new ScrollbarValueChangeEventArgs(this, newValue));
+            }
+        }
+
+        public event ScrollbarValueChangeHandler ValueChanged;
+
+        private void OnValueChanged(int newValue)
+        {
+            if (ValueChanged != null)
+            {
+                ValueChanged(this, new ScrollbarValueChangeEventArgs(this, newValue));
+            }
         }
 
         private int minimum;
@@ -121,12 +148,14 @@ namespace Yourgan.Core.UI
 
             #endregion
 
-            int newPos = this.Value + (int)(step * amount);
+            int newValue = this.Value + (int)(step * amount);
 
-            this.Value = Math.Max(Math.Min(newPos, this.Maximum), this.Minimum);
+            this.Value = EnsureValueRange(newValue);
         }
 
-
-
+        private int EnsureValueRange(int newValue)
+        {
+            return Math.Max(Math.Min(newValue, this.Maximum), this.Minimum);
+        }
     }
 }

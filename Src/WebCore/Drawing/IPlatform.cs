@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace Yourgan.Core.Page
+namespace Yourgan.Core.Drawing
 {
-    public interface IHostWindow
+    public interface IPlatform
     {
-        Rectangle Bounds
+        void Reset(Size size);
+
+        IGraphicsContext Current
         {
             get;
         }
