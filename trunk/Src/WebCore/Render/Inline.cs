@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Render
 {
-    public class InlineFlowBox : InlineRunBox
+    public class Inline : BoxModel
     {
-        public InlineFlowBox(Primitive owner)
-            : base(owner)
+        public Inline(Node node)
+            : base(node)
         {
             
         }
-
-
     }
 }

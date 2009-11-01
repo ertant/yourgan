@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Yourgan.Core.Style.Style
+namespace Yourgan.Core.Style
 {
     public enum DisplayStyle
     {

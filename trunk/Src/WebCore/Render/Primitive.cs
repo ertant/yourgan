@@ -146,5 +146,27 @@ namespace Yourgan.Core.Render
                 return null;
             }
         }
+
+        public static Primitive Create(Node node, StyleData style)
+        {
+            switch (style.DisplayStyle)
+            {
+                case DisplayStyle.Inline:
+                    {
+                        return new Inline(node);
+                    }
+                case DisplayStyle.Block:
+                    {
+                        return new Block(node);
+                    }
+                default:
+                    {
+                        return new Block(node);
+                    }
+            }
+        }
+
+
+
     }
 }

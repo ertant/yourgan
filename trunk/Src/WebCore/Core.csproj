@@ -64,11 +64,8 @@
     <Compile Include="Render\Box.cs" />
     <Compile Include="Render\BoxModel.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="Render\InlineBox.cs" />
-    <Compile Include="Render\InlineFlowBox.cs" />
-    <Compile Include="Render\InlineRunBox.cs" />
+    <Compile Include="Render\Inline.cs" />
     <Compile Include="Render\Layer.cs" />
-    <Compile Include="Render\InlineBoxList.cs" />
     <Compile Include="Render\Primitive.cs" />
     <Compile Include="Render\PrimitiveList.cs" />
     <Compile Include="Render\View.cs" />

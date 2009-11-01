@@ -137,14 +137,16 @@ namespace Yourgan.Core.Style
 
         public PositionStyle Position
         {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-            }
+            get { return position; }
+            set { position = value; }
+        }
+
+        private DisplayStyle displayStyle;
+
+        public DisplayStyle DisplayStyle
+        {
+            get { return this.displayStyle; }
+            set { this.displayStyle = value; }
         }
     }
 }
