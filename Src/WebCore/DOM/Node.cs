@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Yourgan.Core.Render;
+using Yourgan.Core.Style;
 
 namespace Yourgan.Core.DOM
 {
@@ -39,6 +40,11 @@ namespace Yourgan.Core.DOM
             {
                 renderer = value;
             }
+        }
+
+        public StyleData GetStyle()
+        {
+            return null;
         }
     }
 }
