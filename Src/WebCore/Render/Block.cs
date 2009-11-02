@@ -23,15 +23,15 @@ namespace Yourgan.Core.Render
             }
         }
 
-        private InlineBoxList lineBoxes;
+        private LineBoxList lineBoxes;
 
-        public InlineBoxList LineBoxes
+        public LineBoxList LineBoxes
         {
             get
             {
                 if ( lineBoxes == null )
                 {
-                    lineBoxes = new InlineBoxList(this);
+                    lineBoxes = new LineBoxList();
                 }
 
                 return lineBoxes;

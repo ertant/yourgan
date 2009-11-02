@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using Yourgan.Core.DOM;
+using Yourgan.Core.Render.Style;
 
 namespace Yourgan.Core.Render
 {
@@ -252,6 +253,21 @@ namespace Yourgan.Core.Render
             {
                 // TODO : 
                 return 0;
+            }
+        }
+
+        protected override void OnStyleChanged(StyleData oldStyle)
+        {
+            base.OnStyleChanged(oldStyle);
+
+            if (this.IsRequiresLayer)
+            {
+                this.Layer = new Layer(this);
+                this.Layer.InsertToParent();
+            }
+            else if (this.HasLayer)
+            {
+                this.Layer = null;
             }
         }
     }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Yourgan.Core.DOM;
-using Yourgan.Core.Style;
+using Yourgan.Core.Render.Style;
+using System.Drawing;
+using Yourgan.Core.Drawing;
 
 namespace Yourgan.Core.Render
 {
-    public class Primitive
+    public abstract class Primitive
     {
         public Primitive(Node node)
         {
@@ -43,6 +45,38 @@ namespace Yourgan.Core.Render
             {
                 return style;
             }
+            set
+            {
+                OnStyleChanging(value);
+
+                StyleData oldStyle = this.style;
+
+                style = value;
+
+                OnStyleChanged(oldStyle);
+
+                Invalidate();
+            }
+        }
+
+        protected virtual void OnStyleChanging(StyleData newStyle)
+        {
+
+        }
+
+        protected virtual void OnStyleChanged(StyleData oldStyle)
+        {
+
+        }
+
+        protected void Invalidate()
+        {
+            Invalidate(Rectangle.Empty);
+        }
+
+        protected void Invalidate(Rectangle rectangle)
+        {
+            this.EnclosingLayer.Invalidate(rectangle);
         }
 
         public bool IsRoot
@@ -78,31 +112,27 @@ namespace Yourgan.Core.Render
             }
         }
 
-        private bool isPositioned;
+        public bool IsFloating
+        {
+            get
+            {
+                return this.IsPositioned && (this.Style.IsFloating);
+            }
+        }
 
         public bool IsPositioned
         {
             get
             {
-                return this.isPositioned;
-            }
-            set
-            {
-                this.isPositioned = value;
+                return (this.Style.Position == PositionStyle.Fixed) || (this.Style.Position == PositionStyle.Absolute);
             }
         }
-
-        private bool isRelativePositioned;
 
         public bool IsRelativePositioned
         {
             get
             {
-                return this.isRelativePositioned;
-            }
-            set
-            {
-                this.isRelativePositioned = value;
+                return this.Style.Position == PositionStyle.Relative;
             }
         }
 
@@ -127,20 +157,100 @@ namespace Yourgan.Core.Render
         {
             get
             {
-                Primitive parent = this.Parent;
+                Primitive tmpParent = this.Parent;
 
-                while (parent != null)
+                while (tmpParent != null)
                 {
                     // TODO : Check relative or absolute positions
 
-                    Block block = parent as Block;
+                    Block block = tmpParent as Block;
 
                     if (block != null)
                     {
                         return block;
                     }
 
-                    parent = parent.Parent;
+                    tmpParent = tmpParent.Parent;
+                }
+
+                return null;
+            }
+        }
+
+        public Box EnclosingBox
+        {
+            get
+            {
+                Primitive tmpParent = this.Parent;
+
+                while (tmpParent != null)
+                {
+                    Box box = tmpParent as Box;
+
+                    if (box != null)
+                    {
+                        return box;
+                    }
+
+                    tmpParent = tmpParent.Parent;
+                }
+
+                return null;
+            }
+        }
+
+        public bool IsRequiresLayer
+        {
+            get
+            {
+                // isTransparent() || hasOverflowClip() || hasTransform() || hasMask() || hasReflection();
+                return IsRoot || IsPositioned || IsRelativePositioned;
+            }
+        }
+
+        private Layer layer;
+
+        public Layer Layer
+        {
+            get
+            {
+                return layer;
+            }
+            set
+            {
+                if (layer != null)
+                {
+                    layer.Destroy();
+                }
+
+                layer = value;
+            }
+        }
+
+        public bool HasLayer
+        {
+            get
+            {
+                return layer != null;
+            }
+        }
+
+        public Layer EnclosingLayer
+        {
+            get
+            {
+                Primitive current = this;
+
+                while ((current != null) && !current.HasLayer)
+                {
+                    current = current.Parent;
+                }
+
+                BoxModel boxModel = current as BoxModel;
+
+                if (boxModel != null)
+                {
+                    return boxModel.Layer;
                 }
 
                 return null;
@@ -166,7 +276,14 @@ namespace Yourgan.Core.Render
             }
         }
 
+        public void Paint(IGraphicsContext context)
+        {
+            OnPaint(context);
+        }
 
+        protected virtual void OnPaint(IGraphicsContext context)
+        {
 
+        }
     }
 }

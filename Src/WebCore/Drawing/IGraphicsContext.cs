@@ -7,5 +7,6 @@ namespace Yourgan.Core.Drawing
 {
     public interface IGraphicsContext : IDisposable
     {
+        void FillRectangle(System.Drawing.Brush brush, System.Drawing.Rectangle rectangle);
     }
 }
