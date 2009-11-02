@@ -32,5 +32,10 @@ namespace Yourgan.Core.Drawing.GDI
         {
             get { return graphics; }
         }
+
+        public void FillRectangle(System.Drawing.Brush brush, System.Drawing.Rectangle rectangle)
+        {
+            graphics.FillRectangle(brush, rectangle);
+        }
     }
 }

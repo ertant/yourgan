@@ -112,5 +112,11 @@ namespace Yourgan.Core.Render
                 return childs;
             }
         }
+
+
+        protected override void OnPaint(Yourgan.Core.Drawing.IGraphicsContext context)
+        {
+            context.FillRectangle(Brushes.Red, this.Frame);
+        }
     }
 }

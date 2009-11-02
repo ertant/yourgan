@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSS\StyleSelector.cs" />
     <Compile Include="DOM\Document.cs" />
+    <Compile Include="DOM\Element.cs" />
     <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />
     <Compile Include="Length.cs" />
@@ -66,19 +68,24 @@
     <Compile Include="Color.cs" />
     <Compile Include="Render\Inline.cs" />
     <Compile Include="Render\Layer.cs" />
+    <Compile Include="Render\LayerList.cs" />
+    <Compile Include="Render\LineBoxInline.cs" />
+    <Compile Include="Render\LineBoxInlineFlow.cs" />
+    <Compile Include="Render\LineBoxList.cs" />
+    <Compile Include="Render\LineBoxInlineRun.cs" />
     <Compile Include="Render\Primitive.cs" />
     <Compile Include="Render\PrimitiveList.cs" />
     <Compile Include="Render\View.cs" />
-    <Compile Include="Style\Border.cs" />
-    <Compile Include="Style\BorderStyle.cs" />
-    <Compile Include="Style\BorderValue.cs" />
-    <Compile Include="Style\BoxData.cs" />
-    <Compile Include="Style\DisplayStyle.cs" />
-    <Compile Include="Style\FloatStyle.cs" />
-    <Compile Include="Style\OverflowStyle.cs" />
-    <Compile Include="Style\PositionStyle.cs" />
-    <Compile Include="Style\StyleData.cs" />
-    <Compile Include="Style\Surround.cs" />
+    <Compile Include="Render\Style\Border.cs" />
+    <Compile Include="Render\Style\BorderStyle.cs" />
+    <Compile Include="Render\Style\BorderValue.cs" />
+    <Compile Include="Render\Style\BoxData.cs" />
+    <Compile Include="Render\Style\DisplayStyle.cs" />
+    <Compile Include="Render\Style\FloatStyle.cs" />
+    <Compile Include="Render\Style\OverflowStyle.cs" />
+    <Compile Include="Render\Style\PositionStyle.cs" />
+    <Compile Include="Render\Style\StyleData.cs" />
+    <Compile Include="Render\Style\Surround.cs" />
     <Compile Include="UI\INativeWidget.cs" />
     <Compile Include="UI\Scrollbar.cs" />
     <Compile Include="UI\ScrollbarMode.cs" />

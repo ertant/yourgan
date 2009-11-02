@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Yourgan.Core.Render;
-using Yourgan.Core.Style;
+using Yourgan.Core.Render.Style;
 
 namespace Yourgan.Core.DOM
 {
@@ -42,9 +42,14 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public StyleData GetStyle()
+        public bool RendererIsNeeded(StyleData style)
         {
-            return null;
+            return (this.Document.DocumentElement == this) || (style.DisplayStyle != DisplayStyle.None);
+        }
+
+        public StyleData ResolveStyle()
+        {
+            return this.document.StyleSelector.ResolveStyle(this as Element);
         }
     }
 }

@@ -41,7 +41,10 @@ namespace Yourgan.Core.Drawing.GDI
 
         public void Render(Graphics g, Rectangle clip)
         {
-            g.DrawImage(current.Image, 0, 0);
+            if (current != null)
+            {
+                g.DrawImage(current.Image, 0, 0);
+            }
         }
     }
 }
