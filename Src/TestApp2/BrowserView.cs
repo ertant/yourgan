@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -10,6 +11,7 @@ using System.Drawing;
 
 using Yourgan.Core.Drawing;
 using Yourgan.Core.Drawing.GDI;
+using System.Windows.Forms;
 
 
 namespace TestApp2
@@ -18,9 +20,13 @@ namespace TestApp2
     {
         public BrowserView()
         {
+            InitializeComponent();
+
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.UserPaint, true);
         }
 
-        public void Load(string uri)
+        private void InternalLoad(System.IO.Stream reader)
         {
             System.Xml.XmlDocument doc = new XmlDocument();
 
@@ -34,26 +40,52 @@ namespace TestApp2
 
             using (DocumentStream documentStream = new DocumentStream(document.XmlDocument))
             {
-                System.Net.WebClient client = new System.Net.WebClient();
-
-                using (System.IO.Stream html = client.OpenRead(uri))
+                using (System.IO.StreamReader htmlReader = new System.IO.StreamReader(reader, documentStream.Encoding))
                 {
-                    using (System.IO.StreamReader htmlReader = new System.IO.StreamReader(html, documentStream.Encoding))
+                    int bufferSize = 8192;
+                    char[] buffer = new char[8192];
+
+                    while (bufferSize > 0)
                     {
-                        int bufferSize = 8192;
-                        char[] buffer = new char[8192];
+                        bufferSize = htmlReader.Read(buffer, 0, bufferSize);
 
-                        while (bufferSize > 0)
-                        {
-                            bufferSize = htmlReader.Read(buffer, 0, bufferSize);
-
-                            documentStream.Write(buffer, 0, bufferSize);
-                        }
+                        documentStream.Write(buffer, 0, bufferSize);
                     }
                 }
             }
 
             this.Invalidate();
+        }
+
+        public void LoadFile(string filePath)
+        {
+            using (System.IO.FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                InternalLoad(file);
+            }
+        }
+
+        public void LoadHtml(string html)
+        {
+            using (System.IO.MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
+            {
+                InternalLoad(stream);
+            }
+        }
+
+        public void Load(string uri)
+        {
+            System.Net.WebClient client = new System.Net.WebClient();
+
+            using (System.IO.Stream html = client.OpenRead(uri))
+            {
+                InternalLoad(html);
+            }
+        }
+
+        protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+        {
+
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -62,6 +94,8 @@ namespace TestApp2
 
             this.platform.Render(e.Graphics, e.ClipRectangle);
         }
+
+        private System.Windows.Forms.Timer timer1;
 
         #region IHostWindow Members
 
@@ -96,5 +130,27 @@ namespace TestApp2
         }
 
         #endregion
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 250;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.ResumeLayout(false);
+
+        }
+
+        private System.ComponentModel.IContainer components;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
     }
 }

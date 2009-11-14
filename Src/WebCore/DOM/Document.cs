@@ -23,7 +23,7 @@ namespace Yourgan.Core.DOM
 
         private void NodeChanged(object sender, System.Xml.XmlNodeChangedEventArgs e)
         {
-            this.Frame.Page.Paint();
+            this.Frame.View.UpdateLayout(false);
         }
 
         private StyleSelector styleSelector;

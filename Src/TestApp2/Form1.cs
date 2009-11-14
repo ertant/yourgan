@@ -16,6 +16,8 @@ namespace TestApp2
         public Form1()
         {
             InitializeComponent();
+
+            browserView1.LoadHtml("<html><body><div>test<span>test2</span></div><div>line2</div></body></html>");
         }
 
         private void button1_Click(object sender, EventArgs e)

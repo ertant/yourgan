@@ -117,10 +117,9 @@ namespace Yourgan.Core.Render
             }
         }
 
-
         protected override void OnPaint(Yourgan.Core.Drawing.IGraphicsContext context)
         {
-            context.FillRectangle(Brushes.Red, this.Frame);
+            //context.FillRectangle(Brushes.Red, this.Frame);
         }
     }
 }
