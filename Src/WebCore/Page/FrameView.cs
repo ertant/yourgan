@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using Yourgan.Core.UI;
+using Yourgan.Core.Render;
 
 namespace Yourgan.Core.Page
 {
@@ -33,7 +34,51 @@ namespace Yourgan.Core.Page
         {
             get
             {
-                return this.LayoutHeight;
+                return this.VisibleHeight;
+            }
+        }
+
+        public Box ContentRenderer
+        {
+            get
+            {
+                if (this.Frame.Document != null)
+                {
+                    return this.Frame.Document.Renderer as Box;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public bool IsLayoutInvalid
+        {
+            get
+            {
+                if (this.ContentRenderer != null)
+                    return this.ContentRenderer.IsLayoutInvalid;
+                else
+                    return false;
+            }
+        }
+
+        public void PerformLayout()
+        {
+            if ((this.ContentRenderer != null) && (this.ContentRenderer.IsLayoutInvalid))
+            {
+                this.ContentRenderer.PerformLayout();
+
+                this.Bounds = this.ContentRenderer.Frame;
+            }
+        }
+
+        public void UpdateLayout(bool isInvalid)
+        {
+            if (this.ContentRenderer != null)
+            {
+                this.ContentRenderer.UpdateLayout(isInvalid);
             }
         }
     }

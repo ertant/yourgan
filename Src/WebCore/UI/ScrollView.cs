@@ -83,12 +83,16 @@ namespace Yourgan.Core.UI
             {
                 visibleBounds = value;
 
+                dismissEvents = true;
+
                 // Update scrollbars
                 this.horizontalScrollbar.Value = value.X;
                 this.verticalScrollbar.Value = value.Y;
 
                 this.horizontalScrollbar.Maximum = value.Width;
                 this.verticalScrollbar.Maximum = value.Height;
+
+                dismissEvents = false;
             }
         }
 
@@ -108,15 +112,20 @@ namespace Yourgan.Core.UI
             }
         }
 
+        private bool dismissEvents = false;
+
         private void ScrollbarChanged(object sender, ScrollbarValueChangeEventArgs e)
         {
-            if (e.Scrollbar == this.horizontalScrollbar)
+            if (!dismissEvents)
             {
-                this.ScrollPosition = new Point(e.Value, this.visibleBounds.Y);
-            }
-            else if (e.Scrollbar == this.verticalScrollbar)
-            {
-                this.ScrollPosition = new Point(this.visibleBounds.X, e.Value);
+                if (e.Scrollbar == this.horizontalScrollbar)
+                {
+                    this.ScrollPosition = new Point(e.Value, this.visibleBounds.Y);
+                }
+                else if (e.Scrollbar == this.verticalScrollbar)
+                {
+                    this.ScrollPosition = new Point(this.visibleBounds.X, e.Value);
+                }
             }
         }
     }

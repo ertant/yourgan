@@ -18,7 +18,6 @@ namespace TestApp2
     {
         public BrowserView()
         {
-
         }
 
         public void Load(string uri)
@@ -27,13 +26,11 @@ namespace TestApp2
 
             Page page = new Page();
 
+            Document document = new Document(page.MainFrame, doc);
+
+            page.MainFrame.Document = document;
+
             page.HostWindow = this;
-
-            Frame frame = new Frame(page);
-
-            Document document = new Document(frame, doc);
-
-            frame.Document = document;
 
             using (DocumentStream documentStream = new DocumentStream(document.XmlDocument))
             {
@@ -55,6 +52,8 @@ namespace TestApp2
                     }
                 }
             }
+
+            this.Invalidate();
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -88,9 +87,12 @@ namespace TestApp2
 
         GDIDrawingPlatform platform = new GDIDrawingPlatform();
 
-        IDrawingPlatform Yourgan.Core.Drawing.IHostWindow.GetPlatform()
+        IDrawingPlatform IHostWindow.Platform
         {
-            return platform;
+            get
+            {
+                return platform;
+            }
         }
 
         #endregion

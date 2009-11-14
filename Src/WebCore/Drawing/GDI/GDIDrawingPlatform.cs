@@ -29,7 +29,7 @@ namespace Yourgan.Core.Drawing.GDI
 
         public void Reset(Size size)
         {
-            Bitmap bitmap = new Bitmap(size.Width, size.Height);
+            Bitmap bitmap = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GDIGraphicsContext context = new GDIGraphicsContext(bitmap);
 
@@ -43,6 +43,8 @@ namespace Yourgan.Core.Drawing.GDI
         {
             if (current != null)
             {
+                current.Image.Save("d:\\test.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+
                 g.DrawImage(current.Image, 0, 0);
             }
         }

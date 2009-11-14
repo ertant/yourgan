@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Yourgan.Core.Page;
 using Yourgan.Core.CSS;
+using Yourgan.Core.Render;
 
 namespace Yourgan.Core.DOM
 {
@@ -14,8 +15,15 @@ namespace Yourgan.Core.DOM
         {
             this.frame = frame;
             this.Document = this;
-            this.Renderer = new Render.View(this, this.Frame.View);
+            this.Renderer = new View(this, this.Frame.View);
             this.xmlDocument = doc;
+            this.xmlDocument.NodeChanged += NodeChanged;
+            this.xmlDocument.NodeInserted += NodeChanged;
+        }
+
+        private void NodeChanged(object sender, System.Xml.XmlNodeChangedEventArgs e)
+        {
+            this.Frame.Page.Paint();
         }
 
         private StyleSelector styleSelector;

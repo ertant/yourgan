@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using Yourgan.Core.DOM;
@@ -23,6 +24,27 @@ namespace Yourgan.Core.Render
             {
                 return owner;
             }
+        }
+
+        protected override void OnPaint(Yourgan.Core.Drawing.IGraphicsContext context)
+        {
+            base.OnPaint(context);
+
+            if (this.IsLayoutInvalid)
+            {
+                this.PerformLayout();
+            }
+
+            context.FillRectangle(System.Drawing.Brushes.Red, this.Frame);
+        }
+
+        protected override void OnPerformLayout()
+        {
+            base.OnPerformLayout();
+
+            this.Frame = new Rectangle(0, 0, 50, 50);
+
+            this.UpdateLayout(false);
         }
     }
 }
