@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Yourgan.Core.DOM;
 using Yourgan.Core.Page;
+using Yourgan.Core.Render.Style;
 
 namespace Yourgan.Core.Render
 {
@@ -14,6 +15,8 @@ namespace Yourgan.Core.Render
             : base(node)
         {
             this.owner = owner;
+            this.Style.Position = PositionStyle.Absolute;
+            this.Layer = new Layer(this);
         }
 
         private FrameView owner;
@@ -41,6 +44,8 @@ namespace Yourgan.Core.Render
         protected override void OnPerformLayout()
         {
             base.OnPerformLayout();
+
+            
 
             this.Frame = new Rectangle(0, 0, 50, 50);
 
