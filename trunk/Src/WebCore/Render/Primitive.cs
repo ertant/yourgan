@@ -278,12 +278,41 @@ namespace Yourgan.Core.Render
 
         public void Paint(IGraphicsContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
             OnPaint(context);
         }
 
         protected virtual void OnPaint(IGraphicsContext context)
         {
 
+        }
+
+        public void PerformLayout()
+        {
+            OnPerformLayout();
+            this.isLayoutInvalid = false;
+        }
+
+        protected virtual void OnPerformLayout()
+        {
+
+        }
+
+        private bool isLayoutInvalid;
+
+        public bool IsLayoutInvalid
+        {
+            get
+            {
+                return isLayoutInvalid;
+            }
+        }
+
+        public void UpdateLayout(bool isInvalid)
+        {
+            isLayoutInvalid = isInvalid;
         }
     }
 }

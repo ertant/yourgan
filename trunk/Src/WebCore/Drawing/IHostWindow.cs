@@ -18,6 +18,12 @@ namespace Yourgan.Core.Drawing
 
         event EventHandler SizeChanged;
 
-        IDrawingPlatform GetPlatform();
+        /// <summary>
+        /// Returns the native platform of window
+        /// </summary>
+        IDrawingPlatform Platform
+        {
+            get;
+        }
     }
 }

@@ -30,6 +30,10 @@ namespace Yourgan.Core.Render
             {
                 return frame;
             }
+            set
+            {
+                frame = value;
+            }
         }
 
         public int X

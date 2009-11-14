@@ -38,5 +38,13 @@ namespace Yourgan.Core.Page
                 return view;
             }
         }
+
+        public Render.Primitive Renderer
+        {
+            get
+            {
+                return this.Document.Renderer;
+            }
+        }
     }
 }

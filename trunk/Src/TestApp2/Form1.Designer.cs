@@ -37,6 +37,8 @@
             this.browserView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.browserView1.BackColor = System.Drawing.Color.Gainsboro;
+            this.browserView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.browserView1.Location = new System.Drawing.Point(12, 41);
             this.browserView1.Name = "browserView1";
             this.browserView1.Size = new System.Drawing.Size(260, 209);

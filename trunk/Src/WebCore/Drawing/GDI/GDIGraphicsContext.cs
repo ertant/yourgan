@@ -30,12 +30,20 @@ namespace Yourgan.Core.Drawing.GDI
 
         public Graphics Graphics
         {
-            get { return graphics; }
+            get
+            {
+                if (graphics == null)
+                {
+                    graphics = System.Drawing.Graphics.FromImage(image);
+                }
+
+                return graphics;
+            }
         }
 
         public void FillRectangle(System.Drawing.Brush brush, System.Drawing.Rectangle rectangle)
         {
-            graphics.FillRectangle(brush, rectangle);
+            this.Graphics.FillRectangle(brush, rectangle);
         }
     }
 }
