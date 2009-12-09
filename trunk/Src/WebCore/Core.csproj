@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,8 +49,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSS\StyleSelector.cs" />
+    <Compile Include="DOM\Attr.cs" />
+    <Compile Include="DOM\CDATASection.cs" />
+    <Compile Include="DOM\Comment.cs" />
     <Compile Include="DOM\Document.cs" />
+    <Compile Include="DOM\DocumentFragment.cs" />
+    <Compile Include="DOM\DocumentPosition.cs" />
+    <Compile Include="DOM\DocumentType.cs" />
     <Compile Include="DOM\Element.cs" />
+    <Compile Include="DOM\Entity.cs" />
+    <Compile Include="DOM\EntityReference.cs" />
+    <Compile Include="DOM\NamedNodeMap.cs" />
+    <Compile Include="DOM\NodeList.cs" />
+    <Compile Include="DOM\NodeType.cs" />
+    <Compile Include="DOM\Notation.cs" />
+    <Compile Include="DOM\ProcessingInstruction.cs" />
+    <Compile Include="DOM\Text.cs" />
     <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />
     <Compile Include="Length.cs" />

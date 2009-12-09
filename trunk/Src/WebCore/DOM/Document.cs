@@ -14,7 +14,7 @@ namespace Yourgan.Core.DOM
             : base(null)
         {
             this.frame = frame;
-            this.Document = this;
+            this.OwnerDocument = this;
             this.Renderer = new View(this, this.Frame.View);
             this.xmlDocument = doc;
             this.xmlDocument.NodeChanged += NodeChanged;
