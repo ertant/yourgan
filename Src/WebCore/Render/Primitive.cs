@@ -83,7 +83,7 @@ namespace Yourgan.Core.Render
         {
             get
             {
-                return this.node == this.node.Document.DocumentElement;
+                return this.node == this.node.OwnerDocument.DocumentElement;
             }
         }
 
