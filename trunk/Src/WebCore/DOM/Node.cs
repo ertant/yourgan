@@ -7,8 +7,13 @@ using Yourgan.Core.Render.Style;
 
 namespace Yourgan.Core.DOM
 {
+    // http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1950641247
     public abstract class Node
     {
+        protected Node()
+        {
+        }
+
         protected Node(Document document)
         {
             this.ownerDocument = document;
@@ -19,10 +24,16 @@ namespace Yourgan.Core.DOM
             get;
         }
 
-        public abstract string NodeValue
+        public virtual string NodeValue
         {
-            get;
-            set;
+            get
+            {
+                return null;
+            }
+            set
+            {
+                throw new DOMException(Strings.CannotSetNodeValue);
+            }
         }
 
         public abstract NodeType NodeType
@@ -35,39 +46,101 @@ namespace Yourgan.Core.DOM
             get;
         }
 
-        public abstract NodeType Type
+        public Node ParentNode
         {
-            get;
+            get
+            {
+                if (parentNodeItem != null)
+                {
+                    return this.ParentNodeList.Owner;
+                }
+
+                return null;
+            }
         }
 
-        public abstract Node ParentNode
+        internal NodeList ParentNodeList
         {
-            get;
+            get
+            {
+                // fix here. remove unneccesary cast.
+                return ((NodeList)parentNodeItem.List);
+            }
         }
 
-        public abstract NodeList ChildNodes
+        LinkedListNode<Node> parentNodeItem;
+
+        internal LinkedListNode<Node> ParentNodeItem
         {
-            get;
+            get
+            {
+                return parentNodeItem;
+            }
+            set
+            {
+                parentNodeItem = value;
+            }
         }
 
-        public abstract Node FirstChild
+        NodeList childNodes;
+
+        public NodeList ChildNodes
         {
-            get;
+            get
+            {
+                if (childNodes == null)
+                    childNodes = new NodeList(this);
+
+                return childNodes;
+            }
         }
 
-        public abstract Node LastChild
+        public Node FirstChild
         {
-            get;
+            get
+            {
+                if (childNodes.First != null)
+                    return childNodes.First.Value;
+                else
+                    return null;
+            }
         }
 
-        public abstract Node PreviousSibling
+        public Node LastChild
         {
-            get;
+            get
+            {
+                if (childNodes.Last != null)
+                    return childNodes.Last.Value;
+                else
+                    return null;
+            }
         }
 
-        public abstract Node NextSibling
+        public Node PreviousSibling
         {
-            get;
+            get
+            {
+                if ((this.ParentNodeItem != null) && (this.ParentNodeItem.Previous != null))
+                {
+                    return this.ParentNodeItem.Previous.Value;
+                }
+
+                return null;
+            }
+        }
+
+        public Node NextSibling
+        {
+            get
+            {
+                if ((this.ParentNodeItem != null) && (this.ParentNodeItem.Next != null))
+                {
+                    return this.ParentNodeItem.Next.Value;
+                }
+
+                return null;
+            }
         }
 
         public virtual NamedNodeMap Attributes
@@ -78,14 +151,23 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public abstract string NamespaceURI
+        public virtual string NamespaceURI
         {
-            get;
+            get
+            {
+                return null;
+            }
         }
 
-        public abstract string Prefix
+        public virtual string Prefix
         {
-            get;
+            get
+            {
+                return null;
+            }
+            set
+            {
+            }
         }
 
         public virtual string BaseURI
@@ -152,7 +234,15 @@ namespace Yourgan.Core.DOM
             throw new NotImplementedException();
         }
 
-        public abstract bool HasChildNodes();
+        public bool HasChildNodes()
+        {
+            return childNodes.Count > 0;
+        }
+
+        public virtual bool HasAttributes()
+        {
+            return false;
+        }
 
         public abstract Node CloneNode(bool deep);
 

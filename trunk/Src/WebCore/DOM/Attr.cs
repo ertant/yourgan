@@ -7,6 +7,72 @@ namespace Yourgan.Core.DOM
 {
     public class Attr : Node
     {
+        public override NodeType NodeType
+        {
+            get
+            {
+                return NodeType.Attribute;
+            }
+        }
 
+        public override string NodeName
+        {
+            get { 
+            
+                return 
+            }
+        }
+
+        string name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        bool specified;
+
+        public bool Specified
+        {
+            get
+            {
+                return specified;
+            }
+        }
+
+        string value;
+
+        public string Value
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+
+        Element ownerElement;
+
+        public Element OwnerElement
+        {
+            get
+            {
+                return ownerElement;
+            }
+        }
+
+        public bool IsId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

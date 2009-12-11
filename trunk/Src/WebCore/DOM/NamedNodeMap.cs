@@ -30,6 +30,14 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        public int Length
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public Node getNamedItemNS(string namespaceUri, string name)
         {
             throw new NotImplementedException();

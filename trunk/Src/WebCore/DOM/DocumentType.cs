@@ -7,5 +7,12 @@ namespace Yourgan.Core.DOM
 {
     public class DocumentType : Node
     {
+        public override NodeType NodeType
+        {
+            get
+            {
+                return NodeType.DocumentFragment;
+            }
+        }
     }
 }
