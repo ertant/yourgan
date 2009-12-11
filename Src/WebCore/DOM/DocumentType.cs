@@ -7,11 +7,75 @@ namespace Yourgan.Core.DOM
 {
     public class DocumentType : Node
     {
+        string name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public NamedNodeMap Entities
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public NamedNodeMap Notations
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        string publicId;
+
+        public string PublicId
+        {
+            get
+            {
+                return publicId;
+            }
+        }
+
+        string systemId;
+
+        public string SystemId
+        {
+            get
+            {
+                return systemId;
+            }
+        }
+
+        string internalSubset;
+
+        public string InternalSubset
+        {
+            get
+            {
+                return internalSubset;
+            }
+        }
+
         public override NodeType NodeType
         {
             get
             {
                 return NodeType.DocumentFragment;
+            }
+        }
+
+        public override string NodeName
+        {
+            get
+            {
+                return this.name;
             }
         }
     }

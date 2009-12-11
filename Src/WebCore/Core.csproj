@@ -65,7 +65,7 @@
     <Compile Include="DOM\NodeType.cs" />
     <Compile Include="DOM\Notation.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />
-    <Compile Include="DOM\Strings.cs" />
+    <Compile Include="DOM\QualifiedName.cs" />
     <Compile Include="DOM\Text.cs" />
     <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />

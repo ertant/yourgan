@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Yourgan.Core.Page;
+﻿using Yourgan.Core.Page;
 using Yourgan.Core.CSS;
 using Yourgan.Core.Render;
 
@@ -10,21 +6,15 @@ namespace Yourgan.Core.DOM
 {
     public class Document : Node
     {
-        public Document(Frame frame, System.Xml.XmlDocument doc)
+        public Document(Frame frame)
             : base(null)
         {
             this.frame = frame;
             this.OwnerDocument = this;
             this.Renderer = new View(this, this.Frame.View);
-            this.xmlDocument = doc;
-            this.xmlDocument.NodeChanged += NodeChanged;
-            this.xmlDocument.NodeInserted += NodeChanged;
         }
 
-        private void NodeChanged(object sender, System.Xml.XmlNodeChangedEventArgs e)
-        {
-            this.Frame.View.UpdateLayout(false);
-        }
+        #region DOM
 
         public override string NodeName
         {
@@ -41,6 +31,50 @@ namespace Yourgan.Core.DOM
                 return NodeType.Document;
             }
         }
+
+        private DocumentType documentType;
+
+        public DocumentType DocumentType
+        {
+            get
+            {
+                return documentType;
+            }
+        }
+
+        private Element documentElement;
+
+        public Element DocumentElement
+        {
+            get
+            {
+                return documentElement;
+            }
+        }
+
+        protected override bool IsValidChildType(NodeType type)
+        {
+            switch (type)
+            {
+                case NodeType.Comment:
+                case NodeType.ProcessingInstruction:
+                    return true;
+                case NodeType.DocumentType:
+                    if (this.documentElement == null)
+                        return true;
+                    break;
+                case NodeType.Element:
+                    if (this.documentElement == null)
+                        return true;
+                    break;
+                default:
+                    break;
+            }
+
+            return false;
+        }
+
+        #endregion
 
         private StyleSelector styleSelector;
 
@@ -62,16 +96,6 @@ namespace Yourgan.Core.DOM
         public System.Xml.XmlDocument XmlDocument
         {
             get { return xmlDocument; }
-        }
-
-        private Node documentElement;
-
-        public Node DocumentElement
-        {
-            get
-            {
-                return documentElement;
-            }
         }
 
         private Frame frame;
