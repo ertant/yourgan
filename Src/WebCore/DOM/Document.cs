@@ -26,6 +26,22 @@ namespace Yourgan.Core.DOM
             this.Frame.View.UpdateLayout(false);
         }
 
+        public override string NodeName
+        {
+            get
+            {
+                return "#document";
+            }
+        }
+
+        public override NodeType NodeType
+        {
+            get
+            {
+                return NodeType.Document;
+            }
+        }
+
         private StyleSelector styleSelector;
 
         public StyleSelector StyleSelector

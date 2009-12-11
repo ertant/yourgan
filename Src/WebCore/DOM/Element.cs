@@ -29,6 +29,13 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        public override string NodeName
+        {
+            get
+            {
+                return this.TagName;
+            }
+        }
 
         string tagName;
 
@@ -38,6 +45,19 @@ namespace Yourgan.Core.DOM
             {
                 return tagName;
             }
+        }
+
+        public override string LocalName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override bool HasAttributes()
+        {
+            return (this.Attributes != null) && (this.Attributes.Length > 0);
         }
     }
 }

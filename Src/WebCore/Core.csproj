@@ -56,6 +56,7 @@
     <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="DOM\DocumentPosition.cs" />
     <Compile Include="DOM\DocumentType.cs" />
+    <Compile Include="DOM\DOMException.cs" />
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />
     <Compile Include="DOM\EntityReference.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DOM\NodeType.cs" />
     <Compile Include="DOM\Notation.cs" />
     <Compile Include="DOM\ProcessingInstruction.cs" />
+    <Compile Include="DOM\Strings.cs" />
     <Compile Include="DOM\Text.cs" />
     <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />

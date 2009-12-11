@@ -5,20 +5,38 @@ using System.Text;
 
 namespace Yourgan.Core.DOM
 {
-    public class NodeList
+    public class NodeList : LinkedList<Node>
     {
-        IList<Node> nodes;
-
-        public NodeList(IList<Node> nodes)
+        public NodeList(Node owner)
         {
-            this.nodes = nodes;
+            this.owner = owner;
+        }
+
+        Node owner;
+
+        public Node Owner
+        {
+            get
+            {
+                return owner;
+            }
         }
 
         public Node this[int index]
         {
             get
             {
-                return this.nodes[index];
+                LinkedListNode<Node> node = this.First;
+
+                for (int i = 0; i < this.Count; i++)
+                {
+                    node = node.Next;
+
+                    if (node == null)
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                return node.Value;
             }
         }
 
@@ -26,7 +44,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.nodes.Count;
+                return this.Count;
             }
         }
     }
