@@ -7,6 +7,11 @@ namespace Yourgan.Core.DOM
 {
     public class ProcessingInstruction : Node
     {
+        public ProcessingInstruction()
+
+        {
+        }
+
         string target;
 
         public string Target

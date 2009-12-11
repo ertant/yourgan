@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Yourgan.Core.Render;
 using Yourgan.Core.Render.Style;
 
@@ -32,7 +30,7 @@ namespace Yourgan.Core.DOM
             }
             set
             {
-                throw new DOMException(Strings.CannotSetNodeValue);
+                throw new DOMException(DOMError.NoModificationAllowed);
             }
         }
 
@@ -41,9 +39,12 @@ namespace Yourgan.Core.DOM
             get;
         }
 
-        public abstract string LocalName
+        public virtual string LocalName
         {
-            get;
+            get
+            {
+                return null;
+            }
         }
 
         public Node ParentNode
@@ -101,8 +102,8 @@ namespace Yourgan.Core.DOM
             {
                 if (childNodes.First != null)
                     return childNodes.First.Value;
-                else
-                    return null;
+
+                return null;
             }
         }
 
@@ -112,8 +113,8 @@ namespace Yourgan.Core.DOM
             {
                 if (childNodes.Last != null)
                     return childNodes.Last.Value;
-                else
-                    return null;
+
+                return null;
             }
         }
 
@@ -180,10 +181,10 @@ namespace Yourgan.Core.DOM
                 {
                     switch (parent.NodeType)
                     {
-                        case NodeType.EntityReference:
-                            return parent.ChildBaseURI;
+                        //case NodeType.EntityReference:
+                        //    return parent.ChildBaseURI;
                         case NodeType.Document:
-                        case NodeType.Entity:
+                        case NodeType.EntityNode:
                         case NodeType.Attribute:
                             return parent.BaseURI;
                     }
@@ -195,9 +196,12 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public abstract string TextContent
+        public string TextContent
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private Document ownerDocument;
@@ -212,6 +216,14 @@ namespace Yourgan.Core.DOM
             {
                 ownerDocument = value;
             }
+        }
+
+        private void ValidateChild(Node child)
+        {
+            if (child == this)
+                throw new DOMException(DOMError.HierarchyRequest);
+
+
         }
 
         public Node InsertBefore(Node newChild, Node refChild)
@@ -244,7 +256,10 @@ namespace Yourgan.Core.DOM
             return false;
         }
 
-        public abstract Node CloneNode(bool deep);
+        public Node CloneNode(bool deep)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Normalize()
         {
@@ -293,6 +308,11 @@ namespace Yourgan.Core.DOM
 
         // getUserData
         // setUserData
+
+        protected virtual bool IsValidChildType(NodeType type)
+        {
+            return false;
+        }
 
         private Primitive renderer;
 

@@ -17,9 +17,9 @@ namespace Yourgan.Core.DOM
 
         public override string NodeName
         {
-            get { 
-            
-                return 
+            get
+            {
+                return this.name;
             }
         }
 
