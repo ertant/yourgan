@@ -218,17 +218,119 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        protected Document GetDocument()
+        {
+            if (this.ownerDocument == null)
+                return this as Document;
+
+            return ownerDocument;
+        }
+
+        public bool IsAnchestor(Node node)
+        {
+            Node parent = this.ParentNode;
+
+            while (parent != null)
+            {
+                if (parent == node)
+                    return true;
+
+                parent = parent.ParentNode;
+            }
+
+            return false;
+        }
+
+        public bool IsDescendent(Node node)
+        {
+            Node child = this.FirstChild;
+
+            while (child != null)
+            {
+                if (child == node)
+                    return true;
+
+                if (child.IsDescendent(node))
+                    return true;
+
+                child = child.NextSibling;
+            }
+
+            return false;
+        }
+
         private void ValidateChild(Node child)
         {
             if (child == this)
                 throw new DOMException(DOMError.HierarchyRequest);
 
+            if (IsValidChildType(child.NodeType))
+                throw new DOMException(DOMError.HierarchyRequest);
 
+            if (IsAnchestor(child))
+                throw new DOMException(DOMError.HierarchyRequest);
+
+            Document tmpOwnerDocument = this.ownerDocument;
+
+            if (tmpOwnerDocument == null)
+                tmpOwnerDocument = this as Document;
+
+            if ((child.OwnerDocument != null) && (child.OwnerDocument != tmpOwnerDocument))
+                throw new DOMException(DOMError.WrongDocument);
+        }
+
+        private static Node ProcessChilds(Node node, Action<Node> processHandler)
+        {
+            Node firstChild = node.FirstChild;
+
+            Node child = firstChild;
+
+            while (child != null)
+            {
+                Node next = child.NextSibling;
+
+                processHandler(child);
+
+                child = next;
+            }
+
+            return firstChild;
         }
 
         public Node InsertBefore(Node newChild, Node refChild)
         {
-            throw new NotImplementedException();
+            if (refChild == null)
+            {
+                return AppendChild(newChild);
+            }
+
+            if (refChild.ParentNode != this)
+                throw new DOMException(DOMError.NotFound);
+
+            ValidateChild(newChild);
+
+            if (newChild.ParentNode != null)
+            {
+                newChild.ParentNode.RemoveChild(newChild);
+            }
+
+            if (newChild.NodeType == NodeType.DocumentFragment)
+            {
+                Node first = ProcessChilds(newChild, delegate(Node child)
+                {
+                    newChild.RemoveChild(child);
+
+                    this.InsertBefore(child, refChild);
+                });
+
+                return first;
+            }
+
+            LinkedListNode<Node> realChild = this.ChildNodes.AddBefore(refChild.ParentNodeItem, newChild);
+
+            newChild.ParentNodeItem = realChild;
+
+            return newChild;
         }
 
         public Node ReplaceChild(Node newChild, Node oldChild)
@@ -243,7 +345,30 @@ namespace Yourgan.Core.DOM
 
         public Node AppendChild(Node newChild)
         {
-            throw new NotImplementedException();
+            ValidateChild(newChild);
+
+            if (newChild.ParentNode != null)
+            {
+                newChild.ParentNode.RemoveChild(newChild);
+            }
+
+            if (newChild.NodeType == NodeType.DocumentFragment)
+            {
+                Node first = ProcessChilds(newChild, delegate(Node child)
+                {
+                    newChild.RemoveChild(child);
+
+                    this.AppendChild(child);
+                });
+
+                return first;
+            }
+
+            LinkedListNode<Node> realChild = this.ChildNodes.AddLast(newChild);
+
+            newChild.ParentNodeItem = realChild;
+
+            return newChild;
         }
 
         public bool HasChildNodes()
