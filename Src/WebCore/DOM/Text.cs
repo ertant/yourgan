@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yourgan.Core.DOM
 {
-    public class Text : Node
+    public class Text : CharacterData
     {
         public override NodeType NodeType
         {
@@ -21,6 +21,32 @@ namespace Yourgan.Core.DOM
             {
                 return "#text";
             }
+        }
+
+        public Text SplitText(int offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsElementContentWhitespace
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string WholeText
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Text ReplaceWholeText(string content)
+        {
+            throw new NotImplementedException();
         }
     }
 }

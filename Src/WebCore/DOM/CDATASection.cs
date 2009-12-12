@@ -5,13 +5,25 @@ using System.Text;
 
 namespace Yourgan.Core.DOM
 {
-    public class CDATASection : Node
+    public class CDATASection : Text
     {
         public override NodeType NodeType
         {
             get
             {
                 return NodeType.CData;
+            }
+        }
+
+        public override string NodeValue
+        {
+            get
+            {
+                return this.Data;
+            }
+            set
+            {
+                base.Data = value;
             }
         }
 

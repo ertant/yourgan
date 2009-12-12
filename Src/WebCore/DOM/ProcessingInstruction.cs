@@ -48,7 +48,19 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.Data;
+                return this.Target;
+            }
+        }
+
+        public override string NodeValue
+        {
+            get
+            {
+                return this.data;
+            }
+            set
+            {
+                this.data = value;
             }
         }
     }

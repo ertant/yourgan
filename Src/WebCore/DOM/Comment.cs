@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yourgan.Core.DOM
 {
-    public class Comment : Node
+    public class Comment : CharacterData
     {
         public override NodeType NodeType
         {
@@ -20,6 +20,18 @@ namespace Yourgan.Core.DOM
             get
             {
                 return "#comment";
+            }
+        }
+
+        public override string NodeValue
+        {
+            get
+            {
+                return this.Data;
+            }
+            set
+            {
+                this.Data = value;
             }
         }
     }
