@@ -15,6 +15,18 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        public override string NodeValue
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+
         public override string NodeName
         {
             get

@@ -51,6 +51,7 @@
     <Compile Include="CSS\StyleSelector.cs" />
     <Compile Include="DOM\Attr.cs" />
     <Compile Include="DOM\CDATASection.cs" />
+    <Compile Include="DOM\CharacterData.cs" />
     <Compile Include="DOM\Comment.cs" />
     <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\DocumentFragment.cs" />
