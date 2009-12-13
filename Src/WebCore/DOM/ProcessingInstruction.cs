@@ -7,9 +7,10 @@ namespace Yourgan.Core.DOM
 {
     public class ProcessingInstruction : Node
     {
-        public ProcessingInstruction()
-
+        public ProcessingInstruction(string target, Document document)
+            : base(document)
         {
+            this.target = target;
         }
 
         string target;

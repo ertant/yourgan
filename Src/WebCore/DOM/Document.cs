@@ -1,9 +1,11 @@
-﻿using Yourgan.Core.Page;
+﻿using System;
+using Yourgan.Core.Page;
 using Yourgan.Core.CSS;
 using Yourgan.Core.Render;
 
 namespace Yourgan.Core.DOM
 {
+    // http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#i-Document
     public class Document : Node
     {
         public Document(Frame frame)
@@ -60,7 +62,7 @@ namespace Yourgan.Core.DOM
                 case NodeType.ProcessingInstruction:
                     return true;
                 case NodeType.DocumentType:
-                    if (this.documentElement == null)
+                    if (this.documentType == null)
                         return true;
                     break;
                 case NodeType.Element:
@@ -72,6 +74,126 @@ namespace Yourgan.Core.DOM
             }
 
             return false;
+        }
+
+        protected internal override void OnChildAdded(Node node)
+        {
+            base.OnChildAdded(node);
+
+            if (node.NodeType == NodeType.Element)
+            {
+                this.documentElement = node as Element;
+            }
+            else if (node.NodeType == NodeType.DocumentType)
+            {
+                this.documentType = node as DocumentType;
+            }
+        }
+
+        protected internal override void OnChildRemoved(Node node)
+        {
+            base.OnChildRemoved(node);
+
+            if (node.NodeType == NodeType.Element)
+            {
+                this.documentElement = null;
+            }
+            else if (node.NodeType == NodeType.DocumentType)
+            {
+                this.documentType = null;
+            }
+        }
+
+        public Element CreateElement(string tagName)
+        {
+            QualifiedName qname = new QualifiedName(null, tagName, null);
+
+            Element element = new Element(qname, this);
+
+            return element;
+        }
+
+        public Element CreateElementNS(string namespaceURI, string qualifiedName)
+        {
+            QualifiedName qname = QualifiedName.Parse(qualifiedName, namespaceURI);
+
+            Element element = new Element(qname, this);
+
+            return element;
+        }
+
+        public DocumentFragment CreateDocumentFragment()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Text CreateTextNode(string data)
+        {
+            Text text = new Text(this);
+
+            text.Data = data;
+
+            return text;
+        }
+
+        public Comment CreateComment(string data)
+        {
+            Comment comment = new Comment(this);
+
+            comment.Data = data;
+
+            return comment;
+        }
+
+        public CDATASection CreateCDataSection(string data)
+        {
+            CDATASection cdata = new CDATASection(this);
+
+            cdata.Data = data;
+
+            return cdata;
+        }
+
+        public ProcessingInstruction CreateProcessingInstruction(string target, string data)
+        {
+            ProcessingInstruction pi = new ProcessingInstruction(target, this);
+
+            pi.Data = data;
+
+            return pi;
+        }
+
+        public Attr CreateAttribute(string name)
+        {
+            QualifiedName qname = QualifiedName.Parse(name);
+
+            Attr attr = new Attr(qname, this);
+
+            return attr;
+        }
+
+        public Attr CreateAttributeNS(string namespaceURI, string qualifiedName)
+        {
+            QualifiedName qname = QualifiedName.Parse(qualifiedName, namespaceURI);
+
+            Attr attr = new Attr(qname, this);
+
+            return attr;
+        }
+
+        public EntityReference CreateEntityReference(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string documentURI;
+
+        public string DocumentURI
+        {
+            get
+            {
+                return documentURI;
+            }
         }
 
         #endregion
@@ -89,13 +211,6 @@ namespace Yourgan.Core.DOM
 
                 return styleSelector;
             }
-        }
-
-        private System.Xml.XmlDocument xmlDocument;
-
-        public System.Xml.XmlDocument XmlDocument
-        {
-            get { return xmlDocument; }
         }
 
         private Frame frame;

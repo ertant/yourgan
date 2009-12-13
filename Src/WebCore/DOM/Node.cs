@@ -17,6 +17,8 @@ namespace Yourgan.Core.DOM
             this.ownerDocument = document;
         }
 
+        #region Node
+
         public abstract string NodeName
         {
             get;
@@ -60,27 +62,39 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        private NodeList parentNodeList;
+
         internal NodeList ParentNodeList
         {
             get
             {
-                // fix here. remove unneccesary cast.
-                return ((NodeList)parentNodeItem.List);
+                return parentNodeList;
             }
         }
 
         LinkedListNode<Node> parentNodeItem;
 
+        // managed by NodeList
         internal LinkedListNode<Node> ParentNodeItem
         {
             get
             {
                 return parentNodeItem;
             }
-            set
-            {
-                parentNodeItem = value;
-            }
+        }
+
+        internal void SetParent(NodeList nodes, LinkedListNode<Node> item)
+        {
+            this.parentNodeList = nodes;
+            this.parentNodeItem = item;
+        }
+
+        protected internal virtual void OnChildAdded(Node node)
+        {
+        }
+
+        protected internal virtual void OnChildRemoved(Node node)
+        {
         }
 
         NodeList childNodes;
@@ -100,10 +114,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                if (childNodes.First != null)
-                    return childNodes.First.Value;
-
-                return null;
+                return childNodes.First;
             }
         }
 
@@ -111,10 +122,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                if (childNodes.Last != null)
-                    return childNodes.Last.Value;
-
-                return null;
+                return childNodes.Last;
             }
         }
 
@@ -326,21 +334,31 @@ namespace Yourgan.Core.DOM
                 return first;
             }
 
-            LinkedListNode<Node> realChild = this.ChildNodes.AddBefore(refChild.ParentNodeItem, newChild);
-
-            newChild.ParentNodeItem = realChild;
-
-            return newChild;
+            return this.ChildNodes.AddBefore(refChild, newChild);
         }
 
         public Node ReplaceChild(Node newChild, Node oldChild)
         {
-            throw new NotImplementedException();
+            Node next = oldChild.NextSibling;
+
+            this.RemoveChild(oldChild);
+
+            this.InsertBefore(newChild, next);
+
+            return newChild;
         }
 
-        public Node RemoveChild(Node oldChild)
+        public Node RemoveChild(Node child)
         {
-            throw new NotImplementedException();
+            if (child == null)
+                throw new ArgumentNullException("child");
+
+            if (child.ParentNode != this)
+                throw new DOMException(DOMError.NotFound);
+
+            this.ChildNodes.Remove(child);
+
+            return child;
         }
 
         public Node AppendChild(Node newChild)
@@ -364,16 +382,12 @@ namespace Yourgan.Core.DOM
                 return first;
             }
 
-            LinkedListNode<Node> realChild = this.ChildNodes.AddLast(newChild);
-
-            newChild.ParentNodeItem = realChild;
-
-            return newChild;
+            return this.ChildNodes.AddLast(newChild);
         }
 
         public bool HasChildNodes()
         {
-            return childNodes.Count > 0;
+            return childNodes.Length > 0;
         }
 
         public virtual bool HasAttributes()
@@ -438,6 +452,8 @@ namespace Yourgan.Core.DOM
         {
             return false;
         }
+
+        #endregion
 
         private Primitive renderer;
 

@@ -1,4 +1,6 @@
-﻿namespace Yourgan.Core.DOM
+﻿using System;
+
+namespace Yourgan.Core.DOM
 {
     public class QualifiedName
     {
@@ -59,6 +61,54 @@
                 return prefix + ":" + localName;
 
             return localName;
+        }
+
+        public static QualifiedName Parse(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            int pos = name.IndexOf(':');
+
+            string prefix;
+            string localName;
+
+            if ((pos > 0) && (pos < name.Length - 1))
+            {
+                prefix = name.Substring(0, pos);
+                localName = name.Substring(pos + 1);
+            }
+            else
+            {
+                prefix = null;
+                localName = name;
+            }
+
+            return new QualifiedName(prefix, localName, null);
+        }
+
+        public static QualifiedName Parse(string name, string namespaceURI)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            int pos = name.IndexOf(':');
+
+            string prefix;
+            string localName;
+
+            if ((pos > 0) && (pos < name.Length - 1))
+            {
+                prefix = name.Substring(0, pos);
+                localName = name.Substring(pos + 1);
+            }
+            else
+            {
+                prefix = null;
+                localName = name;
+            }
+
+            return new QualifiedName(prefix, localName, namespaceURI);
         }
     }
 }

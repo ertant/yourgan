@@ -7,6 +7,11 @@ namespace Yourgan.Core.DOM
 {
     public class Text : CharacterData
     {
+        public Text(Document document)
+            : base(document)
+        {
+        }
+
         public override NodeType NodeType
         {
             get

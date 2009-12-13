@@ -7,6 +7,12 @@ namespace Yourgan.Core.DOM
 {
     public class Comment : CharacterData
     {
+        public Comment(Document document)
+            : base(document)
+        {
+            
+        }
+
         public override NodeType NodeType
         {
             get

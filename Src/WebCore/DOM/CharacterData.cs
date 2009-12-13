@@ -7,6 +7,11 @@ namespace Yourgan.Core.DOM
 {
     public abstract class CharacterData : Node
     {
+        protected CharacterData(Document document)
+            : base(document)
+        {
+        }
+
         private string data;
 
         public string Data
