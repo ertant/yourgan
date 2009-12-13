@@ -45,7 +45,7 @@ namespace TestApp2
 
             Page page = new Page();
 
-            Document document = new Document(page.MainFrame, doc);
+            Document document = new Document(page.MainFrame);
 
             page.MainFrame.Document = document;
 
