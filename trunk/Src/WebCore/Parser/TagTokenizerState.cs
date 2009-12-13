@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
 #if(DEBUG)
     [System.Diagnostics.DebuggerDisplay("T={TokenValue} ContentModel={ContentModel}")]
@@ -406,3 +406,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

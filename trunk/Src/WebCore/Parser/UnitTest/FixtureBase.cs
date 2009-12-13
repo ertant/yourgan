@@ -21,7 +21,7 @@ using System.Text;
 using System.Xml.XPath;
 using NUnit.Framework;
 
-namespace Yourgan.Parser.UnitTest
+namespace Yourgan.Core.Parser.UnitTest
 {
     public abstract class FixtureBase
     {
@@ -109,3 +109,5 @@ namespace Yourgan.Parser.UnitTest
         }
     }
 }
+
+

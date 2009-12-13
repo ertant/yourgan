@@ -93,10 +93,6 @@
       <Project>{975E3F1C-349C-484A-AF94-8C86AAD399D5}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YourganParser\Yourgan.Parser.csproj">
-      <Project>{2AB8BD63-31B1-432B-9115-B15DB4610108}</Project>
-      <Name>Yourgan.Parser</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

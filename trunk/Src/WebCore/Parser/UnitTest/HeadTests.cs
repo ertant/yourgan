@@ -17,7 +17,7 @@
 // */
 using NUnit.Framework;
 
-namespace Yourgan.Parser.UnitTest
+namespace Yourgan.Core.Parser.UnitTest
 {
     [TestFixture]
     public class HeadTests : FixtureBase
@@ -86,3 +86,5 @@ namespace Yourgan.Parser.UnitTest
         }
     }
 }
+
+

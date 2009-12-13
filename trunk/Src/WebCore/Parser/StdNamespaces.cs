@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     static class StdNamespaces
     {
@@ -27,3 +27,5 @@ namespace Yourgan.Parser
         public const string XMLNS = "http://www.w3.org/2000/xmlns/";
     }
 }
+
+

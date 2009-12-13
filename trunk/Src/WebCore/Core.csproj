@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\External\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -81,6 +85,31 @@
     <Compile Include="Drawing\IGraphicsContext.cs" />
     <Compile Include="Drawing\IHostWindow.cs" />
     <Compile Include="Page\Page.cs" />
+    <Compile Include="Parser\ContentModelType.cs" />
+    <Compile Include="Parser\DocumentStream.cs" />
+    <Compile Include="Parser\Entity.cs" />
+    <Compile Include="Parser\EntityErrorCode.cs" />
+    <Compile Include="Parser\EntityErrorEventArgs.cs" />
+    <Compile Include="Parser\EntityGenerationState.cs" />
+    <Compile Include="Parser\EntityType.cs" />
+    <Compile Include="Parser\FormattingElement.cs" />
+    <Compile Include="Parser\FormattingElementCollection.cs" />
+    <Compile Include="Parser\ParseException.cs" />
+    <Compile Include="Parser\ProcessCharHandler.cs" />
+    <Compile Include="Parser\ProcessEntityHandler.cs" />
+    <Compile Include="Parser\StdNamespaces.cs" />
+    <Compile Include="Parser\TagTokenizer.cs" />
+    <Compile Include="Parser\TagTokenizerState.cs" />
+    <Compile Include="Parser\TokenType.cs" />
+    <Compile Include="Parser\TreeConstruction.cs" />
+    <Compile Include="Parser\TreeConstructionState.cs" />
+    <Compile Include="Parser\UnitTest\AttributeTests.cs" />
+    <Compile Include="Parser\UnitTest\DivTests.cs" />
+    <Compile Include="Parser\UnitTest\DocumentTests.cs" />
+    <Compile Include="Parser\UnitTest\FixtureBase.cs" />
+    <Compile Include="Parser\UnitTest\HeadTests.cs" />
+    <Compile Include="Parser\UnitTest\HyperlinkTests.cs" />
+    <Compile Include="Parser\UnitTest\TableTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\Block.cs" />
     <Compile Include="Render\Box.cs" />

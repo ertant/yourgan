@@ -18,7 +18,7 @@
 using System.Xml;
 using NUnit.Framework;
 
-namespace Yourgan.Parser.UnitTest
+namespace Yourgan.Core.Parser.UnitTest
 {
     [TestFixture]
     public class DocumentTests : FixtureBase
@@ -56,3 +56,5 @@ namespace Yourgan.Parser.UnitTest
         }
     }
 }
+
+

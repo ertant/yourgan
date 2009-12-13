@@ -18,7 +18,7 @@
 using System;
 using System.Text;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class DocumentStream : System.IO.TextWriter
     {
@@ -78,3 +78,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

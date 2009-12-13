@@ -1,15 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Parser", "YourganParser\Yourgan.Parser.csproj", "{2AB8BD63-31B1-432B-9115-B15DB4610108}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering", "Yourgan.Rendering\Yourgan.Rendering.csproj", "{D517D7DD-0398-4E8C-91E0-EFA85955C689}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.DOM", "Yourgan.DOM\Yourgan.DOM.csproj", "{9C4DF9D4-8B71-4A41-94C0-426516BF903C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering.WindowsForms", "Yourgan.Rendering.WindowsForms\Yourgan.Rendering.WindowsForms.csproj", "{D954A0EA-AC02-440F-867C-382B4055A383}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yourgan.Rendering.WindowsForms.Test", "Yourgan.Rendering.WindowsForms.Test\Yourgan.Rendering.WindowsForms.Test.csproj", "{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "WebCore\Core.csproj", "{975E3F1C-349C-484A-AF94-8C86AAD399D5}"
 EndProject
@@ -21,26 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AB8BD63-31B1-432B-9115-B15DB4610108}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D517D7DD-0398-4E8C-91E0-EFA85955C689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D517D7DD-0398-4E8C-91E0-EFA85955C689}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D517D7DD-0398-4E8C-91E0-EFA85955C689}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D517D7DD-0398-4E8C-91E0-EFA85955C689}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C4DF9D4-8B71-4A41-94C0-426516BF903C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D954A0EA-AC02-440F-867C-382B4055A383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D954A0EA-AC02-440F-867C-382B4055A383}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D954A0EA-AC02-440F-867C-382B4055A383}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D954A0EA-AC02-440F-867C-382B4055A383}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E7F1CA7-3727-41F8-A402-6AD1A7F28D78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{975E3F1C-349C-484A-AF94-8C86AAD399D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{975E3F1C-349C-484A-AF94-8C86AAD399D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{975E3F1C-349C-484A-AF94-8C86AAD399D5}.Release|Any CPU.ActiveCfg = Release|Any CPU

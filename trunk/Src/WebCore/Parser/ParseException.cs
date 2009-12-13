@@ -17,7 +17,7 @@
 // */
 using System;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class ParseException : Exception
     {
@@ -31,3 +31,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

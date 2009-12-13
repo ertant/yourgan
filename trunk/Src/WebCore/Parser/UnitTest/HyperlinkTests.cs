@@ -17,7 +17,7 @@
 // */
 using NUnit.Framework;
 
-namespace Yourgan.Parser.UnitTest
+namespace Yourgan.Core.Parser.UnitTest
 {
     [TestFixture]
     public class HyperlinkTests : FixtureBase
@@ -51,3 +51,5 @@ namespace Yourgan.Parser.UnitTest
         }
     }
 }
+
+
