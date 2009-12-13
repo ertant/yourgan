@@ -17,7 +17,7 @@
 // */
 using NUnit.Framework;
 
-namespace Yourgan.Parser.UnitTest
+namespace Yourgan.Core.Parser.UnitTest
 {
     [TestFixture]
     public class TableTests : FixtureBase
@@ -61,12 +61,12 @@ namespace Yourgan.Parser.UnitTest
             int totalErrors = 0;
 
             System.Xml.XmlDocument doc = LoadDocument(html, delegate(object sender, EntityErrorEventArgs args)
-            {
-                totalErrors++;
+                                                                {
+                                                                    totalErrors++;
 
-                if (args.Code == EntityErrorCode.UnexpectedTag)
-                    unexpectedTagCount++;
-            });
+                                                                    if (args.Code == EntityErrorCode.UnexpectedTag)
+                                                                        unexpectedTagCount++;
+                                                                });
 
             Assert.AreEqual(0, totalErrors);
             Assert.AreEqual(0, unexpectedTagCount);
@@ -85,3 +85,5 @@ namespace Yourgan.Parser.UnitTest
         }
     }
 }
+
+

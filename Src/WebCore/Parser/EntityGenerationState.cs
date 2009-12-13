@@ -17,7 +17,7 @@
 // */
 using System;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class EntityGenerationState
     {
@@ -133,3 +133,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

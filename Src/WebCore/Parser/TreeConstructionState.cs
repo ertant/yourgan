@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class TreeConstructionState
     {
@@ -222,7 +222,7 @@ namespace Yourgan.Parser
                         return true;
                     }
                     else if (Entity.IsTag(node.LocalName, "html") ||
-                        Entity.IsTag(node.LocalName, "table"))
+                             Entity.IsTag(node.LocalName, "table"))
                     {
                         return false;
                     }
@@ -547,3 +547,5 @@ namespace Yourgan.Parser
         public event EventHandler<EntityErrorEventArgs> EntityError;
     }
 }
+
+

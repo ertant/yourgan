@@ -25,7 +25,7 @@ using Yourgan.Core.DOM;
 using Yourgan.Core.Drawing;
 using Yourgan.Core.Drawing.GDI;
 using Yourgan.Core.Page;
-using Yourgan.Parser;
+using Yourgan.Core.Parser;
 
 namespace TestApp2
 {

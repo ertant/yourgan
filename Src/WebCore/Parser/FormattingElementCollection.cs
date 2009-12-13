@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Xml;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class FormattingElementCollection
     {
@@ -53,3 +53,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

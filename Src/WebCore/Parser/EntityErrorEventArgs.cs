@@ -17,7 +17,7 @@
 // */
 using System;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class EntityErrorEventArgs : EventArgs
     {
@@ -48,3 +48,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

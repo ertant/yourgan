@@ -17,7 +17,7 @@
 // */
 using System;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     unsafe class TagTokenizer
     {
@@ -110,7 +110,7 @@ namespace Yourgan.Parser
                             ((state.ContentModel == ContentModelType.PCData) || (state.ContentModel == ContentModelType.RCData))
                             &&
                             (!state.EscapeFlag)
-                           )
+                            )
                         {
                             state.EmitData();
                             state.Switch(CharacterRefence);
@@ -130,13 +130,13 @@ namespace Yourgan.Parser
                             state.EmitData();
                             state.Switch(TagOpen);
                         }
-                        // When the content model flag is set to either the RCDATA state or the CDATA state, and the escape flag is false: switch to the tag open state.
+                            // When the content model flag is set to either the RCDATA state or the CDATA state, and the escape flag is false: switch to the tag open state.
                         else if (((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData)) && !state.EscapeFlag)
                         {
                             state.EmitData();
                             state.Switch(TagOpen);
                         }
-                        // Otherwise: treat it as per the "anything else" entry below.
+                            // Otherwise: treat it as per the "anything else" entry below.
                         else
                         {
                             state.AddToken(*c);
@@ -206,7 +206,7 @@ namespace Yourgan.Parser
                 {
                     state.Switch(CloseTagOpen);
                 }
-                // Otherwise, emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
+                    // Otherwise, emit a U+003C LESS-THAN SIGN character token and reconsume the current input character in the data state.
                 else
                 {
                     state.AddToken('<');
@@ -367,7 +367,7 @@ namespace Yourgan.Parser
                 state.AddToken('/');
                 state.Switch(Data);
             }
-            // Otherwise, if the content model flag is set to the PCDATA state, or if the next few characters do match that tag name, consume the next input character:
+                // Otherwise, if the content model flag is set to the PCDATA state, or if the next few characters do match that tag name, consume the next input character:
             else if (state.ContentModel == ContentModelType.PCData)
             {
                 switch (*c)
@@ -504,9 +504,9 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // U+0022 QUOTATION MARK (")
+                    // U+0022 QUOTATION MARK (")
                 case '\"':
-                // U+0027 APOSTROPHE (')
+                    // U+0027 APOSTROPHE (')
                 case '\'':
                     {
                         // Parse error. Treat it as per the "anything else" entry below.
@@ -571,7 +571,7 @@ namespace Yourgan.Parser
                         state.Switch(AttributeValueUnQuoted);
                         break;
                     }
-                // Anything else
+                    // Anything else
                 default:
                     {
                         // Append the current input character to the current attribute's value. Switch to the attribute value (unquoted) state.
@@ -860,10 +860,10 @@ namespace Yourgan.Parser
                     state.Position += 6;
                     state.Switch(DocType);
                 }
-                // Otherwise, if the insertion mode is "in foreign content" and the current node is not an element in the HTML namespace and 
-                // the next seven characters are an ASCII case-sensitive match for the string "[CDATA[" 
-                // (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after), then 
-                // consume those characters and switch to the CDATA section state (which is unrelated to the content model flag's CDATA state).
+                    // Otherwise, if the insertion mode is "in foreign content" and the current node is not an element in the HTML namespace and 
+                    // the next seven characters are an ASCII case-sensitive match for the string "[CDATA[" 
+                    // (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after), then 
+                    // consume those characters and switch to the CDATA section state (which is unrelated to the content model flag's CDATA state).
                 else if (string.Equals(tmpVal, "[CDATA[", StringComparison.Ordinal))
                 {
                     state.Position += 6;
@@ -988,7 +988,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // Anything else
+                    // Anything else
                 default:
                     {
                         string tokenVal = new string(c, 0, 6);
@@ -1000,14 +1000,14 @@ namespace Yourgan.Parser
                             state.Position += 6;
                             state.Switch(BeforeDocTypePublicIdentifier);
                         }
-                        // Otherwise, if the next six characters are an ASCII case-insensitive match for the word "SYSTEM", 
-                        // then consume those characters and switch to the before DOCTYPE system identifier state.
+                            // Otherwise, if the next six characters are an ASCII case-insensitive match for the word "SYSTEM", 
+                            // then consume those characters and switch to the before DOCTYPE system identifier state.
                         else if (tokenVal.Equals("SYSTEM", StringComparison.OrdinalIgnoreCase))
                         {
                             state.Position += 6;
                             state.Switch(BeforeDocTypeSystemIdentifier);
                         }
-                        // Otherwise, this is the parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
+                            // Otherwise, this is the parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
                         else
                         {
                             state.SetError();
@@ -1051,7 +1051,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Switch to the data state.
+                    // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Switch to the data state.
                 default:
                     {
                         // Parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
@@ -1081,7 +1081,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO : EOF, Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO : EOF, Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Append the current input character to the current DOCTYPE token's public identifier. Stay in the DOCTYPE public identifier (double-quoted) state.
@@ -1110,7 +1110,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO: EOF, Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO: EOF, Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Append the current input character to the current DOCTYPE token's public identifier. Stay in the DOCTYPE public identifier (single-quoted) state.
@@ -1151,7 +1151,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
@@ -1194,7 +1194,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO : EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Parse error. Set the DOCTYPE token's force-quirks flag to on. Switch to the bogus DOCTYPE state.
@@ -1223,7 +1223,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO: EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO: EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Append the current input character to the current DOCTYPE token's system identifier. Stay in the DOCTYPE system identifier (double-quoted) state.
@@ -1251,7 +1251,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO: EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO: EOF , Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Append the current input character to the current DOCTYPE token's system identifier. Stay in the DOCTYPE system identifier (single-quoted) state.
@@ -1280,7 +1280,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO : Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO : Parse error. Set the DOCTYPE token's force-quirks flag to on. Emit that DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Parse error. Switch to the bogus DOCTYPE state. (This does not set the DOCTYPE token's force-quirks flag to on.)
@@ -1302,7 +1302,7 @@ namespace Yourgan.Parser
                         state.Switch(Data);
                         break;
                     }
-                // TODO: EOF, Emit the DOCTYPE token. Reconsume the EOF character in the data state.
+                    // TODO: EOF, Emit the DOCTYPE token. Reconsume the EOF character in the data state.
                 default:
                     {
                         // Stay in the bogus DOCTYPE state.
@@ -1385,3 +1385,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+

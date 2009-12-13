@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yourgan.Parser
+namespace Yourgan.Core.Parser
 {
     public class Entity
     {
@@ -114,11 +114,11 @@ namespace Yourgan.Parser
         public static bool IsSpecialTag(string tagName)
         {
             return IsOneOf(tagName, "address", "area", "article", "aside", "base", "basefont", "bgsound",
-                "blockquote", "body", "br", "center", "col", "colgroup", "command", "datagrid", "dd", "details", "dialog",
-                "dir", "div", "dl", "dt", "embed", "eventsource", "fieldset", "figure", "footer", "form", "frame", "frameset",
-                "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "iframe", "img", "input", "isindex", "li", "link",
-                "listing", "menu", "meta", "nav", "noembed", "noframes", "noscript", "ol", "p", "param", "plaintext", "pre",
-                "script", "section", "select", "spacer", "style", "tbody", "textarea", "tfoot", "thead", "title", "tr", "ul", "wbr");
+                           "blockquote", "body", "br", "center", "col", "colgroup", "command", "datagrid", "dd", "details", "dialog",
+                           "dir", "div", "dl", "dt", "embed", "eventsource", "fieldset", "figure", "footer", "form", "frame", "frameset",
+                           "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "iframe", "img", "input", "isindex", "li", "link",
+                           "listing", "menu", "meta", "nav", "noembed", "noframes", "noscript", "ol", "p", "param", "plaintext", "pre",
+                           "script", "section", "select", "spacer", "style", "tbody", "textarea", "tfoot", "thead", "title", "tr", "ul", "wbr");
         }
 
         public static bool IsScopingTag(string tagName)
@@ -138,3 +138,5 @@ namespace Yourgan.Parser
         }
     }
 }
+
+
