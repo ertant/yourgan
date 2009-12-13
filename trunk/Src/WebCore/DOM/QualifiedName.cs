@@ -63,6 +63,17 @@ namespace Yourgan.Core.DOM
             return localName;
         }
 
+        public bool Matches(QualifiedName other)
+        {
+            if (this == other)
+                return true;
+
+            if ((this.localName == other.localName) && (this.namespaceURI == other.namespaceURI))
+                return true;
+
+            return false;
+        }
+
         public static QualifiedName Parse(string name)
         {
             if (string.IsNullOrEmpty(name))

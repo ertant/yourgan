@@ -23,6 +23,8 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        #region DOM
+
         public override NamedNodeMap Attributes
         {
             get
@@ -129,5 +131,120 @@ namespace Yourgan.Core.DOM
                 attr.SetOwnerElement(null);
             }
         }
+
+        #region Attributes
+
+        public string GetAttribute(string name)
+        {
+            Node attr = this.Attributes.GetNamedItem(name);
+
+            if (attr != null)
+            {
+                return attr.NodeValue;
+            }
+
+            return null;
+        }
+
+        public string GetAttributeNS(string namespaceURI, string localname)
+        {
+            Node attr = this.Attributes.GetNamedItemNS(namespaceURI, localname);
+
+            if (attr != null)
+            {
+                return attr.NodeValue;
+            }
+
+            return null;
+        }
+
+        public void SetAttribute(string name, string value)
+        {
+            Node attr = this.Attributes.GetNamedItem(name);
+
+            if (attr != null)
+            {
+                attr.NodeValue = value;
+            }
+            else
+            {
+                attr = this.OwnerDocument.CreateAttribute(name);
+
+                attr.NodeValue = value;
+
+                this.Attributes.SetNamedItem(attr);
+            }
+        }
+
+        public void SetAttributeNS(string namespaceURI, string localname, string value)
+        {
+            Node attr = this.Attributes.GetNamedItemNS(namespaceURI, localname);
+
+            if (attr != null)
+            {
+                attr.NodeValue = value;
+            }
+            else
+            {
+                attr = this.OwnerDocument.CreateAttributeNS(namespaceURI, localname);
+
+                attr.NodeValue = value;
+
+                this.Attributes.SetNamedItem(attr);
+            }
+        }
+
+        public void RemoveAttribute(string name)
+        {
+            this.Attributes.RemoveNamedItem(name);
+        }
+
+        public void RemoveAttributeNS(string namespaceURI, string localname)
+        {
+            this.Attributes.RemoveNamedItemNS(namespaceURI, localname);
+        }
+
+        public Attr GetAttributeNode(string name)
+        {
+            return this.Attributes.GetNamedItem(name) as Attr;
+        }
+
+        public Attr GetAttributeNodeNS(string namespaceURI, string localname)
+        {
+            return this.Attributes.GetNamedItemNS(namespaceURI, localname) as Attr;
+        }
+
+        public Attr SetAttributeNode(Attr attr)
+        {
+            return this.Attributes.SetNamedItem(attr) as Attr;
+        }
+
+        public Attr SetAttributeNodeNS(Attr attr)
+        {
+            return this.Attributes.SetNamedItemNS(attr) as Attr;
+        }
+
+        public void RemoveAttributeNode(Attr old)
+        {
+            this.Attributes.RemoveNamedItem(old);
+        }
+
+        public bool HasAttribute(string name)
+        {
+            Attr attr = this.Attributes.GetNamedItem(name) as Attr;
+
+            return attr != null;
+        }
+
+        public bool HasAttributeNS(string namespaceURI, string localname)
+        {
+            Attr attr = this.Attributes.GetNamedItemNS(namespaceURI, localname) as Attr;
+
+            return attr != null;
+        }
+
+        #endregion
+
+        #endregion
     }
 }
