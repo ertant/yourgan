@@ -20,21 +20,22 @@ using System.IO;
 using System.Text;
 using System.Xml.XPath;
 using NUnit.Framework;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser.UnitTest
 {
     public abstract class FixtureBase
     {
-        protected System.Xml.XmlDocument LoadDocument(string html)
+        protected Document LoadDocument(string html)
         {
             return LoadDocument(html, null);
         }
 
-        protected System.Xml.XmlDocument LoadDocument(string html, EventHandler<EntityErrorEventArgs> errorHandler)
+        protected Document LoadDocument(string html, EventHandler<EntityErrorEventArgs> errorHandler)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(html);
 
-            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+            Document doc = new Document(null);
 
             using (DocumentStream stream = new DocumentStream(doc))
             {
@@ -64,25 +65,31 @@ namespace Yourgan.Core.Parser.UnitTest
             return doc;
         }
 
-        private XPathNavigator GetNavigator(System.Xml.XmlDocument doc)
+        private XPathNavigator GetNavigator(Document doc)
         {
-            XPathNavigator nav = doc.CreateNavigator();
+            // TODO : Fix here
+            // XPathNavigator nav = doc.CreateNavigator();
+            // return nav;
 
-            return nav;
+            throw new NotImplementedException();
         }
 
-        private XPathNavigator GetSingleNode(System.Xml.XmlDocument doc, string xpath)
+        private XPathNavigator GetSingleNode(Document doc, string xpath)
         {
             XPathNavigator nav = GetNavigator(doc);
 
-            System.Xml.XmlNamespaceManager manager = new System.Xml.XmlNamespaceManager(doc.NameTable);
+            // TODO : Fix here
 
-            manager.AddNamespace("h", StdNamespaces.HTML);
+            // System.Xml.XmlNamespaceManager manager = new System.Xml.XmlNamespaceManager(doc.NameTable);
 
-            return nav.SelectSingleNode(xpath, manager);
+            // manager.AddNamespace("h", StdNamespaces.HTML);
+
+            // return nav.SelectSingleNode(xpath, manager);
+
+            return nav.SelectSingleNode(xpath);
         }
 
-        protected void Eval(System.Xml.XmlDocument doc, string xpath, string value)
+        protected void Eval(Document doc, string xpath, string value)
         {
             XPathNavigator node = GetSingleNode(doc, xpath);
 
@@ -92,14 +99,14 @@ namespace Yourgan.Core.Parser.UnitTest
             Assert.AreEqual(value, node.Value);
         }
 
-        protected void EvalAsNull(System.Xml.XmlDocument doc, string xpath)
+        protected void EvalAsNull(Document doc, string xpath)
         {
             XPathNavigator node = GetSingleNode(doc, xpath);
 
             Assert.IsNull(node);
         }
 
-        protected void EvalAsEmpty(System.Xml.XmlDocument doc, string xpath)
+        protected void EvalAsEmpty(Document doc, string xpath)
         {
             XPathNavigator node = GetSingleNode(doc, xpath);
 

@@ -16,12 +16,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using System;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
     public class EntityGenerationState
     {
-        public EntityGenerationState(TagTokenizerState tagTokenizer, System.Xml.XmlDocument document)
+        public EntityGenerationState(TagTokenizerState tagTokenizer, Document document)
         {
             this.htmlTokenization = new TreeConstructionState(tagTokenizer, document);
         }

@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using System.Collections.Generic;
-using System.Xml;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
@@ -34,7 +34,7 @@ namespace Yourgan.Core.Parser
             return elements.Peek();
         }
 
-        public void Push(XmlElement element)
+        public void Push(Element element)
         {
             elements.Push(new FormattingElement(element));
         }

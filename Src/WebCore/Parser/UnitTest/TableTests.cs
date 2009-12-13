@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using NUnit.Framework;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser.UnitTest
 {
@@ -27,7 +28,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = @"<html><body><table><tr><td>cell1</td></tr></table></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             Eval(doc, "/h:html/h:body/h:table/h:tbody/h:tr/h:td/text()", "cell1");
         }
@@ -37,7 +38,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = @"<html><body><table><td>cell1</td></tr></table></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             Eval(doc, "/h:html/h:body/h:table/h:tbody/h:tr/h:td/text()", "cell1");
         }
@@ -47,7 +48,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = @"<html><body><table><tr><td>cell1</td></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             Eval(doc, "/h:html/h:body/h:table/h:tbody/h:tr/h:td/text()", "cell1");
         }
@@ -60,7 +61,7 @@ namespace Yourgan.Core.Parser.UnitTest
             int unexpectedTagCount = 0;
             int totalErrors = 0;
 
-            System.Xml.XmlDocument doc = LoadDocument(html, delegate(object sender, EntityErrorEventArgs args)
+            Document doc = LoadDocument(html, delegate(object sender, EntityErrorEventArgs args)
                                                                 {
                                                                     totalErrors++;
 
@@ -71,7 +72,7 @@ namespace Yourgan.Core.Parser.UnitTest
             Assert.AreEqual(0, totalErrors);
             Assert.AreEqual(0, unexpectedTagCount);
             
-            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("html", doc.DocumentElement.LocalName);
             Assert.AreEqual("head", doc.DocumentElement.FirstChild.LocalName);
@@ -81,7 +82,7 @@ namespace Yourgan.Core.Parser.UnitTest
             Assert.AreEqual("tr", doc.DocumentElement.FirstChild.NextSibling.FirstChild.FirstChild.FirstChild.LocalName);
             Assert.AreEqual("td", doc.DocumentElement.FirstChild.NextSibling.FirstChild.FirstChild.FirstChild.FirstChild.LocalName);
             Assert.AreEqual("div", doc.DocumentElement.FirstChild.NextSibling.FirstChild.FirstChild.FirstChild.FirstChild.FirstChild.LocalName);
-            Assert.AreEqual("some text", doc.DocumentElement.FirstChild.NextSibling.FirstChild.FirstChild.FirstChild.FirstChild.FirstChild.InnerText);
+            Assert.AreEqual("some text", doc.DocumentElement.FirstChild.NextSibling.FirstChild.FirstChild.FirstChild.FirstChild.FirstChild.TextContent);
         }
     }
 }

@@ -51,7 +51,7 @@ namespace TestApp2
 
             page.HostWindow = this;
 
-            using (DocumentStream documentStream = new DocumentStream(document.XmlDocument))
+            using (DocumentStream documentStream = new DocumentStream(document))
             {
                 using (System.IO.StreamReader htmlReader = new System.IO.StreamReader(reader, documentStream.Encoding))
                 {

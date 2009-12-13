@@ -17,13 +17,13 @@
 // */
 using System;
 using System.Collections.Generic;
-using System.Xml;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
     public class TreeConstructionState
     {
-        public TreeConstructionState(TagTokenizerState tagTokenizer, XmlDocument document)
+        public TreeConstructionState(TagTokenizerState tagTokenizer, Document document)
         {
             this.tagTokenizer = tagTokenizer;
             this.document = document;
@@ -63,9 +63,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        XmlDocument document;
+        Document document;
 
-        public XmlDocument Document
+        public Document Document
         {
             get
             {
@@ -94,7 +94,7 @@ namespace Yourgan.Core.Parser
 
         #region Tainted Elements
 
-        List<XmlElement> taintedElements;
+        List<Element> taintedElements;
 
         public void MarkAsTainted()
         {
@@ -102,7 +102,7 @@ namespace Yourgan.Core.Parser
                 throw new InvalidOperationException();
 
             if (taintedElements == null)
-                taintedElements = new List<XmlElement>();
+                taintedElements = new List<Element>();
 
             taintedElements.Add(current);
         }
@@ -111,7 +111,7 @@ namespace Yourgan.Core.Parser
         {
             if (taintedElements != null)
             {
-                foreach (XmlElement node in this.nodes)
+                foreach (Element node in this.nodes)
                 {
                     if (Entity.IsTag(node.LocalName, "table"))
                     {
@@ -127,7 +127,7 @@ namespace Yourgan.Core.Parser
 
         #region Element Stack
 
-        Stack<XmlElement> nodes = new Stack<XmlElement>();
+        Stack<Element> nodes = new Stack<Element>();
 
         public void Pop()
         {
@@ -140,7 +140,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        public void Push(XmlElement node)
+        public void Push(Element node)
         {
             if (node == null)
                 throw new ArgumentNullException("node");
@@ -150,12 +150,12 @@ namespace Yourgan.Core.Parser
             current = node;
         }
 
-        public Stack<XmlElement> GetStack()
+        public Stack<Element> GetStack()
         {
             // create a new copy stack of current
-            XmlElement[] elements = nodes.ToArray();
+            Element[] elements = nodes.ToArray();
 
-            Stack<XmlElement> newNodes = new Stack<XmlElement>();
+            Stack<Element> newNodes = new Stack<Element>();
 
             for (int i = elements.Length - 1; i >= 0; i--)
                 newNodes.Push(elements[i]);
@@ -163,9 +163,9 @@ namespace Yourgan.Core.Parser
             return newNodes;
         }
 
-        XmlElement current;
+        Element current;
 
-        public XmlElement Current
+        public Element Current
         {
             get
             {
@@ -197,7 +197,7 @@ namespace Yourgan.Core.Parser
 
         public bool IsInStack(params string[] tagNames)
         {
-            foreach (XmlElement node in this.nodes)
+            foreach (Element node in this.nodes)
             {
                 foreach (string tagName in tagNames)
                 {
@@ -215,7 +215,7 @@ namespace Yourgan.Core.Parser
         {
             foreach (string tagName in tagNames)
             {
-                foreach (XmlElement node in this.nodes)
+                foreach (Element node in this.nodes)
                 {
                     if (Entity.IsTag(node.LocalName, tagName))
                     {
@@ -256,7 +256,7 @@ namespace Yourgan.Core.Parser
             int count = 0;
             bool found = false;
 
-            foreach (XmlElement node in this.nodes)
+            foreach (Element node in this.nodes)
             {
                 if (!Entity.IsTag(node.LocalName, tagName))
                 {
@@ -322,9 +322,9 @@ namespace Yourgan.Core.Parser
 
         #endregion
 
-        XmlElement html;
+        Element html;
 
-        public XmlElement Html
+        public Element Html
         {
             get
             {
@@ -336,9 +336,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        XmlElement head;
+        Element head;
 
-        public XmlElement Head
+        public Element Head
         {
             get
             {
@@ -350,9 +350,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        XmlElement body;
+        Element body;
 
-        public XmlElement Body
+        public Element Body
         {
             get
             {
@@ -364,9 +364,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        XmlElement form;
+        Element form;
 
-        public XmlElement Form
+        public Element Form
         {
             get
             {
@@ -378,9 +378,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        XmlElement fosterParent;
+        Element fosterParent;
 
-        public XmlElement FosterParent
+        public Element FosterParent
         {
             get
             {
@@ -388,12 +388,12 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        public XmlElement CreateElement(string tagName, string namespaceURI)
+        public Element CreateElement(string tagName, string namespaceURI)
         {
             if (string.IsNullOrEmpty(tagName))
                 throw new ArgumentNullException("tagName");
 
-            XmlElement element = document.CreateElement(tagName, namespaceURI);
+            Element element = document.CreateElementNS(namespaceURI, tagName);
 
             if (current != null)
             {
@@ -401,7 +401,7 @@ namespace Yourgan.Core.Parser
                 if ((taintedElements != null) && (current != null) && (taintedElements.Contains(current)))
                 {
                     // use foster parent instead of current.
-                    XmlNode fosterParent = current.ParentNode;
+                    Node fosterParent = current.ParentNode;
 
                     fosterParent.AppendChild(element);
                 }
@@ -419,12 +419,12 @@ namespace Yourgan.Core.Parser
             return element;
         }
 
-        public XmlElement CreateElement(Entity entity, string namespaceURI)
+        public Element CreateElement(Entity entity, string namespaceURI)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            XmlElement element = CreateElement(entity.Data, namespaceURI);
+            Element element = CreateElement(entity.Data, namespaceURI);
 
             foreach (KeyValuePair<string, string> pair in entity.Attributes)
             {
@@ -434,18 +434,18 @@ namespace Yourgan.Core.Parser
             return element;
         }
 
-        public XmlElement CreatePushElement(string tagName, string namespaceURI)
+        public Element CreatePushElement(string tagName, string namespaceURI)
         {
-            XmlElement element = CreateElement(tagName, namespaceURI);
+            Element element = CreateElement(tagName, namespaceURI);
 
             Push(element);
 
             return element;
         }
 
-        public XmlElement CreatePushElement(Entity entity, string namespaceURI)
+        public Element CreatePushElement(Entity entity, string namespaceURI)
         {
-            XmlElement element = CreateElement(entity, namespaceURI);
+            Element element = CreateElement(entity, namespaceURI);
 
             Push(element);
 
@@ -457,7 +457,7 @@ namespace Yourgan.Core.Parser
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            XmlComment comment = this.document.CreateComment(entity.Data);
+            Comment comment = this.document.CreateComment(entity.Data);
 
             this.current.AppendChild(comment);
         }
@@ -467,7 +467,7 @@ namespace Yourgan.Core.Parser
             if (entity == null)
                 throw new ArgumentNullException("entity");
 
-            XmlComment comment = this.document.CreateComment(entity.Data);
+            Comment comment = this.document.CreateComment(entity.Data);
 
             this.document.AppendChild(comment);
         }

@@ -17,7 +17,7 @@
 // */
 using System;
 using System.Collections.Generic;
-using System.Xml;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
@@ -173,7 +173,7 @@ namespace Yourgan.Core.Parser
         private static void _BeforeHeadAnythingElse(TreeConstructionState state)
         {
             // Act as if a start tag token with the tag name "head" and no attributes had been seen, then reprocess the current token.
-            XmlElement head = state.CreatePushElement("head", StdNamespaces.HTML);
+            Element head = state.CreatePushElement("head", StdNamespaces.HTML);
             state.Head = head;
             state.Switch(InHead);
             state.Repeat();
@@ -212,7 +212,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("head"))
                         {
                             // Insert an HTML element for the token.
-                            XmlElement head = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element head = state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             // Set the head element pointer to the newly created head  element.
                             state.Head = head;
@@ -234,7 +234,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsOneOfTag("head", "br"))
                         {
                             // Act as if a start tag token with the tag name "head" and no attributes had been seen, then reprocess the current token.
-                            XmlElement head = state.CreatePushElement("head", StdNamespaces.HTML);
+                            Element head = state.CreatePushElement("head", StdNamespaces.HTML);
 
                             state.Head = head;
 
@@ -355,7 +355,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("script"))
                         {
                             // TODO : script implement
-                            XmlElement script = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element script = state.CreatePushElement(entity, StdNamespaces.HTML);
                             state.Switch(InCDataRCData);
                         }
                             // A start tag whose tag name is "head" 
@@ -490,7 +490,7 @@ namespace Yourgan.Core.Parser
         private static void _AfterHeadAnythingElse(TreeConstructionState state)
         {
             // Act as if a start tag token with the tag name "body" and no attributes had been seen, and then reprocess the current token.
-            XmlElement body = state.CreatePushElement("body", StdNamespaces.HTML);
+            Element body = state.CreatePushElement("body", StdNamespaces.HTML);
 
             state.Body = body;
 
@@ -533,7 +533,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("body"))
                         {
                             // Insert an HTML element for the token.
-                            XmlElement body = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element body = state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             state.Body = body;
 
@@ -763,7 +763,7 @@ namespace Yourgan.Core.Parser
                             state.ReconstructActiveFormattingElements();
 
                             // Insert an HTML element for the token. 
-                            XmlElement element = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element element = state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             // Add that element to the list of active formatting elements.
                             state.ActiveFormattingElements.Push(element);
@@ -775,7 +775,7 @@ namespace Yourgan.Core.Parser
                             state.ReconstructActiveFormattingElements();
 
                             // Insert an HTML element for the token.
-                            XmlElement element = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element element = state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             // Add that element to the list of active formatting elements.
                             state.ActiveFormattingElements.Push(element);
@@ -796,7 +796,7 @@ namespace Yourgan.Core.Parser
                             }
 
                             // Insert an HTML element for the token. 
-                            XmlElement element = state.CreatePushElement(entity, StdNamespaces.HTML);
+                            Element element = state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             // Add that element to the list of active formatting elements.
                             state.ActiveFormattingElements.Push(element);
@@ -918,7 +918,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("form"))
                         {
                             // Let node be the element that the form element pointer is set to.
-                            XmlElement formElement = state.Form;
+                            Element formElement = state.Form;
 
                             // Set the form element pointer  to null.
                             state.Form = null;
@@ -1041,10 +1041,10 @@ namespace Yourgan.Core.Parser
                             // Any other end tag 
                         else
                         {
-                            Stack<XmlElement> nodeStack = state.GetStack();
+                            Stack<Element> nodeStack = state.GetStack();
 
                             // Initialise node to be the current node (the bottommost node of the stack). 
-                            XmlElement node = nodeStack.Peek();
+                            Element node = nodeStack.Peek();
 
                             while (true)
                             {
