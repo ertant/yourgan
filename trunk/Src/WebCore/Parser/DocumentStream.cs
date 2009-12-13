@@ -17,6 +17,7 @@
 // */
 using System;
 using System.Text;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
@@ -24,7 +25,7 @@ namespace Yourgan.Core.Parser
     {
         TagTokenizerState tagTokenization;
 
-        public DocumentStream(System.Xml.XmlDocument document)
+        public DocumentStream(Document document)
         {
             this.document = document;
             this.tagTokenization = new TagTokenizerState(document);
@@ -49,9 +50,9 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        System.Xml.XmlDocument document;
+        Document document;
 
-        public System.Xml.XmlDocument Document
+        public Document Document
         {
             get
             {
@@ -62,11 +63,6 @@ namespace Yourgan.Core.Parser
         public override void Write(char[] buffer, int offset, int count)
         {
             tagTokenization.Parse(buffer, offset, count);
-        }
-
-        public override void Write(char value)
-        {
-            base.Write(value);
         }
 
         public override Encoding Encoding

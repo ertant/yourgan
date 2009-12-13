@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using NUnit.Framework;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser.UnitTest
 {
@@ -27,7 +28,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<html><body><div a=\"b\" \t\n\r c=\"d\"></div></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             Eval(doc, "/h:html/h:body/h:div/@a", "b");
             Eval(doc, "/h:html/h:body/h:div/@c", "d");
@@ -38,7 +39,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<html><body><div a='b' c='d' \t\n e=\"f'></div></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             EvalAsEmpty(doc, "/h:html/h:body/h:div/@e");
             Eval(doc, "/h:html/h:body/h:div/@a", "b");
@@ -50,7 +51,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<html><body><div a=b \n\r c=\"d\"></div></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             Eval(doc, "/h:html/h:body/h:div/@a", "b");
             Eval(doc, "/h:html/h:body/h:div/@c", "d");
@@ -61,7 +62,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<html><body><div a \r c=\"d\"></div></body></html>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
             EvalAsEmpty(doc, "/h:html/h:body/h:div/@a");
             Eval(doc, "/h:html/h:body/h:div/@c", "d");

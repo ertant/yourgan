@@ -289,7 +289,7 @@ namespace Yourgan.Core.DOM
             if (child == this)
                 throw new DOMException(DOMError.HierarchyRequest);
 
-            if (IsValidChildType(child.NodeType))
+            if (!IsValidChildType(child.NodeType))
                 throw new DOMException(DOMError.HierarchyRequest);
 
             if (IsAnchestor(child))
@@ -491,9 +491,14 @@ namespace Yourgan.Core.DOM
             return (this.OwnerDocument.DocumentElement == this) || (style.DisplayStyle != DisplayStyle.None);
         }
 
+        protected virtual void CreateRenderer()
+        {
+            
+        }
+
         public void CreateRendererIfNeeded()
         {
-
+            CreateRenderer();
         }
 
         public StyleData ResolveStyle()

@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using NUnit.Framework;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser.UnitTest
 {
@@ -27,9 +28,9 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<HTML><HEAD></HEAD></HTML>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
-            Assert.AreEqual(1, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(1, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("HEAD", doc.DocumentElement.FirstChild.LocalName);
         }
@@ -39,9 +40,9 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<HTML><HEAD></HTML>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
-            Assert.AreEqual(1, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(1, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("HEAD", doc.DocumentElement.FirstChild.LocalName);
         }
@@ -51,9 +52,9 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<HTML><HEAD><BODY></HTML>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
-            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("HEAD", doc.DocumentElement.FirstChild.LocalName);
             Assert.AreEqual("BODY", doc.DocumentElement.FirstChild.NextSibling.LocalName);
@@ -64,9 +65,9 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<HTML><HEAD><link rel=stylesheet type=\"text/css\" href=\"test.css\"></HEAD><BODY></HTML>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
-            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("HEAD", doc.DocumentElement.FirstChild.LocalName);
             Assert.AreEqual("BODY", doc.DocumentElement.FirstChild.NextSibling.LocalName);
@@ -77,9 +78,9 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             string html = "<HTML><HEAD><link rel=stylesheet type=\"text/css\" href=\"test.css\"/></HEAD><BODY></HTML>";
 
-            System.Xml.XmlDocument doc = LoadDocument(html);
+            Document doc = LoadDocument(html);
 
-            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Count);
+            Assert.AreEqual(2, doc.DocumentElement.ChildNodes.Length);
 
             Assert.AreEqual("HEAD", doc.DocumentElement.FirstChild.LocalName);
             Assert.AreEqual("BODY", doc.DocumentElement.FirstChild.NextSibling.LocalName);

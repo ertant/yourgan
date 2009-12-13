@@ -15,11 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using Yourgan.Core.DOM;
+
 namespace Yourgan.Core.Parser
 {
     public class FormattingElement
     {
-        public FormattingElement(System.Xml.XmlElement element)
+        public FormattingElement(Element element)
         {
             this.element = element;
             this.isMarker = false;
@@ -30,9 +32,9 @@ namespace Yourgan.Core.Parser
             this.isMarker = true;
         }
 
-        System.Xml.XmlElement element;
+        Element element;
 
-        public System.Xml.XmlElement Element
+        public Element Element
         {
             get
             {

@@ -30,7 +30,6 @@ namespace Yourgan.Core.DOM
         {
             this.frame = frame;
             this.OwnerDocument = this;
-            this.Renderer = new View(this, this.Frame.View);
         }
 
         #region DOM
@@ -237,6 +236,14 @@ namespace Yourgan.Core.DOM
             get
             {
                 return frame;
+            }
+        }
+
+        protected override void CreateRenderer()
+        {
+            if (this.frame != null)
+            {
+                this.Renderer = new View(this, this.Frame.View);
             }
         }
     }

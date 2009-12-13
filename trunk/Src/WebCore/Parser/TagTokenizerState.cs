@@ -17,6 +17,7 @@
 // */
 using System.Collections.Generic;
 using System.Text;
+using Yourgan.Core.DOM;
 
 namespace Yourgan.Core.Parser
 {
@@ -27,7 +28,7 @@ namespace Yourgan.Core.Parser
     {
         ProcessCharHandler handler;
 
-        public TagTokenizerState(System.Xml.XmlDocument document)
+        public TagTokenizerState(Document document)
         {
             this.entityGeneration = new EntityGenerationState(this, document);
             this.encoding = System.Text.Encoding.UTF8;
