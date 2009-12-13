@@ -7,6 +7,12 @@ namespace Yourgan.Core.DOM
 {
     public class CDATASection : Text
     {
+        public CDATASection(Document document)
+            : base(document)
+        {
+            
+        }
+
         public override NodeType NodeType
         {
             get

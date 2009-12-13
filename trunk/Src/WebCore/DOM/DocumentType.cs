@@ -7,6 +7,14 @@ namespace Yourgan.Core.DOM
 {
     public class DocumentType : Node
     {
+        public DocumentType(Document document, string name, string publicId, string systemId)
+            : base(document)
+        {
+            this.name = name;
+            this.publicId = publicId;
+            this.systemId = systemId;
+        }
+
         string name;
 
         public string Name

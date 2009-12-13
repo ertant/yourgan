@@ -105,5 +105,29 @@ namespace Yourgan.Core.DOM
                     return false;
             }
         }
+
+        protected internal override void OnChildAdded(Node node)
+        {
+            base.OnChildAdded(node);
+
+            Attr attr = node as Attr;
+
+            if (attr != null)
+            {
+                attr.SetOwnerElement(this);
+            }
+        }
+
+        protected internal override void OnChildRemoved(Node node)
+        {
+            base.OnChildRemoved(node);
+
+            Attr attr = node as Attr;
+
+            if (attr != null)
+            {
+                attr.SetOwnerElement(null);
+            }
+        }
     }
 }

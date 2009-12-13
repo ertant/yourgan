@@ -7,6 +7,21 @@ namespace Yourgan.Core.DOM
 {
     public class Attr : Node
     {
+        public Attr(QualifiedName name, Document document)
+            : base(document)
+        {
+        }
+
+        QualifiedName qname;
+
+        public QualifiedName QName
+        {
+            get
+            {
+                return qname;
+            }
+        }
+
         public override NodeType NodeType
         {
             get
@@ -31,19 +46,47 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.name;
+                return this.Name;
             }
         }
-
-        string name;
 
         public string Name
         {
             get
             {
-                return name;
+                return qname.ToString();
             }
         }
+
+        public override string LocalName
+        {
+            get
+            {
+                return qname.LocalName;
+            }
+        }
+
+        public override string NamespaceURI
+        {
+            get
+            {
+                return qname.NamespaceURI;
+            }
+        }
+
+        public override string Prefix
+        {
+            get
+            {
+                return qname.Prefix;
+            }
+            set
+            {
+                // TODO : is this right ?
+                this.qname = new QualifiedName(value, this.LocalName, this.NamespaceURI);
+            }
+        }
+
 
         bool specified;
 
@@ -79,11 +122,16 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        internal void SetOwnerElement(Element owner)
+        {
+            this.ownerElement = owner;
+        }
+
         public bool IsId
         {
             get
             {
-                throw new NotImplementedException();
+                return this.LocalName.Equals("id", StringComparison.InvariantCultureIgnoreCase);
             }
         }
     }

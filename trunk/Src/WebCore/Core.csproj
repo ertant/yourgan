@@ -58,6 +58,7 @@
     <Compile Include="DOM\DocumentPosition.cs" />
     <Compile Include="DOM\DocumentType.cs" />
     <Compile Include="DOM\DOMException.cs" />
+    <Compile Include="DOM\DOMImplementation.cs" />
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />
     <Compile Include="DOM\EntityReference.cs" />

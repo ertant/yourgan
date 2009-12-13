@@ -5,11 +5,30 @@ using System.Text;
 
 namespace Yourgan.Core.DOM
 {
-    public class NodeList : LinkedList<Node>
+    public class NodeList : IEnumerable<Node>
     {
+        private LinkedList<Node> innerCollection;
+
         public NodeList(Node owner)
         {
             this.owner = owner;
+            this.innerCollection = new LinkedList<Node>();
+        }
+
+        public Node First
+        {
+            get
+            {
+                return this.innerCollection.First.Value;
+            }
+        }
+
+        public Node Last
+        {
+            get
+            {
+                return this.innerCollection.Last.Value;
+            }
         }
 
         Node owner;
@@ -26,9 +45,9 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                LinkedListNode<Node> node = this.First;
+                LinkedListNode<Node> node = this.innerCollection.First;
 
-                for (int i = 0; i < this.Count; i++)
+                for (int i = 0; i < this.Length; i++)
                 {
                     node = node.Next;
 
@@ -44,8 +63,60 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.Count;
+                return this.innerCollection.Count;
             }
+        }
+
+        public Node AddBefore(Node child, Node value)
+        {
+            LinkedListNode<Node> realChild = this.innerCollection.AddBefore(child.ParentNodeItem, value);
+
+            value.SetParent(this, realChild);
+
+            this.owner.OnChildAdded(value);
+
+            return value;
+        }
+
+        public Node AddFirst(Node child)
+        {
+            LinkedListNode<Node> realChild = this.innerCollection.AddFirst(child);
+
+            child.SetParent(this, realChild);
+
+            this.owner.OnChildAdded(child);
+
+            return child;
+        }
+
+        public Node AddLast(Node child)
+        {
+            LinkedListNode<Node> realChild = this.innerCollection.AddLast(child);
+
+            child.SetParent(this, realChild);
+
+            this.owner.OnChildAdded(child);
+
+            return child;
+        }
+
+        public void Remove(Node child)
+        {
+            this.innerCollection.Remove(child.ParentNodeItem);
+
+            child.SetParent(null, null);
+
+            this.owner.OnChildRemoved(child);
+        }
+
+        IEnumerator<Node> IEnumerable<Node>.GetEnumerator()
+        {
+            return innerCollection.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return innerCollection.GetEnumerator();
         }
     }
 }
