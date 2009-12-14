@@ -19,6 +19,12 @@ namespace Yourgan.Core.DOM
 {
     public class DocumentFragment : Node
     {
+        public DocumentFragment(Document document)
+            : base(document)
+        {
+            
+        }
+
         public override NodeType NodeType
         {
             get

@@ -34,7 +34,10 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.innerCollection.First.Value;
+                if (this.innerCollection.First != null)
+                    return this.innerCollection.First.Value;
+
+                return null;
             }
         }
 
@@ -42,7 +45,10 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return this.innerCollection.Last.Value;
+                if (this.innerCollection.Last != null)
+                    return this.innerCollection.Last.Value;
+
+                return null;
             }
         }
 
@@ -84,7 +90,16 @@ namespace Yourgan.Core.DOM
 
         public void Clear()
         {
+            Node[] nodes = new Node[this.innerCollection.Count];
+
+            this.innerCollection.CopyTo(nodes, 0);
+
             this.innerCollection.Clear();
+
+            foreach (Node node in nodes)
+            {
+                node.SetParent(null, null);
+            }
         }
 
         public Node AddBefore(Node child, Node value)
