@@ -106,33 +106,6 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public override string TextContent
-        {
-            get
-            {
-                StringBuilder content = new StringBuilder();
-
-                Node child = this.FirstChild;
-
-                while (child != null)
-                {
-                    if ((child.NodeType != DOM.NodeType.Comment) && (child.NodeType != DOM.NodeType.ProcessingInstruction))
-                    {
-                        content.Append(child.TextContent);
-                    }
-
-                    child = child.NextSibling;
-                }
-
-                return content.ToString();
-            }
-            set
-            {
-                this.ChildNodes.Clear();
-                
-            }
-        }
-
         public override bool HasAttributes()
         {
             return (this.Attributes != null) && (this.Attributes.Length > 0);

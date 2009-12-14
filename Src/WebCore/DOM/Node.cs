@@ -132,7 +132,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return childNodes.First;
+                return this.ChildNodes.First;
             }
         }
 
@@ -140,7 +140,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return childNodes.Last;
+                return this.ChildNodes.Last;
             }
         }
 
@@ -454,7 +454,7 @@ namespace Yourgan.Core.DOM
 
         public bool HasChildNodes()
         {
-            return childNodes.Length > 0;
+            return (childNodes != null) && (childNodes.Length > 0);
         }
 
         public virtual bool HasAttributes()

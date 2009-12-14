@@ -151,7 +151,9 @@ namespace Yourgan.Core.DOM
 
         public DocumentFragment CreateDocumentFragment()
         {
-            throw new NotImplementedException();
+            DocumentFragment fragment = new DocumentFragment(this);
+
+            return fragment;
         }
 
         public DocumentType CreateDocumentType(string name, string publicId, string systemId)
@@ -227,6 +229,24 @@ namespace Yourgan.Core.DOM
             get
             {
                 return documentURI;
+            }
+        }
+
+        public string XmlEncoding
+        {
+            get
+            {
+                // TODO : required?
+                return null;
+            }
+        }
+
+        public bool XmlStandalone
+        {
+            get
+            {
+                // TODO : seems like it's not required.
+                return false;
             }
         }
 
