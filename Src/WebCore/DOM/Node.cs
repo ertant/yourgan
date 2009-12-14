@@ -17,6 +17,7 @@
 // */
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Yourgan.Core.Render;
 using Yourgan.Core.Render.Style;
 
@@ -221,11 +222,60 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public string TextContent
+        public virtual string TextContent
         {
             get
             {
-                throw new NotImplementedException();
+                return this.InnerText;
+            }
+            set
+            {
+                this.InnerText = value;
+            }
+        }
+
+        // this property is not defined by dom spec. but it's helpful while not overriding the TextContent property above.
+        public string InnerText
+        {
+            get
+            {
+                StringBuilder content = new StringBuilder();
+
+                Node child = this.FirstChild;
+
+                if ((child != null) && (child.NextSibling == null) && ((child.NodeType == NodeType.Text) || (child.NodeType == NodeType.CData)))
+                {
+                    return child.NodeValue;
+                }
+
+                while (child != null)
+                {
+                    if ((child.NodeType != DOM.NodeType.Comment) && (child.NodeType != DOM.NodeType.ProcessingInstruction))
+                    {
+                        content.Append(child.InnerText);
+                    }
+
+                    child = child.NextSibling;
+                }
+
+                return content.ToString();
+            }
+            set
+            {
+                Node child = this.FirstChild;
+
+                if ((child != null) && (child.NextSibling == null) && ((child.NodeType == NodeType.Text) || (child.NodeType == NodeType.CData)))
+                {
+                    child.NodeValue = value;
+                }
+                else
+                {
+                    this.ChildNodes.Clear();
+
+                    Text text = this.OwnerDocument.CreateTextNode(value);
+
+                    this.AppendChild(text);
+                }
             }
         }
 
@@ -493,7 +543,7 @@ namespace Yourgan.Core.DOM
 
         protected virtual void CreateRenderer()
         {
-            
+
         }
 
         public void CreateRendererIfNeeded()

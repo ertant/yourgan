@@ -21,9 +21,13 @@ namespace Yourgan.Core.DOM
 {
     public class Attr : Node
     {
-        public Attr(QualifiedName name, Document document)
+        public Attr(QualifiedName qname, Document document)
             : base(document)
         {
+            if (qname == null)
+                throw new ArgumentNullException("qname");
+
+            this.qname = qname;
         }
 
         QualifiedName qname;

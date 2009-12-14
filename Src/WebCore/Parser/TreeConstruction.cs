@@ -88,9 +88,8 @@ namespace Yourgan.Core.Parser
                     }
                 case EntityType.DOCType:
                     {
-                        // Disabled for compability issues.
-                        // XmlDocumentType docType = state.Document.CreateDocumentType(entity.Data, entity.Data1, entity.Data2, null);
-                        // state.Document.AppendChild(docType);
+                        DocumentType docType = state.Document.CreateDocumentType(entity.Data, entity.Data1, entity.Data2);
+                        state.Document.AppendChild(docType);
                         state.Switch(BeforeHtml);
                         break;
                     }

@@ -19,86 +19,9 @@ using System;
 
 namespace Yourgan.Core.Parser
 {
-    unsafe class TagTokenizer
+    unsafe static class TagTokenizer
     {
-        static TagTokenizer()
-        {
-            Data = _Data;
-            TagOpen = _TagOpen;
-            CharacterRefence = _CharacterRefence;
-            TagName = _TagName;
-            SelfClosingStartTag = _SelfClosingStartTag;
-            CloseTagOpen = _CloseTagOpen;
-            BeforeAttributeName = _BeforeAttributeName;
-            AttributeName = _AttributeName;
-            AfterAttributeName = _AfterAttributeName;
-            BeforeAttributeValue = _BeforeAttributeValue;
-            AttributeValueDoubleQuoted = _AttributeValueDoubleQuoted;
-            AttributeValueSingleQuoted = _AttributeValueSingleQuoted;
-            AttributeValueUnQuoted = _AttributeValueUnQuoted;
-            AttributeValueCharacterReference = _AttributeValueCharacterReference;
-            AfterAttributeValueQuoted = _AfterAttributeValueQuoted;
-            BogusComment = _BogusComment;
-            CommentStart = _CommentStart;
-            CommentStartDash = _CommentStartDash;
-            Comment = _Comment;
-            CommentEndDash = _CommentEnd;
-            CommentEnd = _CommentEnd;
-            MarkupDeclaration = _MarkupDeclaration;
-            DocType = _DocType;
-            BeforeDocTypeName = _BeforeDocTypeName;
-            DocTypeName = _DocTypeName;
-            AfterDocTypeName = _AfterDocTypeName;
-            BeforeDocTypePublicIdentifier = _BeforeDocTypePublicIdentifier;
-            DocTypePublicIdentifierDoubleQuoted = _DocTypePublicIdentifierDoubleQuoted;
-            DocTypePublicIdentifierSingleQuoted = _DocTypePublicIdentifierSingleQuoted;
-            AfterDocTypePublicIdentifier = _AfterDocTypePublicIdentifier;
-            BeforeDocTypeSystemIdentifier = _BeforeDocTypeSystemIdentifier;
-            DocTypeSystemIdentifierDoubleQuoted = _DocTypeSystemIdentifierDoubleQuoted;
-            DocTypeSystemIdentifierSingleQuoted = _DocTypeSystemIdentifierSingleQuoted;
-            AfterDocTypeSystemIdentifier = _AfterDocTypeSystemIdentifier;
-            BogusDocType = _BogusDocType;
-            CDataSection = _CDataSection;
-        }
-
-        public readonly static ProcessCharHandler Data;
-        private readonly static ProcessCharHandler TagOpen;
-        private readonly static ProcessCharHandler CharacterRefence;
-        private readonly static ProcessCharHandler TagName;
-        private readonly static ProcessCharHandler SelfClosingStartTag;
-        private readonly static ProcessCharHandler CloseTagOpen;
-        private readonly static ProcessCharHandler BeforeAttributeName;
-        private readonly static ProcessCharHandler AttributeName;
-        private readonly static ProcessCharHandler AfterAttributeName;
-        private readonly static ProcessCharHandler BeforeAttributeValue;
-        private readonly static ProcessCharHandler AttributeValueDoubleQuoted;
-        private readonly static ProcessCharHandler AttributeValueSingleQuoted;
-        private readonly static ProcessCharHandler AttributeValueUnQuoted;
-        private readonly static ProcessCharHandler AttributeValueCharacterReference;
-        private readonly static ProcessCharHandler AfterAttributeValueQuoted;
-        private readonly static ProcessCharHandler BogusComment;
-        private readonly static ProcessCharHandler CommentStart;
-        private readonly static ProcessCharHandler CommentStartDash;
-        private readonly static ProcessCharHandler Comment;
-        private readonly static ProcessCharHandler CommentEndDash;
-        private readonly static ProcessCharHandler CommentEnd;
-        private readonly static ProcessCharHandler MarkupDeclaration;
-        private readonly static ProcessCharHandler DocType;
-        private readonly static ProcessCharHandler BeforeDocTypeName;
-        private readonly static ProcessCharHandler DocTypeName;
-        private readonly static ProcessCharHandler AfterDocTypeName;
-        private readonly static ProcessCharHandler BeforeDocTypePublicIdentifier;
-        private readonly static ProcessCharHandler DocTypePublicIdentifierDoubleQuoted;
-        private readonly static ProcessCharHandler DocTypePublicIdentifierSingleQuoted;
-        private readonly static ProcessCharHandler AfterDocTypePublicIdentifier;
-        private readonly static ProcessCharHandler BeforeDocTypeSystemIdentifier;
-        private readonly static ProcessCharHandler DocTypeSystemIdentifierDoubleQuoted;
-        private readonly static ProcessCharHandler DocTypeSystemIdentifierSingleQuoted;
-        private readonly static ProcessCharHandler AfterDocTypeSystemIdentifier;
-        private readonly static ProcessCharHandler BogusDocType;
-        private readonly static ProcessCharHandler CDataSection;
-
-        private static void _Data(TagTokenizerState state, char* c)
+        public static void Data(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -194,7 +117,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _TagOpen(TagTokenizerState state, char* c)
+        private static void TagOpen(TagTokenizerState state, char* c)
         {
             if ((state.ContentModel == ContentModelType.RCData) || (state.ContentModel == ContentModelType.CData))
             {
@@ -274,7 +197,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CharacterRefence(TagTokenizerState state, char* c)
+        private static void CharacterRefence(TagTokenizerState state, char* c)
         {
             char? consumedCharacter = ConsumeCharacter(state);
 
@@ -291,7 +214,7 @@ namespace Yourgan.Core.Parser
             state.Switch(Data);
         }
 
-        private static void _TagName(TagTokenizerState state, char* c)
+        private static void TagName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -332,7 +255,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _SelfClosingStartTag(TagTokenizerState state, char* c)
+        private static void SelfClosingStartTag(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -354,7 +277,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CloseTagOpen(TagTokenizerState state, char* c)
+        private static void CloseTagOpen(TagTokenizerState state, char* c)
         {
             // If the content model flag is set to the RCDATA or CDATA states but no start tag token has ever been emitted by this instance of the tokeniser (fragment case),
             // or, if the content model flag is set to the RCDATA or CDATA states and the next few characters do not match the tag name of the last start tag token 
@@ -399,7 +322,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BeforeAttributeName(TagTokenizerState state, char* c)
+        private static void BeforeAttributeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -424,7 +347,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AttributeName(TagTokenizerState state, char* c)
+        private static void AttributeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -461,7 +384,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterAttributeNameAnythingElse(TagTokenizerState state, char* c)
+        private static void AfterAttributeNameAnythingElse(TagTokenizerState state, char* c)
         {
             // Start a new attribute in the current tag token. 
             state.EmitAttribute();
@@ -470,7 +393,7 @@ namespace Yourgan.Core.Parser
             state.Switch(AttributeName);
         }
 
-        private static void _AfterAttributeName(TagTokenizerState state, char* c)
+        private static void AfterAttributeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -511,20 +434,20 @@ namespace Yourgan.Core.Parser
                     {
                         // Parse error. Treat it as per the "anything else" entry below.
                         state.SetError();
-                        _AfterAttributeNameAnythingElse(state, c);
+                        AfterAttributeNameAnythingElse(state, c);
                         break;
                     }
                 default:
                     {
                         // U+0041 LATIN CAPITAL LETTER A through to U+005A LATIN CAPITAL LETTER Z
                         // Anything else
-                        _AfterAttributeNameAnythingElse(state, c);
+                        AfterAttributeNameAnythingElse(state, c);
                         break;
                     }
             }
         }
 
-        private static void _BeforeAttributeValue(TagTokenizerState state, char* c)
+        private static void BeforeAttributeValue(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -582,7 +505,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AttributeValueDoubleQuoted(TagTokenizerState state, char* c)
+        private static void AttributeValueDoubleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -605,7 +528,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AttributeValueSingleQuoted(TagTokenizerState state, char* c)
+        private static void AttributeValueSingleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -628,7 +551,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AttributeValueUnQuoted(TagTokenizerState state, char* c)
+        private static void AttributeValueUnQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -660,7 +583,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AttributeValueCharacterReference(TagTokenizerState state, char* c)
+        private static void AttributeValueCharacterReference(TagTokenizerState state, char* c)
         {
             char? consumedCharacter = ConsumeCharacter(state);
 
@@ -676,7 +599,7 @@ namespace Yourgan.Core.Parser
             state.PopState();
         }
 
-        private static void _AfterAttributeValueQuoted(TagTokenizerState state, char* c)
+        private static void AfterAttributeValueQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -707,7 +630,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BogusComment(TagTokenizerState state, char* c)
+        private static void BogusComment(TagTokenizerState state, char* c)
         {
             // (This can only happen if the content model flag is set to the PCDATA state.)
 
@@ -727,7 +650,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CommentStart(TagTokenizerState state, char* c)
+        private static void CommentStart(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -751,7 +674,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CommentStartDash(TagTokenizerState state, char* c)
+        private static void CommentStartDash(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -776,7 +699,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _Comment(TagTokenizerState state, char* c)
+        private static void Comment(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -793,7 +716,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CommentEndDash(TagTokenizerState state, char* c)
+        private static void CommentEndDash(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -812,7 +735,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CommentEnd(TagTokenizerState state, char* c)
+        private static void CommentEnd(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -837,7 +760,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _MarkupDeclaration(TagTokenizerState state, char* c)
+        private static void MarkupDeclaration(TagTokenizerState state, char* c)
         {
             // (This can only happen if the content model flag is set to the PCDATA state.)
 
@@ -881,7 +804,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocType(TagTokenizerState state, char* c)
+        private static void DocType(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -899,13 +822,13 @@ namespace Yourgan.Core.Parser
                     {
                         // Parse error. Reconsume the current character in the before DOCTYPE name state.
                         state.SetError();
-                        _BeforeDocTypeName(state, c);
+                        BeforeDocTypeName(state, c);
                         break;
                     }
             }
         }
 
-        private static void _BeforeDocTypeName(TagTokenizerState state, char* c)
+        private static void BeforeDocTypeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -938,7 +861,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocTypeName(TagTokenizerState state, char* c)
+        private static void DocTypeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -969,7 +892,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterDocTypeName(TagTokenizerState state, char* c)
+        private static void AfterDocTypeName(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1019,7 +942,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BeforeDocTypePublicIdentifier(TagTokenizerState state, char* c)
+        private static void BeforeDocTypePublicIdentifier(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1062,7 +985,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocTypePublicIdentifierDoubleQuoted(TagTokenizerState state, char* c)
+        private static void DocTypePublicIdentifierDoubleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1091,7 +1014,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocTypePublicIdentifierSingleQuoted(TagTokenizerState state, char* c)
+        private static void DocTypePublicIdentifierSingleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1120,7 +1043,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterDocTypePublicIdentifier(TagTokenizerState state, char* c)
+        private static void AfterDocTypePublicIdentifier(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1162,7 +1085,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BeforeDocTypeSystemIdentifier(TagTokenizerState state, char* c)
+        private static void BeforeDocTypeSystemIdentifier(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1205,7 +1128,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocTypeSystemIdentifierDoubleQuoted(TagTokenizerState state, char* c)
+        private static void DocTypeSystemIdentifierDoubleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1233,7 +1156,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _DocTypeSystemIdentifierSingleQuoted(TagTokenizerState state, char* c)
+        private static void DocTypeSystemIdentifierSingleQuoted(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1261,7 +1184,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterDocTypeSystemIdentifier(TagTokenizerState state, char* c)
+        private static void AfterDocTypeSystemIdentifier(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1291,7 +1214,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BogusDocType(TagTokenizerState state, char* c)
+        private static void BogusDocType(TagTokenizerState state, char* c)
         {
             switch (*c)
             {
@@ -1311,7 +1234,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _CDataSection(TagTokenizerState state, char* c)
+        private static void CDataSection(TagTokenizerState state, char* c)
         {
             // (This can only happen if the content model flag is set to the PCDATA state, and is unrelated to the content model flag's CDATA state.)
 

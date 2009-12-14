@@ -34,6 +34,18 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        public override string NodeValue
+        {
+            get
+            {
+                return this.Data;
+            }
+            set
+            {
+                this.Data = value;
+            }
+        } 
+
         public override string NodeName
         {
             get
@@ -42,9 +54,16 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public Text SplitText(int offset)
+        public override string TextContent
         {
-            throw new NotImplementedException();
+            get
+            {
+                return this.Data;
+            }
+            set
+            {
+                this.Data = value;
+            }
         }
 
         public bool IsElementContentWhitespace
@@ -64,6 +83,11 @@ namespace Yourgan.Core.DOM
         }
 
         public Text ReplaceWholeText(string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Text SplitText(int offset)
         {
             throw new NotImplementedException();
         }

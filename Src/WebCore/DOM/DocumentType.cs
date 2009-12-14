@@ -89,7 +89,7 @@ namespace Yourgan.Core.DOM
         {
             get
             {
-                return NodeType.DocumentFragment;
+                return NodeType.DocumentType;
             }
         }
 
@@ -98,6 +98,17 @@ namespace Yourgan.Core.DOM
             get
             {
                 return this.name;
+            }
+        }
+
+        public override string TextContent
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
             }
         }
     }

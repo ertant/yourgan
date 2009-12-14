@@ -76,5 +76,17 @@ namespace Yourgan.Core.DOM
                 this.data = value;
             }
         }
+
+        public override string TextContent
+        {
+            get
+            {
+                return this.data;
+            }
+            set
+            {
+                this.data = value;
+            }
+        }
     }
 }

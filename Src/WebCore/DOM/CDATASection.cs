@@ -52,5 +52,17 @@ namespace Yourgan.Core.DOM
                 return "#cdata-section";
             }
         }
+
+        public override string TextContent
+        {
+            get
+            {
+                return this.Data;
+            }
+            set
+            {
+                this.Data = value;
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using System;
+using System.Text;
 
 namespace Yourgan.Core.DOM
 {
@@ -39,11 +40,16 @@ namespace Yourgan.Core.DOM
 
         #region DOM
 
+        private NamedNodeMap attributes;
+
         public override NamedNodeMap Attributes
         {
             get
             {
-                throw new NotImplementedException();
+                if (attributes == null)
+                    attributes = new NamedNodeMap(this);
+
+                return attributes;
             }
         }
 
@@ -97,6 +103,33 @@ namespace Yourgan.Core.DOM
             {
                 // TODO : is this right ?
                 this.qname = new QualifiedName(value, this.LocalName, this.NamespaceURI);
+            }
+        }
+
+        public override string TextContent
+        {
+            get
+            {
+                StringBuilder content = new StringBuilder();
+
+                Node child = this.FirstChild;
+
+                while (child != null)
+                {
+                    if ((child.NodeType != DOM.NodeType.Comment) && (child.NodeType != DOM.NodeType.ProcessingInstruction))
+                    {
+                        content.Append(child.TextContent);
+                    }
+
+                    child = child.NextSibling;
+                }
+
+                return content.ToString();
+            }
+            set
+            {
+                this.ChildNodes.Clear();
+                
             }
         }
 
