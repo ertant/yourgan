@@ -50,6 +50,17 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        public override string TextContent
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+            }
+        }
+
         private DocumentType documentType;
 
         public DocumentType DocumentType
@@ -141,6 +152,13 @@ namespace Yourgan.Core.DOM
         public DocumentFragment CreateDocumentFragment()
         {
             throw new NotImplementedException();
+        }
+
+        public DocumentType CreateDocumentType(string name, string publicId, string systemId)
+        {
+            DocumentType type = new DocumentType(this, name, publicId, systemId);
+
+            return type;
         }
 
         public Text CreateTextNode(string data)

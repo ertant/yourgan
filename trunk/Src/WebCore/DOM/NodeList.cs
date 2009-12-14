@@ -62,7 +62,7 @@ namespace Yourgan.Core.DOM
             {
                 LinkedListNode<Node> node = this.innerCollection.First;
 
-                for (int i = 0; i < this.Length; i++)
+                for (int i = 0; i < index; i++)
                 {
                     node = node.Next;
 
@@ -80,6 +80,11 @@ namespace Yourgan.Core.DOM
             {
                 return this.innerCollection.Count;
             }
+        }
+
+        public void Clear()
+        {
+            this.innerCollection.Clear();
         }
 
         public Node AddBefore(Node child, Node value)

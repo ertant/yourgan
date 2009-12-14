@@ -62,10 +62,10 @@ namespace Yourgan.Core.DOM
 
         private void CheckValidDocumentAndElement(Node node)
         {
-            if ((node.ParentNode != null) || (this.OwnerElement != node.ParentNode))
+            if ((node.ParentNode != null) && (this.OwnerElement != node.ParentNode))
                 throw new DOMException(DOMError.InUseAttribute);
 
-            if ((node.OwnerDocument != null) || (this.OwnerElement.OwnerDocument != node.OwnerDocument))
+            if ((node.OwnerDocument != null) && (this.OwnerElement.OwnerDocument != node.OwnerDocument))
                 throw new DOMException(DOMError.WrongDocument);
         }
 
@@ -147,7 +147,7 @@ namespace Yourgan.Core.DOM
         {
             Attr existing = Find(node.LocalName, node.NamespaceURI);
 
-            if ( existing != null )
+            if (existing != null)
             {
                 this.innerCollection.Remove(existing);
             }

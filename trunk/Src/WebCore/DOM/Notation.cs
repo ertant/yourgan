@@ -34,5 +34,16 @@ namespace Yourgan.Core.DOM
                 return null;
             }
         }
+
+        public override string TextContent
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+            }
+        }
     }
 }
