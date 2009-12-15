@@ -35,7 +35,7 @@ namespace Yourgan.Core.Parser.UnitTest
         {
             byte[] bytes = Encoding.UTF8.GetBytes(html);
 
-            Document doc = new Document(null);
+            Document doc = new Document();
 
             using (DocumentStream stream = new DocumentStream(doc))
             {

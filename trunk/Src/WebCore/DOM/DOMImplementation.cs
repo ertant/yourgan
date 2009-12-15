@@ -38,7 +38,7 @@ namespace Yourgan.Core.DOM
             if ((docType != null) && (docType.OwnerDocument != null))
                 throw new DOMException(DOMError.WrongDocument);
 
-            Document document = new Document(null);
+            Document document = new Document();
 
             if (docType != null)
             {

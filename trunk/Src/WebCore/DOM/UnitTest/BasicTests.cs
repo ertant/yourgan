@@ -12,7 +12,7 @@ namespace Yourgan.Core.DOM.UnitTest
         [Test]
         public void CreateElement()
         {
-            Document document = new Document(null);
+            Document document = new Document();
 
             // create document element
             document.AppendChild(document.CreateElement("a"));
@@ -38,7 +38,7 @@ namespace Yourgan.Core.DOM.UnitTest
         [Test]
         public void TextContentUpdate()
         {
-            Document document = new Document(null);
+            Document document = new Document();
 
             // create document element
             document.AppendChild(document.CreateElement("a"));
