@@ -25,10 +25,9 @@ namespace Yourgan.Core.DOM
     // http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#i-Document
     public class Document : Node
     {
-        public Document(Frame frame)
+        public Document()
             : base(null)
         {
-            this.frame = frame;
             this.OwnerDocument = this;
         }
 
