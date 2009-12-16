@@ -19,34 +19,76 @@ namespace Yourgan.Core.DOM.HTML
 
         }
 
-        public abstract string Id
+        public string Id
         {
-            get;
-            set;
+            get
+            {
+                if (this.Attributes.Id != null)
+                {
+                    return this.Attributes.Id.Value;
+                }
+
+                return null;
+            }
+            set
+            {
+                if (this.Attributes.Id != null)
+                {
+                    this.Attributes.Id.Value = value;
+                }
+                else
+                {
+                    this.SetAttribute(NonLocalizedStrings.Id, value);
+                }
+            }
         }
 
-        public abstract string Title
+        public string Title
         {
-            get;
-            set;
+            get
+            {
+                return this.GetAttribute(NonLocalizedStrings.Title);
+            }
+            set
+            {
+                this.SetAttribute(NonLocalizedStrings.Title, value);
+            }
         }
 
-        public abstract string Lang
+        public string Lang
         {
-            get;
-            set;
+            get
+            {
+                return this.GetAttribute(NonLocalizedStrings.Lang);
+            }
+            set
+            {
+                this.SetAttribute(NonLocalizedStrings.Lang, value);
+            }
         }
 
-        public abstract string Dir
+        public string Dir
         {
-            get;
-            set;
+            get
+            {
+                return this.GetAttribute(NonLocalizedStrings.Dir);
+            }
+            set
+            {
+                this.SetAttribute(NonLocalizedStrings.Dir, value);
+            }
         }
 
-        public abstract string ClassName
+        public string ClassName
         {
-            get;
-            set;
+            get
+            {
+                return this.GetAttribute(NonLocalizedStrings.Class);
+            }
+            set
+            {
+                this.SetAttribute(NonLocalizedStrings.Class, value);
+            }
         }
     }
 }

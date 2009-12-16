@@ -263,15 +263,6 @@ namespace Yourgan.Core.DOM
             return attr != null;
         }
 
-        private Attr GetIdAttributeNode()
-        {
-            foreach (Attr attr in this.Attributes)
-                if (attr.IsId)
-                    return attr;
-
-            return null;
-        }
-
         public void SetIdAttribute(string name, bool isId)
         {
             Attr attr = this.GetAttributeNode(name);
@@ -297,7 +288,7 @@ namespace Yourgan.Core.DOM
             if (isId)
             {
                 // update previous
-                Attr id = this.GetIdAttributeNode();
+                Attr id = this.Attributes.Id;
 
                 if (id != null)
                 {
@@ -305,18 +296,15 @@ namespace Yourgan.Core.DOM
                 }
 
                 attr.IsId = true;
+
+                this.Attributes.UpdateIdAttribute(attr);
             }
             else
             {
                 attr.IsId = false;
 
-                foreach (Attr tmpAttr in this.Attributes)
-                {
-                    if (tmpAttr.UpdateIfIsId())
-                    {
-                        break;
-                    }
-                }
+                // find the new id attribute
+                this.attributes.UpdateIdAttribute();
             }
         }
 
