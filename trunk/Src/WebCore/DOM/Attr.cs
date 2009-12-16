@@ -28,6 +28,7 @@ namespace Yourgan.Core.DOM
                 throw new ArgumentNullException("qname");
 
             this.qname = qname;
+            this.UpdateIfIsId();
         }
 
         QualifiedName qname;
@@ -105,14 +106,11 @@ namespace Yourgan.Core.DOM
             }
         }
 
-
-        bool specified;
-
         public bool Specified
         {
             get
             {
-                return specified;
+                throw new NotImplementedException();
             }
         }
 
@@ -126,7 +124,25 @@ namespace Yourgan.Core.DOM
             }
             set
             {
+                this.OnValueChanging();
                 this.value = value;
+                this.OnValueChanged();
+            }
+        }
+
+        private void OnValueChanging()
+        {
+            if (this.isId && (this.ownerElement != null))
+            {
+                this.OwnerDocument.ElementsById.Remove(this.value);
+            }
+        }
+
+        private void OnValueChanged()
+        {
+            if (this.isId && (this.ownerElement != null))
+            {
+                this.OwnerDocument.ElementsById.Add(this.value, this.ownerElement);
             }
         }
 
@@ -145,12 +161,33 @@ namespace Yourgan.Core.DOM
             this.ownerElement = owner;
         }
 
+        private bool isId;
+
         public bool IsId
         {
             get
             {
-                return this.LocalName.Equals("id", StringComparison.InvariantCultureIgnoreCase);
+                return isId;
             }
+            internal set
+            {
+                // simulate the value change to update owner document
+                this.OnValueChanging();
+                this.isId = value;
+                this.OnValueChanged();
+            }
+        }
+
+        internal bool UpdateIfIsId()
+        {
+            if (this.qname.LocalName.Equals("id", StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.isId = true;
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

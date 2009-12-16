@@ -66,6 +66,7 @@
     <Compile Include="DOM\Element.cs" />
     <Compile Include="DOM\Entity.cs" />
     <Compile Include="DOM\EntityReference.cs" />
+    <Compile Include="DOM\HTML\DeprecatedPropertyAttribute.cs" />
     <Compile Include="DOM\HTML\HTMLAnchorElement.cs" />
     <Compile Include="DOM\HTML\HTMLAppletElement.cs" />
     <Compile Include="DOM\HTML\HTMLAreaElement.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="DOM\HTML\HTMLTextAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLTitleElement.cs" />
     <Compile Include="DOM\HTML\HTMLUListElement.cs" />
-    <Compile Include="DOM\NamedNodeMap.cs" />
+    <Compile Include="DOM\NamedAttributeMap.cs" />
     <Compile Include="DOM\NodeList.cs" />
     <Compile Include="DOM\NodeType.cs" />
     <Compile Include="DOM\Notation.cs" />

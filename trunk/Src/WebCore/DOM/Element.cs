@@ -40,14 +40,14 @@ namespace Yourgan.Core.DOM
 
         #region DOM
 
-        private NamedNodeMap attributes;
+        private NamedAttributeMap attributes;
 
-        public override NamedNodeMap Attributes
+        public override NamedAttributeMap Attributes
         {
             get
             {
                 if (attributes == null)
-                    attributes = new NamedNodeMap(this);
+                    attributes = new NamedAttributeMap(this);
 
                 return attributes;
             }
@@ -261,6 +261,63 @@ namespace Yourgan.Core.DOM
             Attr attr = this.Attributes.GetNamedItemNS(namespaceURI, localname) as Attr;
 
             return attr != null;
+        }
+
+        private Attr GetIdAttributeNode()
+        {
+            foreach (Attr attr in this.Attributes)
+                if (attr.IsId)
+                    return attr;
+
+            return null;
+        }
+
+        public void SetIdAttribute(string name, bool isId)
+        {
+            Attr attr = this.GetAttributeNode(name);
+
+            SetIdAttributeNode(attr, isId);
+        }
+
+        public void SetIdAttributeNS(string namespaceURI, string localName, bool isId)
+        {
+            Attr attr = this.GetAttributeNodeNS(namespaceURI, localName);
+
+            SetIdAttributeNode(attr, isId);
+        }
+
+        public void SetIdAttributeNode(Attr attr, bool isId)
+        {
+            if (attr == null)
+                throw new DOMException(DOMError.NotFound);
+
+            if (attr.OwnerElement != this)
+                throw new DOMException(DOMError.NotFound);
+
+            if (isId)
+            {
+                // update previous
+                Attr id = this.GetIdAttributeNode();
+
+                if (id != null)
+                {
+                    id.IsId = false;
+                }
+
+                attr.IsId = true;
+            }
+            else
+            {
+                attr.IsId = false;
+
+                foreach (Attr tmpAttr in this.Attributes)
+                {
+                    if (tmpAttr.UpdateIfIsId())
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         #endregion

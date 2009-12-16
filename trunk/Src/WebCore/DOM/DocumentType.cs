@@ -39,7 +39,7 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public NamedNodeMap Entities
+        public NamedAttributeMap Entities
         {
             get
             {
@@ -47,7 +47,7 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public NamedNodeMap Notations
+        public NamedAttributeMap Notations
         {
             get
             {
