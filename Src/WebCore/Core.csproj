@@ -120,6 +120,7 @@
     <Compile Include="DOM\HTML\HTMLTextAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLTitleElement.cs" />
     <Compile Include="DOM\HTML\HTMLUListElement.cs" />
+    <Compile Include="DOM\HTML\NonLocalizedStrings.cs" />
     <Compile Include="DOM\NamedAttributeMap.cs" />
     <Compile Include="DOM\NodeList.cs" />
     <Compile Include="DOM\NodeType.cs" />

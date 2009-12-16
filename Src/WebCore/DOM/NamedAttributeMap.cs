@@ -52,6 +52,21 @@ namespace Yourgan.Core.DOM
             }
         }
 
+        private Attr id;
+
+        public Attr Id
+        {
+            get
+            {
+                if (id == null)
+                {
+                    id = UpdateIdAttribute();
+                }
+
+                return id;
+            }
+        }
+
         public int Length
         {
             get
@@ -122,8 +137,7 @@ namespace Yourgan.Core.DOM
 
             if (existing != node)
             {
-                if (existing != null)
-                    this.innerCollection.Remove(existing);
+                RemoveItem(existing);
 
                 this.innerCollection.Add(node as Attr);
 
@@ -139,7 +153,7 @@ namespace Yourgan.Core.DOM
 
             if (existing != null)
             {
-                this.innerCollection.Remove(existing);
+                RemoveItem(existing);
             }
 
             return existing;
@@ -151,7 +165,7 @@ namespace Yourgan.Core.DOM
 
             if (existing != null)
             {
-                this.innerCollection.Remove(existing);
+                RemoveItem(existing);
             }
 
             return existing;
@@ -163,10 +177,20 @@ namespace Yourgan.Core.DOM
 
             if (existing != null)
             {
-                this.innerCollection.Remove(existing);
+                RemoveItem(existing);
             }
 
             return existing;
+        }
+
+        private void RemoveItem(Attr attr)
+        {
+            if (attr.IsId)
+            {
+                this.id = null;
+            }
+
+            this.innerCollection.Remove(attr);
         }
 
         private Attr Find(string localName, string namespaceURI)
@@ -182,6 +206,38 @@ namespace Yourgan.Core.DOM
             }
 
             return null;
+        }
+
+        internal Attr UpdateIdAttribute()
+        {
+            // try to scan first user defined id attribute
+            foreach (Attr tmpAttr in this.innerCollection)
+            {
+                if (tmpAttr.IsId)
+                {
+                    id = tmpAttr;
+
+                    return tmpAttr;
+                }
+            }
+
+            // second pass for "id" named but not marked as IsId attribute
+            foreach (Attr tmpAttr in this.innerCollection)
+            {
+                if (tmpAttr.UpdateIfIsId())
+                {
+                    id = tmpAttr;
+
+                    return tmpAttr;
+                }
+            }
+
+            return null;
+        }
+
+        internal void UpdateIdAttribute(Attr newIdAttr)
+        {
+            this.id = newIdAttr;
         }
 
         IEnumerator<Attr> IEnumerable<Attr>.GetEnumerator()
