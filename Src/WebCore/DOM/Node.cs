@@ -170,7 +170,7 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public virtual NamedNodeMap Attributes
+        public virtual NamedAttributeMap Attributes
         {
             get
             {

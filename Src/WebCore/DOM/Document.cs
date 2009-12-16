@@ -16,6 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
 using System;
+using System.Collections.Generic;
 using Yourgan.Core.CSS;
 using Yourgan.Core.Page;
 using Yourgan.Core.Render;
@@ -250,6 +251,9 @@ namespace Yourgan.Core.DOM
         }
 
         #endregion
+
+        // Updated by NamedAttributeMap class.
+        internal Dictionary<string, Element> ElementsById = new Dictionary<string, Element>();
 
         private StyleSelector styleSelector;
 

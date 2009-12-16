@@ -20,12 +20,12 @@ using System.Collections.Generic;
 
 namespace Yourgan.Core.DOM
 {
-    public class NamedNodeMap
+    public class NamedAttributeMap : IEnumerable<Attr>
     {
         private List<Attr> innerCollection;
         protected StringComparer comparer;
 
-        public NamedNodeMap(Element owner)
+        public NamedAttributeMap(Element owner)
         {
             this.ownerElement = owner;
 
@@ -102,7 +102,9 @@ namespace Yourgan.Core.DOM
             if (existing != node)
             {
                 if (existing != null)
+                {
                     this.innerCollection.Remove(existing);
+                }
 
                 this.innerCollection.Add(node as Attr);
 
@@ -180,6 +182,16 @@ namespace Yourgan.Core.DOM
             }
 
             return null;
+        }
+
+        IEnumerator<Attr> IEnumerable<Attr>.GetEnumerator()
+        {
+            return this.innerCollection.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.innerCollection.GetEnumerator();
         }
     }
 }
