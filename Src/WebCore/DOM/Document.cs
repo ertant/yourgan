@@ -133,16 +133,26 @@ namespace Yourgan.Core.DOM
 
         public Element CreateElement(string tagName)
         {
-            QualifiedName qname = new QualifiedName(null, tagName, null);
+            QualifiedName qname = QualifiedName.Parse(tagName);
 
-            Element element = new Element(qname, this);
-
-            return element;
+            return CreateElement(qname);
         }
 
         public Element CreateElementNS(string namespaceURI, string qualifiedName)
         {
             QualifiedName qname = QualifiedName.Parse(qualifiedName, namespaceURI);
+
+            return CreateElement(qname);
+        }
+
+        public Element CreateElement(QualifiedName qname)
+        {
+            ElementFactory factory;
+
+            if (this.factories.TryGetValue(qname.NamespaceURI, out factory))
+            {
+                return factory.Create(qname, this);
+            }
 
             Element element = new Element(qname, this);
 
@@ -248,6 +258,17 @@ namespace Yourgan.Core.DOM
                 // TODO : seems like it's not required.
                 return false;
             }
+        }
+
+        #endregion
+
+        #region Namespace Factories
+
+        private Dictionary<string, ElementFactory> factories = new Dictionary<string, ElementFactory>();
+
+        public void RegisterFactory(string namespaceURI, ElementFactory factory)
+        {
+            factories[namespaceURI] = factory;
         }
 
         #endregion

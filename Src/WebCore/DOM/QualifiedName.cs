@@ -64,7 +64,7 @@ namespace Yourgan.Core.DOM
         {
             if (hashCode == -1)
             {
-                string tmp = this.prefix + this.localName + this.namespaceURI;
+                string tmp = this.localName + this.namespaceURI;
 
                 hashCode = tmp.GetHashCode();
             }

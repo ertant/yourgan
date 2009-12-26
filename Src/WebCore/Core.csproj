@@ -64,6 +64,7 @@
     <Compile Include="DOM\DOMException.cs" />
     <Compile Include="DOM\DOMImplementation.cs" />
     <Compile Include="DOM\Element.cs" />
+    <Compile Include="DOM\ElementFactory.cs" />
     <Compile Include="DOM\Entity.cs" />
     <Compile Include="DOM\EntityReference.cs" />
     <Compile Include="DOM\HTML\DeprecatedPropertyAttribute.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="DOM\HTML\HTMLDListElement.cs" />
     <Compile Include="DOM\HTML\HTMLDocument.cs" />
     <Compile Include="DOM\HTML\HTMLElement.cs" />
+    <Compile Include="DOM\HTML\HTMLElementFactory.cs" />
     <Compile Include="DOM\HTML\HTMLFieldSetElement.cs" />
     <Compile Include="DOM\HTML\HTMLFocusableElement.cs" />
     <Compile Include="DOM\HTML\HTMLFontElement.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="DOM\HTML\HTMLTableElement.cs" />
     <Compile Include="DOM\HTML\HTMLTableRowElement.cs" />
     <Compile Include="DOM\HTML\HTMLTableSectionElement.cs" />
+    <Compile Include="DOM\HTML\HTMLTagNames.cs" />
     <Compile Include="DOM\HTML\HTMLTextAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLTitleElement.cs" />
     <Compile Include="DOM\HTML\HTMLUListElement.cs" />
