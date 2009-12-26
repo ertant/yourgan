@@ -221,8 +221,9 @@ namespace Yourgan.Core.Parser
                     {
                         return true;
                     }
-                    else if (Entity.IsTag(node.LocalName, "html") ||
-                             Entity.IsTag(node.LocalName, "table"))
+                    
+                    if (Entity.IsTag(node.LocalName, "html") ||
+                        Entity.IsTag(node.LocalName, "table"))
                     {
                         return false;
                     }
@@ -398,12 +399,12 @@ namespace Yourgan.Core.Parser
             if (current != null)
             {
                 // check current node was marked as tainted ?
-                if ((taintedElements != null) && (current != null) && (taintedElements.Contains(current)))
+                if ((taintedElements != null) && (taintedElements.Contains(current)))
                 {
                     // use foster parent instead of current.
-                    Node fosterParent = current.ParentNode;
+                    Node tmpFosterParent = current.ParentNode;
 
-                    fosterParent.AppendChild(element);
+                    tmpFosterParent.AppendChild(element);
                 }
                 else
                 {
