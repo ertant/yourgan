@@ -133,7 +133,7 @@ namespace Yourgan.Core.DOM
 
         public Element CreateElement(string tagName)
         {
-            QualifiedName qname = QualifiedName.Parse(tagName);
+            QualifiedName qname = QualifiedName.Parse(tagName, this.DefaultNamespaceURI);
 
             return CreateElement(qname);
         }
@@ -261,6 +261,14 @@ namespace Yourgan.Core.DOM
         }
 
         #endregion
+
+        public virtual string DefaultNamespaceURI
+        {
+            get
+            {
+                return "";
+            }
+        }
 
         #region Namespace Factories
 
