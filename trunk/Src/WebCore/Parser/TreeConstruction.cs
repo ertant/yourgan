@@ -25,48 +25,13 @@ namespace Yourgan.Core.Parser
     {
         static TreeConstruction()
         {
-            Initial = _Initial;
-            BeforeHtml = _BeforeHtml;
-            BeforeHead = _BeforeHead;
-            InHead = _InHead;
-            InHeadNoScript = _InHeadNoScript;
-            AfterHead = _AfterHead;
-            InBody = _InBody;
-            InCDataRCData = _InCDataRCData;
-            InTable = _InTable;
-            InCaption = _InCaption;
-            InColumnGroup = _InColumnGroup;
-            InTableBody = _InTableBody;
-            InRow = _InRow;
-            InCell = _InCell;
-            InSelect = _InSelect;
-            InSelectInTable = _InSelectInTable;
-            AfterBody = _AfterBody;
-            AfterAfterBody = _AfterAfterBody;
         }
 
-        public readonly static ProcessEntityHandler Initial;
-        private readonly static ProcessEntityHandler BeforeHtml;
-        private readonly static ProcessEntityHandler BeforeHead;
-        private readonly static ProcessEntityHandler InHead;
-        private readonly static ProcessEntityHandler InHeadNoScript;
-        private readonly static ProcessEntityHandler AfterHead;
-        private readonly static ProcessEntityHandler InBody;
-        private readonly static ProcessEntityHandler InCDataRCData;
-        private readonly static ProcessEntityHandler InTable;
-        private readonly static ProcessEntityHandler InCaption;
-        private readonly static ProcessEntityHandler InColumnGroup;
-        private readonly static ProcessEntityHandler InTableBody;
-        private readonly static ProcessEntityHandler InRow;
-        private readonly static ProcessEntityHandler InCell;
-        private readonly static ProcessEntityHandler InSelect;
-        private readonly static ProcessEntityHandler InSelectInTable;
-        private readonly static ProcessEntityHandler InForeignContent;
-        private readonly static ProcessEntityHandler AfterBody;
-        private readonly static ProcessEntityHandler InFrameset;
-        private readonly static ProcessEntityHandler AfterFrameset;
-        private readonly static ProcessEntityHandler AfterAfterBody;
-        private readonly static ProcessEntityHandler AfterAfterFrameset;
+        // TODO : InSelect
+        // TODO : InSelectInTable
+        // TODO : InForeignContent
+        // TODO : AfterFrameset
+        // TODO : AfterAfterFrameset
 
         private static void DataParse(TreeConstructionState state, Entity entity, ContentModelType model)
         {
@@ -75,7 +40,7 @@ namespace Yourgan.Core.Parser
             state.Switch(InCDataRCData);
         }
 
-        private static void _Initial(Entity entity, TreeConstructionState state)
+        public static void Initial(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -110,7 +75,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _BeforeHtmlAnythingElse(Entity entity, TreeConstructionState state)
+        private static void BeforeHtmlAnythingElse(Entity entity, TreeConstructionState state)
         {
             // Create an html element. Append it to the Document object. Put this element in the stack of open elements.
             state.CreatePushElement("html", StdNamespaces.HTML);
@@ -122,7 +87,7 @@ namespace Yourgan.Core.Parser
             state.Repeat();
         }
 
-        private static void _BeforeHtml(Entity entity, TreeConstructionState state)
+        private static void BeforeHtml(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -157,19 +122,19 @@ namespace Yourgan.Core.Parser
                         }
                         else
                         {
-                            _BeforeHtmlAnythingElse(entity, state);
+                            BeforeHtmlAnythingElse(entity, state);
                         }
                         break;
                     }
                 default:
                     {
-                        _BeforeHtmlAnythingElse(entity, state);
+                        BeforeHtmlAnythingElse(entity, state);
                         break;
                     }
             }
         }
 
-        private static void _BeforeHeadAnythingElse(TreeConstructionState state)
+        private static void BeforeHeadAnythingElse(TreeConstructionState state)
         {
             // Act as if a start tag token with the tag name "head" and no attributes had been seen, then reprocess the current token.
             Element head = state.CreatePushElement("head", StdNamespaces.HTML);
@@ -178,7 +143,7 @@ namespace Yourgan.Core.Parser
             state.Repeat();
         }
 
-        private static void _BeforeHead(Entity entity, TreeConstructionState state)
+        private static void BeforeHead(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -205,7 +170,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // A start tag whose tag name is "head" 
                         else if (entity.IsTag("head"))
@@ -222,7 +187,7 @@ namespace Yourgan.Core.Parser
                             //Anything else 
                         else
                         {
-                            _BeforeHeadAnythingElse(state);
+                            BeforeHeadAnythingElse(state);
                         }
 
                         break;
@@ -252,13 +217,13 @@ namespace Yourgan.Core.Parser
                     //Anything else 
                 default:
                     {
-                        _BeforeHeadAnythingElse(state);
+                        BeforeHeadAnythingElse(state);
                         break;
                     }
             }
         }
 
-        private static void _InHeadAnythingElse(TreeConstructionState state)
+        private static void InHeadAnythingElse(TreeConstructionState state)
         {
             // Act as if an end tag token with the tag name "head" had been seen, and reprocess the current token.
             state.CloseInStack("head");
@@ -266,7 +231,7 @@ namespace Yourgan.Core.Parser
             state.Repeat();
         }
 
-        private static void _InHead(Entity entity, TreeConstructionState state)
+        private static void InHead(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -294,7 +259,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // A start tag whose tag name is one of: "base", "command", "event-source", "link" 
                         else if (entity.IsOneOfTag("base", "command", "eventsource", "link"))
@@ -366,7 +331,7 @@ namespace Yourgan.Core.Parser
                             // Anything else 
                         else
                         {
-                            _InHeadAnythingElse(state);
+                            InHeadAnythingElse(state);
                         }
 
                         break;
@@ -386,7 +351,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("br"))
                         {
                             // Act as described in the "anything else" entry below.
-                            _InHeadAnythingElse(state);
+                            InHeadAnythingElse(state);
                         }
                             // Any other end tag 
                         else
@@ -407,7 +372,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _InHeadNoScript(Entity entity, TreeConstructionState state)
+        private static void InHeadNoScript(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -419,14 +384,14 @@ namespace Yourgan.Core.Parser
                 case EntityType.WhiteSpace:
                     {
                         // Process the token using the rules for the "in head" insertion mode.
-                        _InHead(entity, state);
+                        InHead(entity, state);
                         break;
                     }
                     // A comment token 
                 case EntityType.Comment:
                     {
                         // Process the token using the rules for the "in head" insertion mode.
-                        _InHead(entity, state);
+                        InHead(entity, state);
                         break;
                     }
                 case EntityType.OpenElement:
@@ -435,13 +400,13 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             //A start tag whose tag name is one of: "link", "meta", "noframes", "style"
                         else if (entity.IsOneOfTag("link", "meta", "noframes", "style"))
                         {
                             // Process the token using the rules for the "in head" insertion mode.
-                            _InHead(entity, state);
+                            InHead(entity, state);
                         }
                             // A start tag whose tag name is one of: "head", "noscript"
                         else if (entity.IsOneOfTag("head", "noscript"))
@@ -452,7 +417,7 @@ namespace Yourgan.Core.Parser
                             // Anything else
                         else
                         {
-                            _InHeadAnythingElse(state);
+                            InHeadAnythingElse(state);
                         }
 
                         break;
@@ -472,7 +437,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("br"))
                         {
                             // Act as described in the "anything else" entry below.
-                            _InHeadAnythingElse(state);
+                            InHeadAnythingElse(state);
                         }
                             // Any other end tag
                         else
@@ -486,7 +451,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterHeadAnythingElse(TreeConstructionState state)
+        private static void AfterHeadAnythingElse(TreeConstructionState state)
         {
             // Act as if a start tag token with the tag name "body" and no attributes had been seen, and then reprocess the current token.
             Element body = state.CreatePushElement("body", StdNamespaces.HTML);
@@ -498,7 +463,7 @@ namespace Yourgan.Core.Parser
             state.Repeat();
         }
 
-        private static void _AfterHead(Entity entity, TreeConstructionState state)
+        private static void AfterHead(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -526,7 +491,7 @@ namespace Yourgan.Core.Parser
                         // A start tag whose tag name is "html"
                         if (entity.IsTag("html"))
                         {
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // A start tag whose tag name is "body"
                         else if (entity.IsTag("body"))
@@ -546,7 +511,8 @@ namespace Yourgan.Core.Parser
                             state.CreatePushElement(entity, StdNamespaces.HTML);
 
                             // Switch the insertion mode to "in frameset".
-                            state.Switch(InFrameset);
+                            // state.Switch(InFrameset);
+                            throw new NotImplementedException();
                         }
                             // A start tag token whose tag name is one of: "base", "link", "meta", "noframes", "script", "style", "title"
                         else if (entity.IsOneOfTag("base", "link", "meta", "noframes", "script", "style", "title"))
@@ -558,7 +524,7 @@ namespace Yourgan.Core.Parser
                             state.Push(state.Head);
 
                             //Process the token using the rules for the "in head" insertion mode.
-                            _InHead(entity, state);
+                            InHead(entity, state);
 
                             //Remove the node pointed to by the head element pointer from the stack of open elements.
                             state.Pop();
@@ -572,7 +538,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Anything else
-                            _AfterHeadAnythingElse(state);
+                            AfterHeadAnythingElse(state);
                         }
 
                         break;
@@ -583,7 +549,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("br"))
                         {
                             // Act as described in the "anything else" entry below.
-                            _AfterHeadAnythingElse(state);
+                            AfterHeadAnythingElse(state);
                         }
                         else
                         {
@@ -596,13 +562,13 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Anything else
-                        _AfterHeadAnythingElse(state);
+                        AfterHeadAnythingElse(state);
                         break;
                     }
             }
         }
 
-        private static void _InBody(Entity entity, TreeConstructionState state)
+        private static void InBody(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -643,7 +609,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsOneOfTag("base", "command", "eventsource", "link", "meta", "noframes", "script", "style", "title"))
                         {
                             // Process the token using the rules for the "in head" insertion mode.
-                            _InHead(entity, state);
+                            InHead(entity, state);
                         }
                             // A start tag whose tag name is "body"
                         else if (entity.IsTag("body"))
@@ -1098,7 +1064,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _InCDataRCData(Entity entity, TreeConstructionState state)
+        private static void InCDataRCData(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1128,7 +1094,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _InTableAnythingElse(Entity entity, TreeConstructionState state)
+        private static void InTableAnythingElse(Entity entity, TreeConstructionState state)
         {
             // Parse error. 
             state.SetError(EntityErrorCode.UnexpectedTag, entity);
@@ -1141,10 +1107,10 @@ namespace Yourgan.Core.Parser
                 state.MarkAsTainted();
             }
 
-            _InBody(entity, state);
+            InBody(entity, state);
         }
 
-        private static void _InTable(Entity entity, TreeConstructionState state)
+        private static void InTable(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1154,7 +1120,7 @@ namespace Yourgan.Core.Parser
                         if (state.IsCurrentTableTainted())
                         {
                             // then act as described in the "anything else" entry below.
-                            _InTableAnythingElse(entity, state);
+                            InTableAnythingElse(entity, state);
                         }
                         else
                         {
@@ -1245,12 +1211,12 @@ namespace Yourgan.Core.Parser
                             if (state.IsCurrentTableTainted())
                             {
                                 // then act as described in the "anything else" entry below.
-                                _InTableAnythingElse(entity, state);
+                                InTableAnythingElse(entity, state);
                             }
                             else
                             {
                                 // Otherwise, process the token using the rules for the "in head" insertion mode.
-                                _InHead(entity, state);
+                                InHead(entity, state);
                             }
                         }
                             // A start tag whose tag name is "input"
@@ -1266,7 +1232,7 @@ namespace Yourgan.Core.Parser
                                 )
                             {
                                 // act as described in the "anything else" entry below.
-                                _InTableAnythingElse(entity, state);
+                                InTableAnythingElse(entity, state);
                             }
                                 // Otherwise:
                             else
@@ -1284,7 +1250,7 @@ namespace Yourgan.Core.Parser
                             // Anything else
                         else
                         {
-                            _InTableAnythingElse(entity, state);
+                            InTableAnythingElse(entity, state);
                         }
 
                         break;
@@ -1318,7 +1284,7 @@ namespace Yourgan.Core.Parser
                             // Anything else
                         else
                         {
-                            _InTableAnythingElse(entity, state);
+                            InTableAnythingElse(entity, state);
                         }
 
                         break;
@@ -1326,14 +1292,14 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Anything else
-                        _InTableAnythingElse(entity, state);
+                        InTableAnythingElse(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _InCaption(Entity entity, TreeConstructionState state)
+        private static void InCaption(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1351,7 +1317,7 @@ namespace Yourgan.Core.Parser
                             // Anything else
                         else
                         {
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
 
                         break;
@@ -1406,7 +1372,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
 
                         break;
@@ -1415,14 +1381,14 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Process the token using the rules for the "in body" insertion mode.
-                        _InBody(entity, state);
+                        InBody(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _InColumnGroup(Entity entity, TreeConstructionState state)
+        private static void InColumnGroup(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1453,7 +1419,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // A start tag whose tag name is "col"
                         else if (entity.IsTag("col"))
@@ -1520,7 +1486,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _InTableBody(Entity entity, TreeConstructionState state)
+        private static void InTableBody(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1571,7 +1537,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in table" insertion mode.
-                            _InTable(entity, state);
+                            InTable(entity, state);
                         }
 
                         break;
@@ -1631,7 +1597,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in table" insertion mode.
-                            _InTable(entity, state);
+                            InTable(entity, state);
                         }
 
                         break;
@@ -1640,14 +1606,14 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Process the token using the rules for the "in table" insertion mode.
-                        _InTable(entity, state);
+                        InTable(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _InRow(Entity entity, TreeConstructionState state)
+        private static void InRow(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1678,7 +1644,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             //Process the token using the rules for the "in table" insertion mode.
-                            _InTable(entity, state);
+                            InTable(entity, state);
                         }
 
                         break;
@@ -1737,7 +1703,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             //Process the token using the rules for the "in table" insertion mode.
-                            _InTable(entity, state);
+                            InTable(entity, state);
                         }
 
                         break;
@@ -1746,14 +1712,14 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         //Process the token using the rules for the "in table" insertion mode.
-                        _InTable(entity, state);
+                        InTable(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _InCell(Entity entity, TreeConstructionState state)
+        private static void InCell(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1778,7 +1744,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
 
                         break;
@@ -1840,7 +1806,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
 
                         break;
@@ -1849,14 +1815,14 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Process the token using the rules for the "in body" insertion mode.
-                        _InBody(entity, state);
+                        InBody(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _InSelect(Entity entity, TreeConstructionState state)
+        private static void InSelect(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -1884,7 +1850,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // A start tag whose tag name is "option"
                         else if (entity.IsTag("option"))
@@ -1929,7 +1895,7 @@ namespace Yourgan.Core.Parser
                         else if (entity.IsTag("script"))
                         {
                             // Process the token using the rules for the "in head" insertion mode.
-                            _InHead(entity, state);
+                            InHead(entity, state);
                         }
                             // Anything else
                         else
@@ -2000,7 +1966,7 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _InSelectInTable(Entity entity, TreeConstructionState state)
+        private static void InSelectInTable(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
@@ -2020,7 +1986,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in select" insertion mode.
-                            _InSelect(entity, state);
+                            InSelect(entity, state);
                         }
 
                         break;
@@ -2046,7 +2012,7 @@ namespace Yourgan.Core.Parser
                         else
                         {
                             // Process the token using the rules for the "in select" insertion mode.
-                            _InSelect(entity, state);
+                            InSelect(entity, state);
                         }
 
                         break;
@@ -2055,21 +2021,21 @@ namespace Yourgan.Core.Parser
                 default:
                     {
                         // Process the token using the rules for the "in select" insertion mode.
-                        _InSelect(entity, state);
+                        InSelect(entity, state);
 
                         break;
                     }
             }
         }
 
-        private static void _AfterBody(Entity entity, TreeConstructionState state)
+        private static void AfterBody(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
                 case EntityType.WhiteSpace:
                     {
                         // Process the token using the rules for the "in body" insertion mode.
-                        _InBody(entity, state);
+                        InBody(entity, state);
                         break;
                     }
                 case EntityType.Comment:
@@ -2091,7 +2057,7 @@ namespace Yourgan.Core.Parser
                         if (entity.IsTag("html"))
                         {
                             // Process the token using the rules for the "in body" insertion mode.
-                            _InBody(entity, state);
+                            InBody(entity, state);
                         }
                             // Anything else
                         else
@@ -2127,20 +2093,20 @@ namespace Yourgan.Core.Parser
             }
         }
 
-        private static void _AfterAfterBody(Entity entity, TreeConstructionState state)
+        private static void AfterAfterBody(Entity entity, TreeConstructionState state)
         {
             switch (entity.Type)
             {
                 case EntityType.DOCType:
                     {
                         // Process the token using the rules for the "in body" insertion mode.
-                        _InBody(entity, state);
+                        InBody(entity, state);
                         break;
                     }
                 case EntityType.WhiteSpace:
                     {
                         // Process the token using the rules for the "in body" insertion mode.
-                        _InBody(entity, state);
+                        InBody(entity, state);
                         break;
                     }
                 case EntityType.Comment:
@@ -2154,7 +2120,7 @@ namespace Yourgan.Core.Parser
                     {
                         // Parse error. Switch the insertion mode  to "in body" and reprocess the token.
                         state.SetError(EntityErrorCode.UnexpectedTag, entity);
-                        _InBody(entity, state);
+                        InBody(entity, state);
                         break;
                     }
             }

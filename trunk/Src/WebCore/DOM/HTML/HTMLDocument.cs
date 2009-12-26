@@ -121,6 +121,14 @@ namespace Yourgan.Core.DOM.HTML
 
         #endregion
 
+        public override string DefaultNamespaceURI
+        {
+            get
+            {
+                return StdNamespaces.HTML;
+            }
+        }
+
         private HTMLHeadElement head;
 
         public HTMLHeadElement Head
@@ -129,7 +137,7 @@ namespace Yourgan.Core.DOM.HTML
             {
                 if (head == null)
                 {
-                    head = this.CreateElementNS(this.NamespaceURI, "head") as HTMLHeadElement;
+                    head = this.CreateElement(HTMLTagNames.Head) as HTMLHeadElement;
 
                     this.AppendChild(head);
                 }
