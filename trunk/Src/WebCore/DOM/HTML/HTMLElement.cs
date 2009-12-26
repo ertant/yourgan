@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLElement : Element
+    public class HTMLElement : Element
     {
         public HTMLElement(QualifiedName qname, Document document)
             : base(qname, document)
