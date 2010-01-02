@@ -1,7 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// /*
+// Yourgan
+// Copyright (C) 2009  Ertan Tike
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// */
+using System;
 using Yourgan.Core.Parser;
 
 namespace Yourgan.Core.DOM.HTML
@@ -14,13 +28,30 @@ namespace Yourgan.Core.DOM.HTML
             this.RegisterFactory(StdNamespaces.HTML, new HTMLElementFactory());
         }
 
+        protected internal T GetElementByTagName<T>(Node parent, string tagName) where T : Element
+        {
+            Node child = parent.FirstChild;
+
+            while (child != null)
+            {
+                if (HTMLTagNames.IsSame(child.LocalName, tagName))
+                {
+                    return child as T;
+                }
+
+                child = child.NextSibling;
+            }
+
+            return null;
+        }
+
         #region DOM
 
         public string Title
         {
             get
             {
-                HTMLTitleElement title = this.Head.GetTitleElement();
+                HTMLTitleElement title = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
 
                 if (title != null)
                 {
@@ -31,16 +62,20 @@ namespace Yourgan.Core.DOM.HTML
             }
             set
             {
-                this.Head.SetTitle(value);
+                HTMLTitleElement titleElement = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
+
+                if (titleElement != null)
+                {
+                    titleElement = this.OwnerDocument.CreateElement<HTMLTitleElement>(HTMLTagNames.Title);
+
+                    this.Head.AppendChild(titleElement);
+
+                    titleElement.Text = value;
+                }
             }
         }
 
-        public abstract string Referrer
-        {
-            get;
-        }
-
-        public abstract string Domain
+        public abstract Location Location
         {
             get;
         }
@@ -50,32 +85,95 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        private HTMLBodyElement body;
+        public abstract string Domain
+        {
+            get;
+            set;
+        }
 
-        public HTMLBodyElement Body
+        public abstract string Referrer
+        {
+            get;
+        }
+
+        public string Cookie
+        {
+            get;
+            set;
+        }
+
+        public abstract string LastModified
+        {
+            get;
+        }
+
+        public abstract string CompactMode
+        {
+            get;
+        }
+
+        public string Charset
+        {
+            get;
+            set;
+        }
+
+        public abstract string CharacterSet
+        {
+            get;
+        }
+
+        public abstract string DefaultCharset
+        {
+            get;
+        }
+
+        public abstract string ReadyState
+        {
+            get;
+        }
+
+        public HTMLElement Body
         {
             get
             {
+                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
+
                 if (body == null)
                 {
-                    body = this.CreateElementNS(this.NamespaceURI, HTMLTagNames.Body) as HTMLBodyElement;
-
-                    this.AppendChild(body);
+                    body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.FrameSet);
                 }
 
                 return body;
-
-                // TODO : Frameset
             }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
 
-                this.RemoveChild(body);
-                body = value;
-                this.AppendChild(value);
+                if (!HTMLTagNames.IsSame(value.LocalName, HTMLTagNames.Body) &&
+                    !HTMLTagNames.IsSame(value.LocalName, HTMLTagNames.FrameSet))
+                    throw new DOMException(DOMError.HierarchyRequest);
+
+                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
+
+                if (value != body)
+                {
+                    if (body != null)
+                    {
+                        this.ReplaceChild(value, body);
+                    }
+                    else
+                    {
+                        this.AppendChild(value);
+                    }
+                }
             }
+        }
+
+        public abstract string InnerHtml
+        {
+            get;
         }
 
         public abstract HTMLCollection Images
@@ -103,13 +201,12 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public string Cookie
+        public abstract HTMLCollection Scripts
         {
             get;
-            set;
         }
 
-        public abstract void Open();
+        public abstract HTMLDocument Open();
 
         public abstract void Close();
 
@@ -118,6 +215,8 @@ namespace Yourgan.Core.DOM.HTML
         public abstract void WriteLn(string text);
 
         public abstract NodeList GetElementsByName(string elementName);
+
+        public abstract NodeList GetElementsByClassName(string classNames);
 
         #endregion
 
@@ -129,15 +228,15 @@ namespace Yourgan.Core.DOM.HTML
             }
         }
 
-        private HTMLHeadElement head;
+        private HTMLElement head;
 
-        public HTMLHeadElement Head
+        public HTMLElement Head
         {
             get
             {
                 if (head == null)
                 {
-                    head = this.CreateElement(HTMLTagNames.Head) as HTMLHeadElement;
+                    head = this.CreateElement<HTMLElement>(HTMLTagNames.Head);
 
                     this.AppendChild(head);
                 }

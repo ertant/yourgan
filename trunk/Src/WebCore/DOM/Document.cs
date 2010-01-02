@@ -135,28 +135,35 @@ namespace Yourgan.Core.DOM
         {
             QualifiedName qname = QualifiedName.Parse(tagName, this.DefaultNamespaceURI);
 
-            return CreateElement(qname);
+            return CreateElement<Element>(qname);
+        }
+
+        public T CreateElement<T>(string tagName) where T : Element
+        {
+            QualifiedName qname = QualifiedName.Parse(tagName, this.DefaultNamespaceURI);
+
+            return CreateElement<T>(qname);
         }
 
         public Element CreateElementNS(string namespaceURI, string qualifiedName)
         {
             QualifiedName qname = QualifiedName.Parse(qualifiedName, namespaceURI);
 
-            return CreateElement(qname);
+            return CreateElement<Element>(qname);
         }
 
-        public Element CreateElement(QualifiedName qname)
+        public T CreateElement<T>(QualifiedName qname) where T : Element
         {
             ElementFactory factory;
 
             if (this.factories.TryGetValue(qname.NamespaceURI, out factory))
             {
-                return factory.Create(qname, this);
+                return factory.Create<T>(qname, this);
             }
 
             Element element = new Element(qname, this);
 
-            return element;
+            return element as T;
         }
 
         public DocumentFragment CreateDocumentFragment()

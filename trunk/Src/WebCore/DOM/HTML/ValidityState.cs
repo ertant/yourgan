@@ -17,12 +17,16 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLTitleElement : HTMLElement
+    public enum ValidityState
     {
-        public abstract string Text
-        {
-            get;
-            set;
-        }
+        ValueMissing,
+        TypeMismatch,
+        PatternMismatch,
+        TooLong,
+        RangeUnderflow,
+        RangeOverflow,
+        StepMismatch,
+        CustomError,
+        Valid
     }
 }

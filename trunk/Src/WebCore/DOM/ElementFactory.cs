@@ -7,9 +7,9 @@ namespace Yourgan.Core.DOM
 {
     public class ElementFactory
     {
-        public virtual Element Create(QualifiedName qname, Document document)
+        public virtual T Create<T>(QualifiedName qname, Document document) where T : Element
         {
-            return new Element(qname, document);
+            return new Element(qname, document) as T;
         }
     }
 }

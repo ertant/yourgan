@@ -15,24 +15,46 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLLIElement : HTMLElement
+    public abstract class TokenList
     {
-        public HTMLLIElement(QualifiedName qname, Document document)
-            : base(qname, document)
+        public int Length
         {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string Type
+        public string this[int index]
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract int Value
+        public bool Contains(string token)
         {
-            get;
-            set;
+            throw new NotImplementedException();
+        }
+
+        public void Add(string token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(string token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Toggle(string token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

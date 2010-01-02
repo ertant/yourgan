@@ -1,7 +1,22 @@
-﻿using System;
+﻿// /*
+// Yourgan
+// Copyright (C) 2009  Ertan Tike
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// */
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Yourgan.Core.DOM.HTML
 {
@@ -20,23 +35,23 @@ namespace Yourgan.Core.DOM.HTML
 
         private static HTMLElement Head(QualifiedName qname, Document document)
         {
-            HTMLHeadElement head = new HTMLHeadElement(qname, document);
+            HTMLElement head = new HTMLElement(qname, document);
 
             return head;
         }
 
         #endregion
 
-        public override Element Create(QualifiedName qname, Document document)
+        public override T Create<T>(QualifiedName qname, Document document)
         {
             ConstructionHandler handler;
 
             if (Constructors.TryGetValue(qname.LocalName, out handler))
             {
-                return handler(qname, document);
+                return handler(qname, document) as T;
             }
 
-            return base.Create(qname, document);
+            return base.Create<T>(qname, document);
         }
     }
 }

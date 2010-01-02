@@ -17,12 +17,7 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLTitleElement : HTMLElement
+    public abstract class StringMap
     {
-        public abstract string Text
-        {
-            get;
-            set;
-        }
     }
 }

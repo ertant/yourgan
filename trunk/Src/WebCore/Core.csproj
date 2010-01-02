@@ -72,7 +72,6 @@
     <Compile Include="DOM\HTML\HTMLAppletElement.cs" />
     <Compile Include="DOM\HTML\HTMLAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLBaseElement.cs" />
-    <Compile Include="DOM\HTML\HTMLBaseInputElement.cs" />
     <Compile Include="DOM\HTML\HTMLBodyElement.cs" />
     <Compile Include="DOM\HTML\HTMLBRElement.cs" />
     <Compile Include="DOM\HTML\HTMLButtonElement.cs" />
@@ -83,12 +82,12 @@
     <Compile Include="DOM\HTML\HTMLElement.cs" />
     <Compile Include="DOM\HTML\HTMLElementFactory.cs" />
     <Compile Include="DOM\HTML\HTMLFieldSetElement.cs" />
-    <Compile Include="DOM\HTML\HTMLFocusableElement.cs" />
     <Compile Include="DOM\HTML\HTMLFontElement.cs" />
+    <Compile Include="DOM\HTML\HTMLFormControl.cs" />
+    <Compile Include="DOM\HTML\HTMLFormControlsCollection.cs" />
     <Compile Include="DOM\HTML\HTMLFormElement.cs" />
     <Compile Include="DOM\HTML\HTMLFrameElement.cs" />
     <Compile Include="DOM\HTML\HTMLFrameSetElement.cs" />
-    <Compile Include="DOM\HTML\HTMLHeadElement.cs" />
     <Compile Include="DOM\HTML\HTMLHeadingElement.cs" />
     <Compile Include="DOM\HTML\HTMLHRElement.cs" />
     <Compile Include="DOM\HTML\HTMLHtmlElement.cs" />
@@ -111,7 +110,9 @@
     <Compile Include="DOM\HTML\HTMLPreElement.cs" />
     <Compile Include="DOM\HTML\HTMLQuoteElement.cs" />
     <Compile Include="DOM\HTML\HTMLScriptElement.cs" />
-    <Compile Include="DOM\HTML\HTMLSelectElement.cs" />
+    <Compile Include="DOM\HTML\HTMLSelectElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DOM\HTML\HTMLStyleElement.cs" />
     <Compile Include="DOM\HTML\HTMLTableCaptionElement.cs" />
     <Compile Include="DOM\HTML\HTMLTableCellElement.cs" />
@@ -123,7 +124,12 @@
     <Compile Include="DOM\HTML\HTMLTextAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLTitleElement.cs" />
     <Compile Include="DOM\HTML\HTMLUListElement.cs" />
+    <Compile Include="DOM\HTML\Location.cs" />
     <Compile Include="DOM\HTML\NonLocalizedStrings.cs" />
+    <Compile Include="DOM\HTML\SettableTokenList.cs" />
+    <Compile Include="DOM\HTML\StringMap.cs" />
+    <Compile Include="DOM\HTML\TokenList.cs" />
+    <Compile Include="DOM\HTML\ValidityState.cs" />
     <Compile Include="DOM\NamedAttributeMap.cs" />
     <Compile Include="DOM\NodeList.cs" />
     <Compile Include="DOM\NodeType.cs" />
