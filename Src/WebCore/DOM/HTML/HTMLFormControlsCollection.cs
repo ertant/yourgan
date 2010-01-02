@@ -17,12 +17,18 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLTitleElement : HTMLElement
+    public abstract class HTMLFormControlsCollection
     {
-        public abstract string Text
+        public abstract int Length
         {
             get;
-            set;
         }
+
+        public abstract HTMLElement this[int index]
+        {
+            get;
+        }
+
+        public abstract object NamedItem(string name);
     }
 }

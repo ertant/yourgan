@@ -17,12 +17,29 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLTitleElement : HTMLElement
+    public abstract class Location
     {
-        public abstract string Text
+        public abstract string HRef
         {
             get;
-            set;
         }
+
+        public abstract void Assign(string url);
+
+        public abstract void Replace(string url);
+
+        public abstract void Reload();
+
+        /*
+           attribute DOMString protocol;
+           attribute DOMString host;
+           attribute DOMString hostname;
+           attribute DOMString port;
+           attribute DOMString pathname;
+           attribute DOMString search;
+           attribute DOMString hash;
+           
+         * DOMString resolveURL(in DOMString url);
+        */
     }
 }

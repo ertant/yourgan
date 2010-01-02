@@ -28,35 +28,6 @@ namespace Yourgan.Core.DOM.HTML
 
         #endregion
 
-        public HTMLTitleElement GetTitleElement()
-        {
-            Node child = this.FirstChild;
 
-            while (child != null)
-            {
-                if (HTMLTagNames.IsSame(child.LocalName, HTMLTagNames.Title))
-                {
-                    return child as HTMLTitleElement;
-                }
-
-                child = child.NextSibling;
-            }
-
-            return null;
-        }
-
-        public void SetTitle(string title)
-        {
-            HTMLTitleElement titleElement = GetTitleElement();
-
-            if (titleElement == null)
-            {
-                titleElement = this.OwnerDocument.CreateElement(HTMLTagNames.Title) as HTMLTitleElement;
-
-                this.AppendChild(titleElement);
-
-                titleElement.Text = title;
-            }
-        }
     }
 }
