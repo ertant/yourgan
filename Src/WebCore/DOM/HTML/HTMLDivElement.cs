@@ -17,17 +17,12 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLDivElement : HTMLElement
+    // http://www.w3.org/TR/html5/interactive-elements.html#the-div-element
+    public class HTMLDivElement : HTMLElement
     {
         public HTMLDivElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
-        }
-
-        public abstract string Align
-        {
-            get;
-            set;
         }
     }
 }

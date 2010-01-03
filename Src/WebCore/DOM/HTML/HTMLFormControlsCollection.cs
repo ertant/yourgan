@@ -19,12 +19,17 @@ namespace Yourgan.Core.DOM.HTML
 {
     public abstract class HTMLFormControlsCollection
     {
-        public abstract int Length
+        public abstract ulong Length
         {
             get;
         }
 
         public abstract HTMLElement this[int index]
+        {
+            get;
+        }
+
+        public abstract HTMLElement this[string name]
         {
             get;
         }

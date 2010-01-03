@@ -20,6 +20,11 @@ namespace Yourgan.Core.DOM.HTML
     // http://www.w3.org/TR/html5/forms.html#the-button-element
     public abstract class HTMLButtonElement : HTMLFormControl
     {
+        public HTMLButtonElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
         public abstract bool WillValidate
         {
             get;

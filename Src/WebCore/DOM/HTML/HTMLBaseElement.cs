@@ -17,18 +17,40 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLBaseElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-base-element
+    public class HTMLBaseElement : HTMLElement
     {
-        public abstract string HRef
+        public HTMLBaseElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Target
+        #region DOM
+
+        public string HRef
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HRef);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HRef, value);
+            }
         }
+
+        public string Target
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Target);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Target, value);
+            }
+        }
+
+        #endregion
     }
 }

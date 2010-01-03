@@ -7,16 +7,35 @@ namespace Yourgan.Core.DOM.HTML
 {
     public abstract class HTMLFormControl : HTMLElement
     {
-        public abstract bool AutoFocus
+        protected HTMLFormControl(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract bool Disabled
+        #region DOM
+
+        public bool AutoFocus
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.AutoFocus);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.AutoFocus, value);
+            }
+        }
+
+        public bool Disabled
+        {
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
+            }
         }
 
         public abstract HTMLFormElement Form
@@ -24,52 +43,172 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract string FormAction
+        public string FormAction
         {
-            get;
-            set;
+            get
+            {
+                string val = this.ReflectFormAttribute(NonLocalizedStrings.FormAction);
+
+                if (val == null)
+                {
+                    val = this.Form.Action;
+                }
+
+                return val;
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.FormAction, value);
+            }
         }
 
-        public abstract string FormEncType
+        public string FormEncType
         {
-            get;
-            set;
+            get
+            {
+                string val = this.ReflectFormAttribute(NonLocalizedStrings.FormEncType);
+
+                if (val == null)
+                {
+                    val = this.Form.EncType;
+                }
+
+                return val;
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.FormEncType, value);
+            }
         }
 
-        public abstract string FormMethod
+        public string FormMethod
         {
-            get;
-            set;
+            get
+            {
+                string val = this.ReflectFormAttribute(NonLocalizedStrings.FormMethod);
+
+                if (val == null)
+                {
+                    val = this.Form.Method;
+                }
+
+                return val;
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.FormMethod, value);
+            }
         }
 
-        public abstract string FormNoValidate
+        public bool FormNoValidate
         {
-            get;
-            set;
+            get
+            {
+                bool? val = this.ReflectFormAttributeBoolean(NonLocalizedStrings.FormNoValidate);
+
+                if (val == null)
+                {
+                    return this.Form.NoValidate;
+                }
+
+                return val.Value;
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.FormNoValidate, value);
+            }
         }
 
-        public abstract string FormTarget
+        public string FormTarget
         {
-            get;
-            set;
+            get
+            {
+                string val = this.ReflectFormAttribute(NonLocalizedStrings.FormTarget);
+
+                if (val == null)
+                {
+                    val = this.Form.Target;
+                }
+
+                return val;
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.FormTarget, value);
+            }
         }
 
-        public abstract string Name
+        public string Name
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+            }
         }
 
-        public abstract string Type
+        public string Type
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Type);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Type, value);
+            }
         }
 
-        public abstract string Value
+        public string Value
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Value);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Value, value);
+            }
+        }
+
+        #endregion
+
+        protected bool IsSubmitButton()
+        {
+            return string.Equals(this.Type, NonLocalizedStrings.Submit, StringComparison.OrdinalIgnoreCase);
+        }
+
+        protected string ReflectFormAttribute(string attributeName)
+        {
+            if (this.IsSubmitButton())
+            {
+                Attr attribute = this.GetAttributeNode(attributeName);
+
+                if (attribute != null)
+                {
+                    return attribute.Value;
+                }
+            }
+
+            return null;
+        }
+
+        protected bool? ReflectFormAttributeBoolean(string attributeName)
+        {
+            if (this.IsSubmitButton())
+            {
+                Attr attribute = this.GetAttributeNode(attributeName);
+
+                if (attribute != null)
+                {
+                    return true;
+                }
+            }
+
+            return null;
         }
     }
 }

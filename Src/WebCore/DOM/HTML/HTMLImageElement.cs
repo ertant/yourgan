@@ -15,85 +15,96 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLImageElement : HTMLElement
+    // http://www.w3.org/TR/html5/text-level-semantics.html#the-img-element
+    public class HTMLImageElement : HTMLElement
     {
         public HTMLImageElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
         }
 
-        public abstract string Name
+        public string Alt
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Alt);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Alt, value);
+            }
         }
 
-        public abstract string Align
+        public string Src
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Src);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Src, value);
+            }
         }
 
-        public abstract string Alt
+        public string UseMap
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.UseMap);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.UseMap, value);
+            }
         }
 
-        public abstract string Border
+        public bool IsMap
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.IsMap);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.IsMap, value);
+            }
         }
 
-        public abstract int Height
+        public ulong Width
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract int HSpace
+        public ulong Height
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract bool IsMap
+        public bool Complete
         {
-            get;
-            set;
-        }
-
-        public abstract string LongDesc
-        {
-            get;
-            set;
-        }
-
-        public abstract string Src
-        {
-            get;
-            set;
-        }
-
-        public abstract string UseMap
-        {
-            get;
-            set;
-        }
-
-        public abstract int VSPace
-        {
-            get;
-            set;
-        }
-
-        public abstract int Width
-        {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

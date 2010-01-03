@@ -24,12 +24,6 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract string AccessKey
-        {
-            get;
-            set;
-        }
-
         public abstract string Align
         {
             get;

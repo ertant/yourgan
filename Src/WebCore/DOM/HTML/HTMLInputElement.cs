@@ -22,28 +22,59 @@ namespace Yourgan.Core.DOM.HTML
     // http://www.w3.org/TR/html5/forms.html#the-input-element
     public abstract class HTMLInputElement : HTMLFormControl
     {
-        public abstract string Accept
+        public HTMLInputElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Alt
+        #region DOM
+
+        public string Accept
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Accept);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Accept, value);
+            }
         }
 
-        public abstract bool AutoComplete
+        public string Alt
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Alt);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Alt, value);
+            }
         }
 
-        public abstract bool DefaultChecked
+        public bool AutoComplete
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.AutoComplete);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.AutoComplete, value);
+            }
+        }
+
+        public bool DefaultChecked
+        {
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Checked);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Checked, value);
+            }
         }
 
         public abstract bool Checked
@@ -54,10 +85,16 @@ namespace Yourgan.Core.DOM.HTML
 
         // TODO : Files
 
-        public abstract string Height
+        public string Height
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Height);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Height, value);
+            }
         }
 
         public abstract bool Indeterminate
@@ -71,124 +108,246 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract string Max
+        public string Max
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Max);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Max, value);
+            }
         }
 
-        public abstract int MaxLength
+        public ulong MaxLength
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeLong(NonLocalizedStrings.Alt);
+            }
+            set
+            {
+                this.ReflectAttributeLong(NonLocalizedStrings.Alt, value);
+            }
         }
 
-        public abstract string Min
+        public string Min
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Min);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Min, value);
+            }
         }
 
-        public abstract bool Multiple
+        public bool Multiple
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Multiple);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Multiple, value);
+            }
         }
 
-        public abstract string Pattern
+        public string Pattern
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Pattern);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Pattern, value);
+            }
         }
 
-        public abstract string PlaceHolder
+        public string PlaceHolder
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.PlaceHolder);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.PlaceHolder, value);
+            }
         }
 
-        public abstract bool Readonly
+        public bool Readonly
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Readonly);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Readonly, value);
+            }
         }
 
-        public abstract bool Required
+        public bool Required
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Required);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Required, value);
+            }
         }
 
-        public abstract int Size
+        public ulong Size
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeLong(NonLocalizedStrings.Size);
+            }
+            set
+            {
+                this.ReflectAttributeLong(NonLocalizedStrings.Size, value);
+            }
         }
 
-        public abstract string Src
+        public string Src
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Src);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Src, value);
+            }
         }
 
-        public abstract string Step
+        public string Step
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Step);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Step, value);
+            }
         }
 
-        public abstract string DefaultValue
+        public string DefaultValue
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Value);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Value, value);
+            }
         }
 
-        public abstract DateTime ValueAsDate
+        public DateTime ValueAsDate
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract float ValueAsNumber
+        public float ValueAsNumber
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLOptionElement SelectedOption
+        public HTMLOptionElement SelectedOption
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string Width
+        public string Width
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Width);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Width, value);
+            }
         }
 
-        public abstract void StepUp(int n);
-
-        public abstract void StepDown(int n);
-
-        public abstract NodeList Labels
+        public void StepUp(int n)
         {
-            get;
+            throw new NotImplementedException();
         }
 
-        public abstract void Select();
-
-        public abstract int SelectionStart
+        public void StepDown(int n)
         {
-            get;
-            set;
+            throw new NotImplementedException();
         }
 
-        public abstract int SelectionEnd
+        public NodeList Labels
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract void SetSelectionRange(int start, int end);
+        public void Select()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int SelectionStart
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int SelectionEnd
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void SetSelectionRange(int start, int end)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

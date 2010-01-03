@@ -17,17 +17,12 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLHeadingElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-h1-h2-h3-h4-h5-and-h6-elements
+    public class HTMLHeadingElement : HTMLElement
     {
         public HTMLHeadingElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
-        }
-
-        public abstract string Align
-        {
-            get;
-            set;
         }
     }
 }

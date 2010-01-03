@@ -17,17 +17,11 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLBRElement : HTMLElement
+    public class HTMLBRElement : HTMLElement
     {
         public HTMLBRElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
-        }
-
-        public abstract string Clear
-        {
-            get;
-            set;
         }
     }
 }

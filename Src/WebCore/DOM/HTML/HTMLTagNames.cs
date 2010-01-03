@@ -21,11 +21,23 @@ namespace Yourgan.Core.DOM.HTML
 {
     public static class HTMLTagNames
     {
-        public const string Html = "HTML";
-        public const string Head = "HEAD";
-        public const string Title = "TITLE";
-        public const string Body = "BODY";
-        public const string FrameSet = "FRAMESET";
+        public const string Html = "html";
+        public const string Head = "head";
+        public const string Title = "title";
+        public const string Body = "body";
+        public const string FrameSet = "frameset";
+        public const string Br = "br";
+        public const string Hr = "hr";
+        public const string Div = "div";
+        public const string Form = "form";
+        public const string H1 = "h1";
+        public const string H2 = "h2";
+        public const string H3 = "h3";
+        public const string H4 = "h4";
+        public const string H5 = "h5";
+        public const string H6 = "h6";
+        public const string IFrame = "iframe";
+        public const string Img = "img";
 
         public static bool IsSame(string localName, string nodeName)
         {

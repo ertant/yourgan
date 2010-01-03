@@ -62,7 +62,7 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract int Index
+        public abstract ulong Index
         {
             get;
         }

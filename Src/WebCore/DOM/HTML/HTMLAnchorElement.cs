@@ -20,28 +20,59 @@ namespace Yourgan.Core.DOM.HTML
     // http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element
     public abstract class HTMLAnchorElement : HTMLElement
     {
-        public abstract string Href
+        public HTMLAnchorElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Target
+        #region DOM
+
+        public string Href
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HRef);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HRef, value);
+            }
         }
 
-        public abstract string Ping
+        public string Target
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Target);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Target, value);
+            }
         }
 
-        public abstract string Rel
+        public string Ping
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Ping);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Ping, value);
+            }
+        }
+
+        public string Rel
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Rel);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Rel, value);
+            }
         }
 
         public abstract TokenList RelList
@@ -49,25 +80,44 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract string Media
+        public string Media
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Media);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Media, value);
+            }
         }
 
-        public abstract string HRefLang
+        public string HRefLang
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HRefLang);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HRefLang, value);
+            }
         }
 
-
-        public abstract string Type
+        public string Type
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Type);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Type, value);
+            }
         }
 
         // TODO : URL decomposition attributes
+
+        #endregion
     }
 }
