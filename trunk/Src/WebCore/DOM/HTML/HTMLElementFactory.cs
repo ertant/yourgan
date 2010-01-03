@@ -28,19 +28,22 @@ namespace Yourgan.Core.DOM.HTML
 
         public HTMLElementFactory()
         {
+            this.Constructors[HTMLTagNames.Html] = Html;
             this.Constructors[HTMLTagNames.Head] = Head;
+            this.Constructors[HTMLTagNames.Body] = Body;
+            this.Constructors[HTMLTagNames.Br] = Br;
+            this.Constructors[HTMLTagNames.Hr] = Hr;
+            this.Constructors[HTMLTagNames.Div] = Div;
+            this.Constructors[HTMLTagNames.Form] = Form;
+            this.Constructors[HTMLTagNames.H1] = Heading;
+            this.Constructors[HTMLTagNames.H2] = Heading;
+            this.Constructors[HTMLTagNames.H3] = Heading;
+            this.Constructors[HTMLTagNames.H4] = Heading;
+            this.Constructors[HTMLTagNames.H5] = Heading;
+            this.Constructors[HTMLTagNames.H6] = Heading;
+            this.Constructors[HTMLTagNames.IFrame] = IFrame;
+            this.Constructors[HTMLTagNames.Img] = Image;
         }
-
-        #region Constructors
-
-        private static HTMLElement Head(QualifiedName qname, Document document)
-        {
-            HTMLElement head = new HTMLElement(qname, document);
-
-            return head;
-        }
-
-        #endregion
 
         public override T Create<T>(QualifiedName qname, Document document)
         {
@@ -52,6 +55,76 @@ namespace Yourgan.Core.DOM.HTML
             }
 
             return base.Create<T>(qname, document);
+        }
+
+        private static HTMLElement Html(QualifiedName qname, Document document)
+        {
+            HTMLHtmlElement element = new HTMLHtmlElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Head(QualifiedName qname, Document document)
+        {
+            HTMLElement element = new HTMLElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Body(QualifiedName qname, Document document)
+        {
+            HTMLBodyElement element = new HTMLBodyElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Br(QualifiedName qname, Document document)
+        {
+            HTMLBRElement element = new HTMLBRElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Hr(QualifiedName qname, Document document)
+        {
+            HTMLHRElement element = new HTMLHRElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Div(QualifiedName qname, Document document)
+        {
+            HTMLDivElement element = new HTMLDivElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Form(QualifiedName qname, Document document)
+        {
+            HTMLFormElement element = new HTMLFormElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Heading(QualifiedName qname, Document document)
+        {
+            HTMLHeadingElement element = new HTMLHeadingElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement IFrame(QualifiedName qname, Document document)
+        {
+            HTMLIFrameElement element = new HTMLIFrameElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Image(QualifiedName qname, Document document)
+        {
+            HTMLImageElement element = new HTMLImageElement(qname, document);
+
+            return element;
         }
     }
 }

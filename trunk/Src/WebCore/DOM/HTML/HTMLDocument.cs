@@ -28,23 +28,6 @@ namespace Yourgan.Core.DOM.HTML
             this.RegisterFactory(StdNamespaces.HTML, new HTMLElementFactory());
         }
 
-        protected internal T GetElementByTagName<T>(Node parent, string tagName) where T : Element
-        {
-            Node child = parent.FirstChild;
-
-            while (child != null)
-            {
-                if (HTMLTagNames.IsSame(child.LocalName, tagName))
-                {
-                    return child as T;
-                }
-
-                child = child.NextSibling;
-            }
-
-            return null;
-        }
-
         #region DOM
 
         public string Title
@@ -243,6 +226,23 @@ namespace Yourgan.Core.DOM.HTML
 
                 return head;
             }
+        }
+
+        protected internal T GetElementByTagName<T>(Node parent, string tagName) where T : Element
+        {
+            Node child = parent.FirstChild;
+
+            while (child != null)
+            {
+                if (HTMLTagNames.IsSame(child.LocalName, tagName))
+                {
+                    return child as T;
+                }
+
+                child = child.NextSibling;
+            }
+
+            return null;
         }
     }
 }

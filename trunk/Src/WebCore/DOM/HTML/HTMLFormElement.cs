@@ -15,88 +15,173 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-form-element
-    public abstract class HTMLFormElement : HTMLElement
+    public class HTMLFormElement : HTMLElement
     {
-
-        public abstract string AcceptCharset
+        public HTMLFormElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Action
+        #region DOM
+
+        public string AcceptCharset
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.AcceptCharset);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.AcceptCharset, value);
+            }
         }
 
-        public abstract bool AutoComplete
+        public string Action
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Action);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Action, value);
+            }
         }
 
-        public abstract string EncType
+        public bool AutoComplete
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.AutoComplete);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.AutoComplete, value);
+            }
         }
 
-        public abstract string Method
+        public string EncType
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.EncType);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.EncType, value);
+            }
         }
 
-        public abstract string Name
+        public string Method
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Method);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Method, value);
+            }
         }
 
-        public abstract bool NoValidate
+        public string Name
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+            }
         }
 
-        public abstract string Target
+        public bool NoValidate
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.NoValidate);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.NoValidate, value);
+            }
         }
 
-        public abstract HTMLFormControlsCollection Elements
+        public string Target
         {
-            get;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Target);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Target, value);
+            }
         }
 
-        public abstract int Length
+        public HTMLFormControlsCollection Elements
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract object this[int index]
+        public ulong Length
         {
-            get;
+            get
+            {
+                return this.Elements.Length;
+            }
         }
 
-        public abstract object this[string name]
+        public HTMLElement this[int index]
         {
-            get;
+            get
+            {
+                return this.Elements[index];
+            }
         }
 
-        public abstract void Submit();
+        public HTMLElement this[string name]
+        {
+            get
+            {
+                return this.Elements[name];
+            }
+        }
 
-        public abstract void Reset();
+        public void Submit()
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void CheckValidity();
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DispatchFormInput();
+        public void CheckValidity()
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void DispatchFormChange();
+        public void DispatchFormInput()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DispatchFormChange()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -15,9 +15,105 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLIFrameElement
+    public class HTMLIFrameElement : HTMLElement
     {
+        public HTMLIFrameElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
+        #region DOM
+
+        public string Src
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Src);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Src, value);
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+            }
+        }
+
+        public string Sandbox
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Sandbox);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Sandbox, value);
+            }
+        }
+
+        public bool Seamless
+        {
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Seamless);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Seamless, value);
+            }
+        }
+
+        public string Width
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Width);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Width, value);
+            }
+        }
+
+        public string Height
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Height);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Height, value);
+            }
+        }
+
+        public Document ContentDocument
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        // TODO : Fix here
+        //public abstract Window ContentWindow
+        //{
+        //    get;
+        //}
+
+        #endregion
     }
 }

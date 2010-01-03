@@ -34,6 +34,8 @@ namespace Yourgan.Core.DOM.HTML
 
         }
 
+        #region DOM
+
         public string Id
         {
             get
@@ -62,11 +64,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.GetAttribute(NonLocalizedStrings.Title);
+                return this.ReflectAttribute(NonLocalizedStrings.Title);
             }
             set
             {
-                this.SetAttribute(NonLocalizedStrings.Title, value);
+                this.ReflectAttribute(NonLocalizedStrings.Title, value);
             }
         }
 
@@ -74,11 +76,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.GetAttribute(NonLocalizedStrings.Lang);
+                return this.ReflectAttribute(NonLocalizedStrings.Lang);
             }
             set
             {
-                this.SetAttribute(NonLocalizedStrings.Lang, value);
+                this.ReflectAttribute(NonLocalizedStrings.Lang, value);
             }
         }
 
@@ -86,11 +88,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.GetAttribute(NonLocalizedStrings.Dir);
+                return this.ReflectAttribute(NonLocalizedStrings.Dir);
             }
             set
             {
-                this.SetAttribute(NonLocalizedStrings.Dir, value);
+                this.ReflectAttribute(NonLocalizedStrings.Dir, value);
             }
         }
 
@@ -98,11 +100,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.GetAttribute(NonLocalizedStrings.Class);
+                return this.ReflectAttribute(NonLocalizedStrings.Class);
             }
             set
             {
-                this.SetAttribute(NonLocalizedStrings.Class, value);
+                this.ReflectAttribute(NonLocalizedStrings.Class, value);
             }
         }
 
@@ -205,19 +207,21 @@ namespace Yourgan.Core.DOM.HTML
         //{
         //    get
         //    {
-                
+
         //    }
         //}
 
-        public string Content
+        public virtual string Content
         {
             get
             {
-                throw new NotImplementedException();
+                // TODO : Behaivor changes on some elements like "meta","a","object".. 
+                // Verify later.
+                return this.TextContent;
             }
             set
             {
-                throw new NotImplementedException();
+                this.TextContent = value;
             }
         }
 
@@ -237,11 +241,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Hidden);
             }
             set
             {
-                throw new NotImplementedException();
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Hidden, value);
             }
         }
 
@@ -252,5 +256,44 @@ namespace Yourgan.Core.DOM.HTML
 
         // more..
 
+        #endregion
+
+        protected string ReflectAttribute(string name)
+        {
+            return this.GetAttribute(name);
+        }
+
+        protected void ReflectAttribute(string name, string value)
+        {
+            this.SetAttribute(name, value);
+        }
+
+        protected ulong ReflectAttributeLong(string name)
+        {
+            return ulong.Parse(this.GetAttribute(name), System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        protected void ReflectAttributeLong(string name, ulong value)
+        {
+            this.SetAttribute(name, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        }
+
+        protected void ReflectAttributeBoolean(string name, bool value)
+        {
+            if (value)
+                this.SetAttribute(name, "");
+            else
+                this.Attributes.RemoveNamedItem(name);
+        }
+
+        protected bool ReflectAttributeBoolean(string name)
+        {
+            Node node = this.GetAttributeNode(name);
+
+            if (node != null)
+                return true;
+
+            return false;
+        }
     }
 }

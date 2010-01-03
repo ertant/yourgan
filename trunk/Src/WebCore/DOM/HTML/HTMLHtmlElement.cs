@@ -17,18 +17,12 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLHtmlElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-html-element-0
+    public class HTMLHtmlElement : HTMLElement
     {
-        [DeprecatedProperty]
-        public string Version
+        public HTMLHtmlElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get
-            {
-                return null;
-            }
-            set
-            {
-            }
         }
     }
 }

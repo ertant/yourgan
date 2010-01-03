@@ -21,7 +21,7 @@ namespace Yourgan.Core.DOM.HTML
 {
     public abstract class TokenList
     {
-        public int Length
+        public ulong Length
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Yourgan.Core.DOM.HTML
             }
         }
 
-        public string this[int index]
+        public string this[ulong index]
         {
             get
             {

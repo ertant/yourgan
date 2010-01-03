@@ -20,10 +20,23 @@ namespace Yourgan.Core.DOM.HTML
     // http://www.w3.org/TR/html5/forms.html#the-fieldset-element
     public abstract class HTMLFieldSetElement : HTMLElement
     {
-        public abstract bool Disabled
+        public HTMLFieldSetElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
+        }
+
+        #region DOM
+
+        public bool Disabled
+        {
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
+            }
         }
 
         public abstract HTMLFormElement Form
@@ -31,15 +44,24 @@ namespace Yourgan.Core.DOM.HTML
             get;
         }
 
-        public abstract string Name
+        public string Name
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+            }
         }
 
-        public abstract string Type
+        public string Type
         {
-            get;
+            get
+            {
+                return NonLocalizedStrings.FieldSet;
+            }
         }
 
         public abstract HTMLFormControlsCollection Elements
@@ -65,5 +87,7 @@ namespace Yourgan.Core.DOM.HTML
         public abstract bool CheckValidity();
 
         public abstract void SetCustomValidity(string error);
+
+        #endregion
     }
 }

@@ -19,6 +19,11 @@ namespace Yourgan.Core.DOM.HTML
 {
     public abstract class HTMLTextAreaElement : HTMLInputElement
     {
+        public HTMLTextAreaElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
         public abstract int Cols
         {
             get;

@@ -19,12 +19,12 @@ namespace Yourgan.Core.DOM.HTML
 {
     public abstract class HTMLOptionsCollection
     {
-        public abstract int Length
+        public abstract ulong Length
         {
             get;
         }
 
-        public abstract Node this[int index]
+        public abstract Node this[ulong index]
         {
             get;
         }

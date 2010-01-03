@@ -17,46 +17,11 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLBodyElement : HTMLElement
+    public class HTMLBodyElement : HTMLElement
     {
-        /* 
-        These are deprecated attributes should implemented ?
-         * 
-        public abstract string ALink
+        public HTMLBodyElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
-
-        public abstract string Background
-        {
-            get;
-            set;
-        }
-
-        public abstract string BgColor
-        {
-            get;
-            set;
-        }
-
-        public abstract string Link
-        {
-            get;
-            set;
-        }
-
-        public abstract string Text
-        {
-            get;
-            set;
-        }
-
-        public abstract string VLink
-        {
-            get;
-            set;
-        }
-        */
     }
 }

@@ -67,11 +67,11 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public int Length
+        public ulong Length
         {
             get
             {
-                return this.innerCollection.Count;
+                return (ulong)this.innerCollection.Count;
             }
         }
 
