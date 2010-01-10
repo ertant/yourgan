@@ -48,26 +48,32 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                HTMLTitleElement title = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
-
-                if (title != null)
+                if (this.Head != null)
                 {
-                    return title.Text;
+                    HTMLTitleElement title = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
+
+                    if (title != null)
+                    {
+                        return title.Text;
+                    }
                 }
 
                 return null;
             }
             set
             {
-                HTMLTitleElement titleElement = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
-
-                if (titleElement != null)
+                if (this.Head != null)
                 {
-                    titleElement = this.OwnerDocument.CreateElement<HTMLTitleElement>(HTMLTagNames.Title);
+                    HTMLTitleElement titleElement = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
 
-                    this.Head.AppendChild(titleElement);
+                    if (titleElement != null)
+                    {
+                        titleElement = this.OwnerDocument.CreateElement<HTMLTitleElement>(HTMLTagNames.Title);
 
-                    titleElement.Text = value;
+                        this.Head.AppendChild(titleElement);
+
+                        titleElement.Text = value;
+                    }
                 }
             }
         }

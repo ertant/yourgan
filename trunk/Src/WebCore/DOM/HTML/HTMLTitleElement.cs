@@ -17,12 +17,23 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLTitleElement : HTMLElement
+    public class HTMLTitleElement : HTMLElement
     {
-        public abstract string Text
+        public HTMLTitleElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
+        }
+
+        public string Text
+        {
+            get
+            {
+                return this.TextContent;
+            }
+            set
+            {
+                this.TextContent = value;
+            }
         }
     }
 }
