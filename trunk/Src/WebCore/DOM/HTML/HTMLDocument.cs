@@ -176,7 +176,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return new HTMLFilteredCollection(this.Body, "//img");
             }
         }
 
@@ -184,7 +184,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return new HTMLFilteredCollection(this.Body, "//embed");
             }
         }
 
@@ -192,7 +192,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return this.Embeds;
             }
         }
 
@@ -200,7 +200,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return new HTMLFilteredCollection(this.Body, "//a[@href!=''] | //area[@href!='']");
             }
         }
 
@@ -208,7 +208,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return new HTMLFilteredCollection(this.Body, "//form");
             }
         }
 
@@ -216,7 +216,7 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                throw new NotImplementedException();
+                return new HTMLFilteredCollection(this.Body, "//script");
             }
         }
 
