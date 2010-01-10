@@ -52,6 +52,8 @@ namespace Yourgan.Core.DOM.HTML
         public const string TFoot = "tfoot";
         public const string ColGroup = "colgroup";
         public const string TBody = "tbody";
+        public const string A = "a";
+        public const string Embed = "embed";
 
         public static bool IsSame(string localName, string nodeName)
         {

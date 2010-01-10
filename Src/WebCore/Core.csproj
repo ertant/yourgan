@@ -78,6 +78,7 @@
     <Compile Include="DOM\HTML\HTMLElement.cs" />
     <Compile Include="DOM\HTML\HTMLElementFactory.cs" />
     <Compile Include="DOM\HTML\HTMLFieldSetElement.cs" />
+    <Compile Include="DOM\HTML\HTMLFilteredCollection.cs" />
     <Compile Include="DOM\HTML\HTMLFormBoundElement.cs" />
     <Compile Include="DOM\HTML\HTMLFormControl.cs" />
     <Compile Include="DOM\HTML\HTMLFormControlsCollection.cs" />
