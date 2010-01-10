@@ -17,7 +17,11 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLTableCaptionElement
+    public class HTMLTableCaptionElement : HTMLElement
     {
+        public HTMLTableCaptionElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
     }
 }

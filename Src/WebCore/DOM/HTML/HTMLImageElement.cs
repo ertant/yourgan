@@ -27,6 +27,8 @@ namespace Yourgan.Core.DOM.HTML
         {
         }
 
+        #region DOM
+
         public string Alt
         {
             get
@@ -106,5 +108,7 @@ namespace Yourgan.Core.DOM.HTML
                 throw new NotImplementedException();
             }
         }
+
+        #endregion
     }
 }

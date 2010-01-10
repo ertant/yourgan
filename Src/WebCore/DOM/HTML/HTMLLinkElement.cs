@@ -17,60 +17,105 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLLinkElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-link-element
+    public abstract class HTMLLinkElement : HTMLElement // TODO : , CSS.LinkStyle
     {
-        public abstract bool Disabled
+        public HTMLLinkElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Charset
+        #region DOM
+
+        public bool Disabled
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
+            }
         }
 
-        public abstract string HRef
+        public string HRef
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HRef);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HRef, value);
+            }
         }
 
-        public abstract string HRefLang
+        public string Rel
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Rel);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Rel, value);
+            }
         }
 
-        public abstract string Media
+        public abstract TokenList RelList
         {
             get;
-            set;
         }
 
-        public abstract string Rel
+        public string Media
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Media);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Media, value);
+            }
         }
 
-        public abstract string Rev
+        public string HRefLang
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HRefLang);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HRefLang, value);
+            }
         }
 
-        public abstract string Target
+        public string Type
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Type);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Type, value);
+            }
         }
 
-        public abstract string Type
+        public string Sizes
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Sizes);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Sizes, value);
+            }
         }
+
+        #endregion
     }
 }

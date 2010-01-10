@@ -1,11 +1,28 @@
-﻿using System;
+﻿// /*
+// Yourgan
+// Copyright (C) 2009  Ertan Tike
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLFormControl : HTMLElement
+    public abstract class HTMLFormControl : HTMLFormBoundElement
     {
         protected HTMLFormControl(QualifiedName qname, Document document)
             : base(qname, document)
@@ -36,11 +53,6 @@ namespace Yourgan.Core.DOM.HTML
             {
                 this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
             }
-        }
-
-        public abstract HTMLFormElement Form
-        {
-            get;
         }
 
         public string FormAction
@@ -150,7 +162,7 @@ namespace Yourgan.Core.DOM.HTML
             }
         }
 
-        public string Type
+        public virtual string Type
         {
             get
             {

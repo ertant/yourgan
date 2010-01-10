@@ -18,7 +18,7 @@
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-fieldset-element
-    public abstract class HTMLFieldSetElement : HTMLElement
+    public abstract class HTMLFieldSetElement : HTMLFormBoundElement, IValidatedControl
     {
         public HTMLFieldSetElement(QualifiedName qname, Document document)
             : base(qname, document)
@@ -37,11 +37,6 @@ namespace Yourgan.Core.DOM.HTML
             {
                 this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
             }
-        }
-
-        public abstract HTMLFormElement Form
-        {
-            get;
         }
 
         public string Name

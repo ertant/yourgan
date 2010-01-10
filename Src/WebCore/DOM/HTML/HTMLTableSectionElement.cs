@@ -15,9 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLTableSectionElement
+    public class HTMLTableSectionElement : HTMLElement
     {
+        public HTMLTableSectionElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
+        public HTMLCollection Rows
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public HTMLElement InsertRow(long index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRow(long index)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

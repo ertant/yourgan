@@ -17,18 +17,36 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
+    // http://www.w3.org/TR/html5/forms.html#the-optgroup-element
     public abstract class HTMLOptGroupElement : HTMLElement
     {
-        public abstract bool Disabled
+        public HTMLOptGroupElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Label
+        public bool Disabled
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
+            }
+        }
+
+        public string Label
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Label);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Label, value);
+            }
         }
     }
 }

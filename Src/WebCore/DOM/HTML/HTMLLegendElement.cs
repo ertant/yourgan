@@ -17,17 +17,12 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLLegendElement : HTMLElement
+    // http://www.w3.org/TR/html5/interactive-elements.html#the-legend-element
+    public class HTMLLegendElement : HTMLFormBoundElement
     {
-        public abstract HTMLFormElement Form
+        public HTMLLegendElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-        }
-
-        public abstract string Align
-        {
-            get;
-            set;
         }
     }
 }

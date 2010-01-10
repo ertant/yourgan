@@ -17,7 +17,7 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLTableColElement
+    public abstract class HTMLTableColElement : HTMLElement
     {
     }
 }
