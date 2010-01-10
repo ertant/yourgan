@@ -57,6 +57,10 @@
     <Compile Include="DOM\CDATASection.cs" />
     <Compile Include="DOM\CharacterData.cs" />
     <Compile Include="DOM\Comment.cs" />
+    <Compile Include="DOM\CSS\DocumentStyle.cs" />
+    <Compile Include="DOM\CSS\MediaList.cs" />
+    <Compile Include="DOM\CSS\StyleSheet.cs" />
+    <Compile Include="DOM\CSS\StyleSheetList.cs" />
     <Compile Include="DOM\Document.cs" />
     <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="DOM\DocumentPosition.cs" />
