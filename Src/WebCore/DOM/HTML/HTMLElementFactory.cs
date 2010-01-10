@@ -50,6 +50,7 @@ namespace Yourgan.Core.DOM.HTML
             this.Constructors[HTMLTagNames.Li] = Li;
             this.Constructors[HTMLTagNames.Legend] = Legend;
             this.Constructors[HTMLTagNames.Caption] = Caption;
+            this.Constructors[HTMLTagNames.Table] = Table;
         }
 
         public override T Create<T>(QualifiedName qname, Document document)
@@ -179,6 +180,13 @@ namespace Yourgan.Core.DOM.HTML
         private static HTMLElement Caption(QualifiedName qname, Document document)
         {
             HTMLTableCaptionElement element = new HTMLTableCaptionElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Table(QualifiedName qname, Document document)
+        {
+            HTMLTableElement element = new HTMLTableElement(qname, document);
 
             return element;
         }

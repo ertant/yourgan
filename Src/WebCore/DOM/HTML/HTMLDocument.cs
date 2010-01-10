@@ -20,8 +20,8 @@ using Yourgan.Core.Parser;
 
 namespace Yourgan.Core.DOM.HTML
 {
-    // http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html#ID-26809268
-    public abstract class HTMLDocument : Document
+    // http://www.w3.org/TR/html5/dom.html#htmldocument
+    public class HTMLDocument : Document
     {
         public HTMLDocument()
         {
@@ -30,176 +30,262 @@ namespace Yourgan.Core.DOM.HTML
 
         #region DOM
 
-        public string Title
+        #region resource metadata management
+
+        public Location Location
         {
             get
             {
-                HTMLTitleElement title = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
+                throw new NotImplementedException();
+            }
+        }
 
-                if (title != null)
-                {
-                    return title.Text;
-                }
+        public string URL
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-                return null;
+        public string Domain
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
             set
             {
-                HTMLTitleElement titleElement = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
-
-                if (titleElement != null)
-                {
-                    titleElement = this.OwnerDocument.CreateElement<HTMLTitleElement>(HTMLTagNames.Title);
-
-                    this.Head.AppendChild(titleElement);
-
-                    titleElement.Text = value;
-                }
+                throw new NotImplementedException();
             }
         }
 
-        public abstract Location Location
+        public string Referrer
         {
-            get;
-        }
-
-        public abstract string URL
-        {
-            get;
-        }
-
-        public abstract string Domain
-        {
-            get;
-            set;
-        }
-
-        public abstract string Referrer
-        {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public string Cookie
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string LastModified
+        public string LastModified
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string CompactMode
+        public string CompactMode
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public string Charset
         {
-            get;
-            set;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string CharacterSet
+        public string CharacterSet
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string DefaultCharset
+        public string DefaultCharset
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract string ReadyState
+        public string ReadyState
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region DOM tree accessors
+
+        public string Title
+        {
+            get
+            {
+                return this.HTML.DocumentTitle;
+            }
+            set
+            {
+                this.HTML.DocumentTitle = value;
+            }
+        }
+
+        public string Dir
+        {
+            get
+            {
+                return this.HTML.Dir;
+            }
+            set
+            {
+                this.HTML.Dir = value;
+            }
         }
 
         public HTMLElement Body
         {
             get
             {
-                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
-
-                if (body == null)
-                {
-                    body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.FrameSet);
-                }
-
-                return body;
+                return this.HTML.Body;
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-
-                if (!HTMLTagNames.IsSame(value.LocalName, HTMLTagNames.Body) &&
-                    !HTMLTagNames.IsSame(value.LocalName, HTMLTagNames.FrameSet))
-                    throw new DOMException(DOMError.HierarchyRequest);
-
-                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
-
-                if (value != body)
-                {
-                    if (body != null)
-                    {
-                        this.ReplaceChild(value, body);
-                    }
-                    else
-                    {
-                        this.AppendChild(value);
-                    }
-                }
+                this.HTML.Body = value;
             }
         }
 
-        public abstract string InnerHtml
+        public HTMLCollection Images
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Images
+        public HTMLCollection Embeds
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Applets
+        public HTMLCollection Plugins
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Links
+        public HTMLCollection Links
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Forms
+        public HTMLCollection Forms
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Anchors
+        public HTMLCollection Scripts
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public abstract HTMLCollection Scripts
+        public NodeList GetElementsByName(string elementName)
         {
-            get;
+            throw new NotImplementedException();
         }
 
-        public abstract HTMLDocument Open();
+        public NodeList GetElementsByClassName(string classNames)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void Close();
+        public NodeList GetItems(string typeNames)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void Write(string text);
+        public object this[string name]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public abstract void WriteLn(string text);
+        #endregion
 
-        public abstract NodeList GetElementsByName(string elementName);
+        #region dynamic markup insertion
 
-        public abstract NodeList GetElementsByClassName(string classNames);
+        public string InnerHtml
+        {
+            get
+            {
+                return this.HTML.InnerHTML;
+            }
+            set
+            {
+                this.HTML.InnerHTML = value;
+            }
+        }
+
+        public HTMLDocument Open()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteLn(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region user interaction
+
+        // TODO :
+
+        #endregion
 
         #endregion
 
@@ -211,38 +297,16 @@ namespace Yourgan.Core.DOM.HTML
             }
         }
 
-        private HTMLElement head;
-
-        public HTMLElement Head
+        public HTMLHtmlElement HTML
         {
             get
             {
-                if (head == null)
-                {
-                    head = this.CreateElement<HTMLElement>(HTMLTagNames.Head);
+                HTMLHtmlElement html = this.DocumentElement as HTMLHtmlElement;
 
-                    this.AppendChild(head);
-                }
+                System.Diagnostics.Debug.Assert(html != null, "HTML is null");
 
-                return head;
+                return html;
             }
-        }
-
-        protected internal T GetElementByTagName<T>(Node parent, string tagName) where T : Element
-        {
-            Node child = parent.FirstChild;
-
-            while (child != null)
-            {
-                if (HTMLTagNames.IsSame(child.LocalName, tagName))
-                {
-                    return child as T;
-                }
-
-                child = child.NextSibling;
-            }
-
-            return null;
         }
     }
 }

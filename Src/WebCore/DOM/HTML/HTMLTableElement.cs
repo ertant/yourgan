@@ -15,9 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLTableElement : HTMLElement
+    // http://www.w3.org/TR/html5/tabular-data.html#the-table-element
+    public class HTMLTableElement : HTMLElement
     {
         public HTMLTableElement(QualifiedName qname, Document document)
             : base(qname, document)
@@ -63,9 +66,9 @@ namespace Yourgan.Core.DOM.HTML
             this.Caption = null;
         }
 
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public HTMLTableSectionElement THead
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         {
             get
             {
@@ -80,24 +83,22 @@ namespace Yourgan.Core.DOM.HTML
 
                 if (value != null)
                 {
-                    HTMLTableCaptionElement caption = this.Caption;
+                    Node refNode = null;
 
-                    if (caption != null)
+                    refNode = this.Caption;
+
+                    if (refNode == null)
                     {
-                        this.InsertBefore(value, caption);
+                        refNode = this.FindFirstChild<HTMLTableColElement>(HTMLTagNames.ColGroup);
+                    }
+
+                    if (refNode != null)
+                    {
+                        this.InsertBefore(value, refNode);
                     }
                     else
                     {
-                        HTMLTableColElement col = this.FindFirstChild<HTMLTableColElement>(HTMLTagNames.ColGroup);
-
-                        if (col != null)
-                        {
-                            this.InsertBefore(value, col);
-                        }
-                        else
-                        {
-                            this.AppendChild(value);
-                        }
+                        this.AppendChild(value);
                     }
                 }
             }
@@ -120,6 +121,119 @@ namespace Yourgan.Core.DOM.HTML
         public void DeleteTHead()
         {
             this.THead = null;
+        }
+
+        // ReSharper disable InconsistentNaming
+        public HTMLTableSectionElement TFoot
+        // ReSharper restore InconsistentNaming
+        {
+            get
+            {
+                return this.FindFirstChild<HTMLTableSectionElement>(HTMLTagNames.TFoot);
+            }
+            set
+            {
+                HTMLTableSectionElement existing = this.FindFirstChild<HTMLTableSectionElement>(HTMLTagNames.TFoot);
+
+                if (existing != null)
+                    this.RemoveChild(existing);
+
+                if (value != null)
+                {
+                    Node refNode = null;
+
+                    refNode = this.Caption;
+
+                    if (refNode == null)
+                    {
+                        refNode = this.FindFirstChild<HTMLTableColElement>(HTMLTagNames.ColGroup);
+
+                        if (refNode == null)
+                        {
+                            refNode = this.FindFirstChild<HTMLTableColElement>(HTMLTagNames.THead);
+                        }
+                    }
+
+                    if (refNode != null)
+                    {
+                        this.InsertBefore(value, refNode);
+                    }
+                    else
+                    {
+                        this.AppendChild(value);
+                    }
+                }
+            }
+        }
+
+        public HTMLTableSectionElement CreateTFoot()
+        {
+            HTMLTableSectionElement foot = this.TFoot;
+
+            if (foot == null)
+            {
+                foot = this.OwnerDocument.CreateElement<HTMLTableSectionElement>(HTMLTagNames.TFoot);
+
+                this.THead = foot;
+            }
+
+            return foot;
+        }
+
+        public void DeleteTFoot()
+        {
+            this.TFoot = null;
+        }
+
+        public HTMLCollection TBodies
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public HTMLTableSectionElement CreateTBody()
+        {
+            HTMLTableSectionElement newChild = this.OwnerDocument.CreateElement<HTMLTableSectionElement>(HTMLTagNames.TBody);
+
+            // find last body
+            Element lastBody = this.FindLastChild<HTMLTableSectionElement>(HTMLTagNames.TBody);
+
+            // insert after it if found, otherwise just add.
+            Node reference = lastBody;
+
+            if ( reference != null )
+                reference = reference.NextSibling;
+
+            if ( reference != null )
+            {
+                this.InsertBefore(newChild, reference);
+            }
+            else
+            {
+                this.AppendChild(newChild);
+            }
+
+            return newChild;
+        }
+
+        public HTMLCollection Rows
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public HTMLElement InsertRow(long index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRow(long index)
+        {
+            throw new NotImplementedException();
         }
     }
 }
