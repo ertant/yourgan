@@ -18,7 +18,7 @@
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-select-element
-    public abstract class HTMLSelectElement : HTMLFormControl
+    public abstract class HTMLSelectElement : HTMLFormControlValidation
     {
         public HTMLSelectElement(QualifiedName qname, Document document)
             : base(qname, document)

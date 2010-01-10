@@ -73,6 +73,12 @@ namespace Yourgan.Core.DOM.HTML
         public const string MaxLength = "maxlength";
         public const string Checked = "checked";
         public const string Readonly = "readonly";
-
+        public const string For = "for";
+        public const string Sizes = "sizes";
+        public const string HttpEquiv = "http-equiv";
+        public const string Reversed = "reversed";
+        public const string Start = "start";
+        public const string Label = "label";
+        public const string Selected = "selected";
     }
 }

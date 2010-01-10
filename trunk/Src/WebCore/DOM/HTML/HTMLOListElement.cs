@@ -17,18 +17,36 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
+    // http://www.w3.org/TR/html5/semantics.html#the-ol-element
     public abstract class HTMLOListElement : HTMLElement
     {
-        public abstract bool Compact
+        public HTMLOListElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string Type
+        public bool Reversed
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Reversed);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Reversed, value);
+            }
+        }
+
+        public long Start
+        {
+            get
+            {
+                return this.ReflectAttributeLong(NonLocalizedStrings.Start);
+            }
+            set
+            {
+                this.ReflectAttributeLong(NonLocalizedStrings.Start, value);
+            }
         }
     }
 }

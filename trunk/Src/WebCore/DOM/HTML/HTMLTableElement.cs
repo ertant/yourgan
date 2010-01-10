@@ -17,7 +17,109 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLTableElement
+    class HTMLTableElement : HTMLElement
     {
+        public HTMLTableElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
+        public HTMLTableCaptionElement Caption
+        {
+            get
+            {
+                return this.FindFirstChild<HTMLTableCaptionElement>();
+            }
+            set
+            {
+                HTMLTableCaptionElement existing = this.FindFirstChild<HTMLTableCaptionElement>();
+
+                if (existing != null)
+                    this.RemoveChild(existing);
+
+                if (value != null)
+                {
+                    this.InsertBefore(value, this.FirstChild);
+                }
+            }
+        }
+
+        public HTMLTableCaptionElement CreateCaption()
+        {
+            HTMLTableCaptionElement caption = this.Caption;
+
+            if (caption == null)
+            {
+                caption = this.OwnerDocument.CreateElement<HTMLTableCaptionElement>(HTMLTagNames.Caption);
+
+                this.Caption = caption;
+            }
+
+            return caption;
+        }
+
+        public void DeleteCaption()
+        {
+            this.Caption = null;
+        }
+
+// ReSharper disable InconsistentNaming
+        public HTMLTableSectionElement THead
+// ReSharper restore InconsistentNaming
+        {
+            get
+            {
+                return this.FindFirstChild<HTMLTableSectionElement>(HTMLTagNames.THead);
+            }
+            set
+            {
+                HTMLTableSectionElement existing = this.FindFirstChild<HTMLTableSectionElement>(HTMLTagNames.THead);
+
+                if (existing != null)
+                    this.RemoveChild(existing);
+
+                if (value != null)
+                {
+                    HTMLTableCaptionElement caption = this.Caption;
+
+                    if (caption != null)
+                    {
+                        this.InsertBefore(value, caption);
+                    }
+                    else
+                    {
+                        HTMLTableColElement col = this.FindFirstChild<HTMLTableColElement>(HTMLTagNames.ColGroup);
+
+                        if (col != null)
+                        {
+                            this.InsertBefore(value, col);
+                        }
+                        else
+                        {
+                            this.AppendChild(value);
+                        }
+                    }
+                }
+            }
+        }
+
+        public HTMLTableSectionElement CreateTHead()
+        {
+            HTMLTableSectionElement thead = this.THead;
+
+            if (thead == null)
+            {
+                thead = this.OwnerDocument.CreateElement<HTMLTableSectionElement>(HTMLTagNames.THead);
+
+                this.THead = thead;
+            }
+
+            return thead;
+        }
+
+        public void DeleteTHead()
+        {
+            this.THead = null;
+        }
     }
 }

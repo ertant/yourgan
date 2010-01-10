@@ -15,9 +15,51 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
-    class HTMLMapElement
+    // http://www.w3.org/TR/html5/the-canvas-element.html#the-map-element
+    public class HTMLMapElement : HTMLElement
     {
+        public HTMLMapElement(QualifiedName qname, Document document)
+            : base(qname, document)
+        {
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+
+                // if Id specified ?
+                if (this.Attributes.Id != null)
+                {
+                    // keep Id attribute same with Name
+                    this.Id = value;
+                }
+            }
+        }
+
+        public HTMLCollection Areas
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public HTMLCollection Images
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -17,30 +17,36 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLMetaElement
+    // http://www.w3.org/TR/html5/semantics.html#meta
+    public class HTMLMetaElement : HTMLElement
     {
-        public abstract string Content
+        public HTMLMetaElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract string HttpEquiv
+        public string Name
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Name);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Name, value);
+            }
         }
 
-        public abstract string Name
+        public string HttpEquiv
         {
-            get;
-            set;
-        }
-
-        public abstract string Scheme
-        {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.HttpEquiv);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.HttpEquiv, value);
+            }
         }
     }
 }

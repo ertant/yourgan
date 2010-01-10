@@ -20,7 +20,7 @@ using System;
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-input-element
-    public abstract class HTMLInputElement : HTMLFormControl
+    public abstract class HTMLInputElement : HTMLFormControlValidation
     {
         public HTMLInputElement(QualifiedName qname, Document document)
             : base(qname, document)
@@ -124,11 +124,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.ReflectAttributeLong(NonLocalizedStrings.Alt);
+                return this.ReflectAttributeULong(NonLocalizedStrings.Alt);
             }
             set
             {
-                this.ReflectAttributeLong(NonLocalizedStrings.Alt, value);
+                this.ReflectAttributeULong(NonLocalizedStrings.Alt, value);
             }
         }
 
@@ -208,11 +208,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                return this.ReflectAttributeLong(NonLocalizedStrings.Size);
+                return this.ReflectAttributeULong(NonLocalizedStrings.Size);
             }
             set
             {
-                this.ReflectAttributeLong(NonLocalizedStrings.Size, value);
+                this.ReflectAttributeULong(NonLocalizedStrings.Size, value);
             }
         }
 

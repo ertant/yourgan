@@ -15,56 +15,109 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
+using System;
+
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-option-element
-    public abstract class HTMLOptionElement : HTMLElement
+    public class HTMLOptionElement : HTMLFormBoundElement
     {
-        // TODO : Constructors
-
-        public abstract bool Disabled
+        public HTMLOptionElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
-            set;
         }
 
-        public abstract HTMLFormElement Form
+        public bool Disabled
         {
-            get;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Disabled, value);
+            }
         }
 
-        public abstract string Label
+        public string Label
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.Label);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Label, value);
+            }
         }
 
-        public abstract bool DefaultSelected
+        public bool DefaultSelected
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Selected);
+            }
+            set
+            {
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Selected, value);
+            }
         }
 
-        public abstract bool Selected
+        public bool Selected
         {
-            get;
-            set;
+            get
+            {
+                if (this.Disabled)
+                    return false;
+
+                return this.ReflectAttributeBoolean(NonLocalizedStrings.Selected);
+            }
+            set
+            {
+                if (this.Disabled)
+                    this.ReflectAttributeBoolean(NonLocalizedStrings.Selected, false);
+
+                this.ReflectAttributeBoolean(NonLocalizedStrings.Selected, value);
+            }
         }
 
-        public abstract string Value
+        public string Value
         {
-            get;
-            set;
+            get
+            {
+                string v = this.ReflectAttribute(NonLocalizedStrings.Value);
+
+                if (string.IsNullOrEmpty(v))
+                {
+                    return this.TextContent;
+                }
+
+                return v;
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.Value, value);
+            }
         }
 
-        public abstract string Text
+        public string Text
         {
-            get;
+            get
+            {
+                return this.TextContent;
+            }
+            set
+            {
+                this.TextContent = value;
+            }
         }
 
-        public abstract ulong Index
+        public long Index
         {
-            get;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

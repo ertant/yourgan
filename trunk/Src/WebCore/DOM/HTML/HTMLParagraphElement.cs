@@ -17,17 +17,12 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLParagraphElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-p-element
+    public class HTMLParagraphElement : HTMLElement
     {
         public HTMLParagraphElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
-        }
-
-        public abstract string Align
-        {
-            get;
-            set;
         }
     }
 }

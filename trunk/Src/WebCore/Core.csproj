@@ -78,9 +78,11 @@
     <Compile Include="DOM\HTML\HTMLElement.cs" />
     <Compile Include="DOM\HTML\HTMLElementFactory.cs" />
     <Compile Include="DOM\HTML\HTMLFieldSetElement.cs" />
+    <Compile Include="DOM\HTML\HTMLFormBoundElement.cs" />
     <Compile Include="DOM\HTML\HTMLFormControl.cs" />
     <Compile Include="DOM\HTML\HTMLFormControlsCollection.cs" />
     <Compile Include="DOM\HTML\HTMLFormElement.cs" />
+    <Compile Include="DOM\HTML\HTMLFormControlValidation.cs" />
     <Compile Include="DOM\HTML\HTMLHeadingElement.cs" />
     <Compile Include="DOM\HTML\HTMLHRElement.cs" />
     <Compile Include="DOM\HTML\HTMLHtmlElement.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="DOM\HTML\HTMLTextAreaElement.cs" />
     <Compile Include="DOM\HTML\HTMLTitleElement.cs" />
     <Compile Include="DOM\HTML\HTMLUListElement.cs" />
+    <Compile Include="DOM\HTML\IValidatedControl.cs" />
     <Compile Include="DOM\HTML\Location.cs" />
     <Compile Include="DOM\HTML\NonLocalizedStrings.cs" />
     <Compile Include="DOM\HTML\SettableTokenList.cs" />

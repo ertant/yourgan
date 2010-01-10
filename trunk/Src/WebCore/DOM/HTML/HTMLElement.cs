@@ -268,12 +268,22 @@ namespace Yourgan.Core.DOM.HTML
             this.SetAttribute(name, value);
         }
 
-        protected ulong ReflectAttributeLong(string name)
+        protected ulong ReflectAttributeULong(string name)
         {
             return ulong.Parse(this.GetAttribute(name), System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        protected void ReflectAttributeLong(string name, ulong value)
+        protected void ReflectAttributeULong(string name, ulong value)
+        {
+            this.SetAttribute(name, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        }
+
+        protected long ReflectAttributeLong(string name)
+        {
+            return long.Parse(this.GetAttribute(name), System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        protected void ReflectAttributeLong(string name, long value)
         {
             this.SetAttribute(name, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
@@ -294,6 +304,38 @@ namespace Yourgan.Core.DOM.HTML
                 return true;
 
             return false;
+        }
+
+        protected T FindFirstChild<T>() where T : class
+        {
+            Node child = this.FirstChild;
+
+            while (child != null)
+            {
+                T expected = child as T;
+
+                if (expected != null)
+                    return expected;
+
+                child = child.NextSibling;
+            }
+
+            return null;
+        }
+
+        protected T FindFirstChild<T>(string tagName) where T : class
+        {
+            Node child = this.FirstChild;
+
+            while (child != null)
+            {
+                if (HTMLTagNames.IsSame(child.LocalName, tagName))
+                    return child as T;
+
+                child = child.NextSibling;
+            }
+
+            return null;
         }
     }
 }

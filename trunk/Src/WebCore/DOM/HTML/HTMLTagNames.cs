@@ -36,8 +36,20 @@ namespace Yourgan.Core.DOM.HTML
         public const string H4 = "h4";
         public const string H5 = "h5";
         public const string H6 = "h6";
+// ReSharper disable InconsistentNaming
         public const string IFrame = "iframe";
+// ReSharper restore InconsistentNaming
         public const string Img = "img";
+        public const string P = "p";
+        public const string Option = "option";
+        public const string Meta = "meta";
+        public const string Map = "map";
+        public const string Li = "li";
+        public const string Legend = "legend";
+        public const string Caption = "caption";
+        public const string THead = "thead";
+        public const string TFoot = "tfoot";
+        public const string ColGroup = "colgroup";
 
         public static bool IsSame(string localName, string nodeName)
         {

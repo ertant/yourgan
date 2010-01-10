@@ -43,6 +43,13 @@ namespace Yourgan.Core.DOM.HTML
             this.Constructors[HTMLTagNames.H6] = Heading;
             this.Constructors[HTMLTagNames.IFrame] = IFrame;
             this.Constructors[HTMLTagNames.Img] = Image;
+            this.Constructors[HTMLTagNames.P] = Paragraph;
+            this.Constructors[HTMLTagNames.Option] = Option;
+            this.Constructors[HTMLTagNames.Meta] = Meta;
+            this.Constructors[HTMLTagNames.Map] = Map;
+            this.Constructors[HTMLTagNames.Li] = Li;
+            this.Constructors[HTMLTagNames.Legend] = Legend;
+            this.Constructors[HTMLTagNames.Caption] = Caption;
         }
 
         public override T Create<T>(QualifiedName qname, Document document)
@@ -123,6 +130,55 @@ namespace Yourgan.Core.DOM.HTML
         private static HTMLElement Image(QualifiedName qname, Document document)
         {
             HTMLImageElement element = new HTMLImageElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Paragraph(QualifiedName qname, Document document)
+        {
+            HTMLParagraphElement element = new HTMLParagraphElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Option(QualifiedName qname, Document document)
+        {
+            HTMLOptionElement element = new HTMLOptionElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Meta(QualifiedName qname, Document document)
+        {
+            HTMLMetaElement element = new HTMLMetaElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Map(QualifiedName qname, Document document)
+        {
+            HTMLMapElement element = new HTMLMapElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Li(QualifiedName qname, Document document)
+        {
+            HTMLLIElement element = new HTMLLIElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Legend(QualifiedName qname, Document document)
+        {
+            HTMLLegendElement element = new HTMLLegendElement(qname, document);
+
+            return element;
+        }
+
+        private static HTMLElement Caption(QualifiedName qname, Document document)
+        {
+            HTMLTableCaptionElement element = new HTMLTableCaptionElement(qname, document);
 
             return element;
         }

@@ -17,22 +17,24 @@
 // */
 namespace Yourgan.Core.DOM.HTML
 {
-    public abstract class HTMLLIElement : HTMLElement
+    // http://www.w3.org/TR/html5/semantics.html#the-li-element
+    public class HTMLLIElement : HTMLElement
     {
         public HTMLLIElement(QualifiedName qname, Document document)
             : base(qname, document)
         {
         }
 
-        public abstract string Type
+        public long Value
         {
-            get;
-        }
-
-        public abstract int Value
-        {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttributeLong(NonLocalizedStrings.Value);
+            }
+            set
+            {
+                this.ReflectAttributeLong(NonLocalizedStrings.Value, value);
+            }
         }
     }
 }

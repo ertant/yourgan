@@ -18,22 +18,32 @@
 namespace Yourgan.Core.DOM.HTML
 {
     // http://www.w3.org/TR/html5/forms.html#the-label-element
-    public abstract class HTMLLabelElement : HTMLElement
+    public abstract class HTMLLabelElement : HTMLFormBoundElement
     {
-        public abstract HTMLFormElement Form
+        public HTMLLabelElement(QualifiedName qname, Document document)
+            : base(qname, document)
         {
-            get;
         }
 
-        public abstract string HtmlFor
+        #region DOM
+
+        public string HtmlFor
         {
-            get;
-            set;
+            get
+            {
+                return this.ReflectAttribute(NonLocalizedStrings.For);
+            }
+            set
+            {
+                this.ReflectAttribute(NonLocalizedStrings.For, value);
+            }
         }
 
         public abstract HTMLElement Control
         {
             get;
         }
+
+        #endregion
     }
 }
