@@ -306,7 +306,7 @@ namespace Yourgan.Core.DOM.HTML
             return false;
         }
 
-        protected T FindFirstChild<T>() where T : class
+        public T FindFirstChild<T>() where T : class
         {
             Node child = this.FirstChild;
 
@@ -323,7 +323,7 @@ namespace Yourgan.Core.DOM.HTML
             return null;
         }
 
-        protected T FindFirstChild<T>(string tagName) where T : class
+        public T FindFirstChild<T>(string tagName) where T : class
         {
             Node child = this.FirstChild;
 
@@ -338,7 +338,7 @@ namespace Yourgan.Core.DOM.HTML
             return null;
         }
 
-        protected T FindLastChild<T>() where T : class
+        public T FindLastChild<T>() where T : class
         {
             T matched = null;
 
@@ -357,7 +357,7 @@ namespace Yourgan.Core.DOM.HTML
             return matched;
         }
 
-        protected T FindLastChild<T>(string tagName) where T : class
+        public T FindLastChild<T>(string tagName) where T : class
         {
             T matched = null;
 

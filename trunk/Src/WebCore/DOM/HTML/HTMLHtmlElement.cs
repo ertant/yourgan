@@ -27,12 +27,12 @@ namespace Yourgan.Core.DOM.HTML
         {
         }
 
-        private HTMLElement head;
-
         public HTMLElement Head
         {
             get
             {
+                HTMLElement head = this.FindFirstChild<HTMLElement>(HTMLTagNames.Head);
+
                 if (head == null)
                 {
                     head = this.OwnerDocument.CreateElement<HTMLElement>(HTMLTagNames.Head);
@@ -50,7 +50,7 @@ namespace Yourgan.Core.DOM.HTML
             {
                 if (this.Head != null)
                 {
-                    HTMLTitleElement title = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
+                    HTMLTitleElement title = this.Head.FindFirstChild<HTMLTitleElement>(HTMLTagNames.Title);
 
                     if (title != null)
                     {
@@ -64,7 +64,7 @@ namespace Yourgan.Core.DOM.HTML
             {
                 if (this.Head != null)
                 {
-                    HTMLTitleElement titleElement = GetElementByTagName<HTMLTitleElement>(this.Head, HTMLTagNames.Title);
+                    HTMLTitleElement titleElement = this.Head.FindFirstChild<HTMLTitleElement>(HTMLTagNames.Title);
 
                     if (titleElement != null)
                     {
@@ -82,11 +82,11 @@ namespace Yourgan.Core.DOM.HTML
         {
             get
             {
-                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
+                HTMLElement body = this.FindFirstChild<HTMLElement>(HTMLTagNames.Body);
 
                 if (body == null)
                 {
-                    body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.FrameSet);
+                    body = this.FindFirstChild<HTMLElement>(HTMLTagNames.FrameSet);
                 }
 
                 return body;
@@ -100,7 +100,7 @@ namespace Yourgan.Core.DOM.HTML
                     !HTMLTagNames.IsSame(value.LocalName, HTMLTagNames.FrameSet))
                     throw new DOMException(DOMError.HierarchyRequest);
 
-                HTMLElement body = this.GetElementByTagName<HTMLElement>(this, HTMLTagNames.Body);
+                HTMLElement body = this.FindFirstChild<HTMLElement>(HTMLTagNames.Body);
 
                 if (value != body)
                 {
@@ -114,23 +114,6 @@ namespace Yourgan.Core.DOM.HTML
                     }
                 }
             }
-        }
-
-        protected internal T GetElementByTagName<T>(Node parent, string tagName) where T : Element
-        {
-            Node child = parent.FirstChild;
-
-            while (child != null)
-            {
-                if (HTMLTagNames.IsSame(child.LocalName, tagName))
-                {
-                    return child as T;
-                }
-
-                child = child.NextSibling;
-            }
-
-            return null;
         }
     }
 }
