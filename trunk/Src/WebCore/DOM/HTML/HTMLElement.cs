@@ -337,5 +337,43 @@ namespace Yourgan.Core.DOM.HTML
 
             return null;
         }
+
+        protected T FindLastChild<T>() where T : class
+        {
+            T matched = null;
+
+            Node child = this.FirstChild;
+
+            while (child != null)
+            {
+                T expected = child as T;
+
+                if (expected != null)
+                    matched = expected;
+
+                child = child.NextSibling;
+            }
+
+            return matched;
+        }
+
+        protected T FindLastChild<T>(string tagName) where T : class
+        {
+            T matched = null;
+
+            Node child = this.FirstChild;
+
+            while (child != null)
+            {
+                if (HTMLTagNames.IsSame(child.LocalName, tagName))
+                {
+                    matched = child as T;
+                }
+
+                child = child.NextSibling;
+            }
+
+            return matched;
+        }
     }
 }

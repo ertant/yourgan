@@ -46,10 +46,12 @@ namespace Yourgan.Core.DOM.HTML
         public const string Map = "map";
         public const string Li = "li";
         public const string Legend = "legend";
+        public const string Table = "table";
         public const string Caption = "caption";
         public const string THead = "thead";
         public const string TFoot = "tfoot";
         public const string ColGroup = "colgroup";
+        public const string TBody = "tbody";
 
         public static bool IsSame(string localName, string nodeName)
         {
