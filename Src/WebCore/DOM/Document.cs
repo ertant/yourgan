@@ -306,22 +306,9 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        private Frame frame;
-
-        public Frame Frame
-        {
-            get
-            {
-                return frame;
-            }
-        }
-
         protected override void CreateRenderer()
         {
-            if (this.frame != null)
-            {
-                this.Renderer = new View(this, this.Frame.View);
-            }
+            this.Renderer = new View(this);
         }
     }
 }

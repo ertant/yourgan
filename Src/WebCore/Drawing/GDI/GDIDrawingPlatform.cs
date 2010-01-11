@@ -43,9 +43,14 @@ namespace Yourgan.Core.Drawing.GDI
 
         public void Reset(Size size)
         {
-            Bitmap bitmap = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            GDIGraphicsContext context = null;
 
-            GDIGraphicsContext context = new GDIGraphicsContext(bitmap);
+            if (size != Size.Empty)
+            {
+                Bitmap bitmap = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                context = new GDIGraphicsContext(bitmap);
+            }
 
             if (this.current != null)
                 this.current.Dispose();
