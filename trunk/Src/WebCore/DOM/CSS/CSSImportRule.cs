@@ -5,21 +5,9 @@ using System.Text;
 
 namespace Yourgan.Core.DOM.CSS
 {
-    public class MediaList
+    public class CSSImportRule : CSSRule
     {
-        public string MediaText
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public ulong Length
+        public string HRef
         {
             get
             {
@@ -27,7 +15,7 @@ namespace Yourgan.Core.DOM.CSS
             }
         }
 
-        public string this[ulong index]
+        public MediaList Media
         {
             get
             {
@@ -35,14 +23,12 @@ namespace Yourgan.Core.DOM.CSS
             }
         }
 
-        public void AppendMedium(string medium)
+        public CSSStyleSheet StyleSheet
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteMedium(string medium)
-        {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

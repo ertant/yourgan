@@ -57,6 +57,17 @@
     <Compile Include="DOM\CDATASection.cs" />
     <Compile Include="DOM\CharacterData.cs" />
     <Compile Include="DOM\Comment.cs" />
+    <Compile Include="DOM\CSS\CSSFontFaceRule.cs" />
+    <Compile Include="DOM\CSS\CSSImportRule.cs" />
+    <Compile Include="DOM\CSS\CSSMediaRule.cs" />
+    <Compile Include="DOM\CSS\CSSNamespaceRule.cs" />
+    <Compile Include="DOM\CSS\CSSPageRule.cs" />
+    <Compile Include="DOM\CSS\CSSRule.cs" />
+    <Compile Include="DOM\CSS\CSSRuleList.cs" />
+    <Compile Include="DOM\CSS\CSSRuleType.cs" />
+    <Compile Include="DOM\CSS\CSSStyleDeclaration.cs" />
+    <Compile Include="DOM\CSS\CSSStyleRule.cs" />
+    <Compile Include="DOM\CSS\CSSStyleSheet.cs" />
     <Compile Include="DOM\CSS\DocumentStyle.cs" />
     <Compile Include="DOM\CSS\MediaList.cs" />
     <Compile Include="DOM\CSS\StyleSheet.cs" />
