@@ -5,9 +5,19 @@ using System.Text;
 
 namespace Yourgan.Core.DOM.CSS
 {
-    public class MediaList
+    public class CSSRule
     {
-        public string MediaText
+        private CSSRuleType type;
+
+        public CSSRuleType Type
+        {
+            get
+            {
+                return type;
+            }
+        }
+
+        public string CSSText
         {
             get
             {
@@ -19,7 +29,7 @@ namespace Yourgan.Core.DOM.CSS
             }
         }
 
-        public ulong Length
+        public CSSRule ParentRule
         {
             get
             {
@@ -27,22 +37,12 @@ namespace Yourgan.Core.DOM.CSS
             }
         }
 
-        public string this[ulong index]
+        public CSSStyleSheet ParentStyleSheet
         {
             get
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public void AppendMedium(string medium)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteMedium(string medium)
-        {
-            throw new NotImplementedException();
         }
     }
 }

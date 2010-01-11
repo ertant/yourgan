@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Yourgan.Core.DOM.CSS
 {
-    public class MediaList
+    public class CSSNamespaceRule : CSSRule
     {
-        public string MediaText
+        public string NamespaceURI
         {
             get
             {
@@ -19,30 +19,16 @@ namespace Yourgan.Core.DOM.CSS
             }
         }
 
-        public ulong Length
+        public string Prefix
         {
             get
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public string this[ulong index]
-        {
-            get
+            set
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public void AppendMedium(string medium)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteMedium(string medium)
-        {
-            throw new NotImplementedException();
         }
     }
 }
