@@ -528,6 +528,9 @@ namespace Yourgan.Core.DOM
         {
             get
             {
+                if (renderer == null)
+                    CreateRenderer();
+
                 return renderer;
             }
             protected set
@@ -543,7 +546,7 @@ namespace Yourgan.Core.DOM
 
         protected virtual void CreateRenderer()
         {
-
+            this.Renderer = new Box(this);
         }
 
         public void CreateRendererIfNeeded()

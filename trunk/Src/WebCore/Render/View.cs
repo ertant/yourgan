@@ -24,22 +24,11 @@ namespace Yourgan.Core.Render
 {
     public class View : Block
     {
-        public View(Node node, FrameView owner)
+        public View(Node node)
             : base(node)
         {
-            this.owner = owner;
             this.Style.Position = PositionStyle.Absolute;
             this.Layer = new Layer(this);
-        }
-
-        private FrameView owner;
-
-        public FrameView Owner
-        {
-            get
-            {
-                return owner;
-            }
         }
 
         protected override void OnPaint(Yourgan.Core.Drawing.IGraphicsContext context)
@@ -57,8 +46,6 @@ namespace Yourgan.Core.Render
         protected override void OnPerformLayout()
         {
             base.OnPerformLayout();
-
-            
 
             this.Frame = new Rectangle(0, 0, 50, 50);
 

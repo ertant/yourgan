@@ -64,14 +64,10 @@ namespace Yourgan.Core.Page
 
         public void Paint()
         {
-            if (this.MainFrame.View.IsLayoutInvalid)
-            {
-                this.MainFrame.View.PerformLayout();
-            }
+            this.HostWindow.Platform.Reset(this.MainFrame.View.VisibleBounds.Size);
 
-            this.HostWindow.Platform.Reset(this.MainFrame.View.Bounds.Size);
-
-            this.MainFrame.Renderer.Paint(this.HostWindow.Platform.Current);
+            if (this.HostWindow.Platform.Current != null)
+                this.MainFrame.Renderer.Paint(this.HostWindow.Platform.Current);
         }
     }
 }
