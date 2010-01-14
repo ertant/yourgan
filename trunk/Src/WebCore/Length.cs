@@ -33,23 +33,37 @@ namespace Yourgan.Core
             }
         }
 
-        private int value;
+        private int? innerValue;
 
         public int Value
         {
             get
             {
-                return this.value;
+                if (innerValue.HasValue)
+                    return this.innerValue.Value;
+
+                return 0;
             }
             set
             {
-                this.value = value;
+                this.innerValue = value;
             }
         }
 
-        public bool IsZero()
+        public bool IsZero
         {
-            return this.value != 0;
+            get
+            {
+                return this.innerValue.HasValue && this.innerValue.Value != 0;
+            }
+        }
+
+        public bool IsDefined
+        {
+            get
+            {
+                return this.innerValue.HasValue;
+            }
         }
 
         public int Calculate(int max)
@@ -57,9 +71,9 @@ namespace Yourgan.Core
             switch (this.type)
             {
                 case LengthType.Fixed:
-                    return this.value;
+                    return this.Value;
                 case LengthType.Percent:
-                    return this.value*max/100;
+                    return this.Value * max / 100;
                 case LengthType.Auto:
                     return max;
                 default:
@@ -72,10 +86,9 @@ namespace Yourgan.Core
             switch (this.type)
             {
                 case LengthType.Fixed:
-                    return this.value;
+                    return this.Value;
                 case LengthType.Percent:
-                    return this.value*min/100;
-                case LengthType.Auto:
+                    return this.Value * min / 100;
                 default:
                     return 0;
             }

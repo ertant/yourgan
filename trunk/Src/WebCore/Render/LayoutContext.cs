@@ -15,34 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // */
-using System;
-
-namespace Yourgan.Core.DOM.CSS
+namespace Yourgan.Core.Render
 {
-    public class CSSImportRule : CSSRule
+    // context for layout
+    class LayoutContext
     {
-        public string HRef
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public MediaList Media
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public CSSStyleSheet StyleSheet
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }
