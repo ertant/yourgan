@@ -17,7 +17,6 @@
 // */
 using System.Drawing;
 using Yourgan.Core.DOM;
-using Yourgan.Core.Page;
 using Yourgan.Core.Render.Style;
 
 namespace Yourgan.Core.Render

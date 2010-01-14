@@ -195,6 +195,7 @@
     <Compile Include="Render\Inline.cs" />
     <Compile Include="Render\Layer.cs" />
     <Compile Include="Render\LayerList.cs" />
+    <Compile Include="Render\LayoutContext.cs" />
     <Compile Include="Render\LineBoxInline.cs" />
     <Compile Include="Render\LineBoxInlineFlow.cs" />
     <Compile Include="Render\LineBoxList.cs" />

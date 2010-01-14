@@ -134,5 +134,40 @@ namespace Yourgan.Core.Render
         {
             //context.FillRectangle(Brushes.Red, this.Frame);
         }
+
+        protected virtual void UpdateWidth(LayoutContext context)
+        {
+            Length w = this.Style.Width;
+
+            int containerWidth = this.ContainingBlock.Width;
+
+            int newWidth = w.Calculate(containerWidth);
+
+            if (this.Style.MaxWidth.IsDefined)
+            {
+                int maxWidth = this.Style.MaxWidth.Calculate(containerWidth);
+
+                if (newWidth > maxWidth)
+                    newWidth = maxWidth;
+            }
+
+            if (this.Style.MinWidth.IsDefined)
+            {
+                int minWidth = this.Style.MinWidth.Calculate(containerWidth);
+
+                if (newWidth < minWidth)
+                    newWidth = minWidth;
+            }
+
+            // TODO : 
+            // this.Frame.Width = newWidth;
+        }
+
+        protected virtual void UpdateHeight(LayoutContext context)
+        {
+            Length h = this.Style.Height;
+
+            int container 
+        }
     }
 }

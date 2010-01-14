@@ -58,10 +58,8 @@ namespace Yourgan.Core.Page
                 {
                     return this.Frame.Document.Renderer as Box;
                 }
-                else
-                {
-                    return null;
-                }
+                
+                return null;
             }
         }
 
@@ -71,8 +69,8 @@ namespace Yourgan.Core.Page
             {
                 if (this.ContentRenderer != null)
                     return this.ContentRenderer.IsLayoutInvalid;
-                else
-                    return false;
+                
+                return false;
             }
         }
 
