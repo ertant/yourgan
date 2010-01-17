@@ -139,13 +139,13 @@ namespace Yourgan.Core.Render
         {
             Length w = this.Style.Width;
 
-            int containerWidth = this.ContainingBlock.Width;
+            int availableWidth = this.ContainingBlock.AvailableWidth;
 
-            int newWidth = w.Calculate(containerWidth);
+            int newWidth = w.Calculate(availableWidth);          
 
             if (this.Style.MaxWidth.IsDefined)
             {
-                int maxWidth = this.Style.MaxWidth.Calculate(containerWidth);
+                int maxWidth = this.Style.MaxWidth.Calculate(availableWidth);
 
                 if (newWidth > maxWidth)
                     newWidth = maxWidth;
@@ -153,21 +153,25 @@ namespace Yourgan.Core.Render
 
             if (this.Style.MinWidth.IsDefined)
             {
-                int minWidth = this.Style.MinWidth.Calculate(containerWidth);
+                int minWidth = this.Style.MinWidth.Calculate(availableWidth);
 
                 if (newWidth < minWidth)
                     newWidth = minWidth;
             }
 
+
+
             // TODO : 
             // this.Frame.Width = newWidth;
+
+            // RenderBlock.cpp : 4011
         }
 
         protected virtual void UpdateHeight(LayoutContext context)
         {
             Length h = this.Style.Height;
 
-            int container 
+            
         }
     }
 }

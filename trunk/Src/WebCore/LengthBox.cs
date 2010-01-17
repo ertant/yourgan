@@ -53,7 +53,7 @@ namespace Yourgan.Core
 
         public bool IsZero()
         {
-            return this.left.IsZero() && this.top.IsZero() && this.right.IsZero() && this.bottom.IsZero();
+            return this.left.IsZero && this.top.IsZero && this.right.IsZero && this.bottom.IsZero;
         }
     }
 }
