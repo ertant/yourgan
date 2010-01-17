@@ -213,6 +213,22 @@ namespace Yourgan.Core.Render
             }
         }
 
+        public virtual int MinPreferredWidth
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public virtual int MaxPreferredWidth
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         public bool IsRequiresLayer
         {
             get

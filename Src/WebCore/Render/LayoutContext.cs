@@ -18,7 +18,8 @@
 namespace Yourgan.Core.Render
 {
     // context for layout
-    class LayoutContext
+    public class LayoutContext
     {
+
     }
 }
