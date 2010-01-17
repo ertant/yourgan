@@ -28,13 +28,13 @@ namespace Yourgan.Core.CSS
 
         }
 
-        public StyleData ResolveStyle(Element element)
+        public RenderStyle ResolveStyle(Element element)
         {
             if (element == null)
                 throw new ArgumentNullException("element");
 
             // TODO : implement
-            return new StyleData();
+            return new RenderStyle();
         }
     }
 }

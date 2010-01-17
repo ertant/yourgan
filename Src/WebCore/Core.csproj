@@ -152,6 +152,9 @@
     <Compile Include="DOM\UnitTest\BasicTests.cs" />
     <Compile Include="Drawing\GDI\GDIDrawingPlatform.cs" />
     <Compile Include="Drawing\IDrawingPlatform.cs" />
+    <Compile Include="Font.cs" />
+    <Compile Include="FontDescription.cs" />
+    <Compile Include="FontFamily.cs" />
     <Compile Include="Length.cs" />
     <Compile Include="LengthBox.cs" />
     <Compile Include="LengthType.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="Render\Primitive.cs" />
     <Compile Include="Render\PrimitiveList.cs" />
     <Compile Include="Render\RenderText.cs" />
+    <Compile Include="Render\Style\InheritedData.cs" />
     <Compile Include="Render\View.cs" />
     <Compile Include="Render\Style\Border.cs" />
     <Compile Include="Render\Style\BorderStyle.cs" />
@@ -212,7 +216,7 @@
     <Compile Include="Render\Style\FloatStyle.cs" />
     <Compile Include="Render\Style\OverflowStyle.cs" />
     <Compile Include="Render\Style\PositionStyle.cs" />
-    <Compile Include="Render\Style\StyleData.cs" />
+    <Compile Include="Render\Style\RenderStyle.cs" />
     <Compile Include="Render\Style\Surround.cs" />
     <Compile Include="UI\INativeWidget.cs" />
     <Compile Include="UI\Scrollbar.cs" />

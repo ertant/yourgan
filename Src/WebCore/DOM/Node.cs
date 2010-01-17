@@ -539,7 +539,7 @@ namespace Yourgan.Core.DOM
             }
         }
 
-        public bool RendererIsNeeded(StyleData style)
+        public bool RendererIsNeeded(RenderStyle style)
         {
             return (this.OwnerDocument.DocumentElement == this) || (style.DisplayStyle != DisplayStyle.None);
         }
@@ -554,7 +554,7 @@ namespace Yourgan.Core.DOM
             CreateRenderer();
         }
 
-        public StyleData ResolveStyle()
+        public RenderStyle ResolveStyle()
         {
             return this.ownerDocument.StyleSelector.ResolveStyle(this as Element);
         }

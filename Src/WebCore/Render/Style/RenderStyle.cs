@@ -19,22 +19,22 @@ using System;
 
 namespace Yourgan.Core.Render.Style
 {
-    public class StyleData
+    public class RenderStyle
     {
-        public StyleData()
+        public RenderStyle()
         {
 
         }
 
-        public static StyleData Initial
+        public static RenderStyle Initial
         {
             get
             {
-                return new StyleData();
+                return new RenderStyle();
             }
         }
 
-        public void InheritFrom(StyleData style)
+        public void InheritFrom(RenderStyle style)
         {
             throw new NotImplementedException();
         }
@@ -176,5 +176,7 @@ namespace Yourgan.Core.Render.Style
                 this.isFloating = value;
             }
         }
+
+
     }
 }

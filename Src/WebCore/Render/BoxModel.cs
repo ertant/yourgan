@@ -268,7 +268,7 @@ namespace Yourgan.Core.Render
             }
         }
 
-        protected override void OnStyleChanged(StyleData oldStyle)
+        protected override void OnStyleChanged(RenderStyle oldStyle)
         {
             base.OnStyleChanged(oldStyle);
 
