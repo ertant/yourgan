@@ -51,9 +51,9 @@ namespace Yourgan.Core.Render
             }
         }
 
-        private StyleData style = StyleData.Initial;
+        private RenderStyle style = RenderStyle.Initial;
 
-        public StyleData Style
+        public RenderStyle Style
         {
             get
             {
@@ -63,7 +63,7 @@ namespace Yourgan.Core.Render
             {
                 OnStyleChanging(value);
 
-                StyleData oldStyle = this.style;
+                RenderStyle oldStyle = this.style;
 
                 style = value;
 
@@ -73,12 +73,12 @@ namespace Yourgan.Core.Render
             }
         }
 
-        protected virtual void OnStyleChanging(StyleData newStyle)
+        protected virtual void OnStyleChanging(RenderStyle newStyle)
         {
 
         }
 
-        protected virtual void OnStyleChanged(StyleData oldStyle)
+        protected virtual void OnStyleChanged(RenderStyle oldStyle)
         {
 
         }
@@ -287,7 +287,7 @@ namespace Yourgan.Core.Render
             }
         }
 
-        public static Primitive Create(Node node, StyleData style)
+        public static Primitive Create(Node node, RenderStyle style)
         {
             switch (style.DisplayStyle)
             {
